@@ -7,13 +7,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Order.API.Controllers
 {
+    [Route("api/v1/[controller]")]
     [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class OrderController : ControllerBase
     {
-        readonly ILogger<WeatherForecastController> _logger;
+        readonly ILogger<OrderController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public OrderController(ILogger<OrderController> logger)
         {
             _logger = logger;
         }
