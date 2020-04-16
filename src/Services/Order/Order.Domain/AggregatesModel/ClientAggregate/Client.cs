@@ -7,5 +7,6 @@ namespace Order.Domain.AggregatesModel.ClientAggregate
 {
     public class Client : Entity, IAggregateRoot
     {
+
     }
 }

@@ -7,8 +7,7 @@ using System.Text;
 
 namespace Order.Domain.AggregatesModel.OrderAggregate
 {
-    public class OrderStatus
-       : Enumeration
+    public class OrderStatus : Enumeration
     {
         //Newly created order, waiting for verification from our dispatchers
         public static OrderStatus New = new OrderStatus(1, nameof(New).ToLowerInvariant());

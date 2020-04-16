@@ -3,16 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Order.Domain.AggregatesModel.ClientAggregate
+namespace Order.Domain.AggregatesModel.OrderAggregate
 {
     /// <summary>
     /// Sender or Recipient person
     /// </summary>
     public class ContactPerson : ValueObject
     {
-        public ContactPerson()
-        {
-        }
+        public ContactPerson() { }
 
         public string Name { get; set; }
         public string Phone { get; set; }
