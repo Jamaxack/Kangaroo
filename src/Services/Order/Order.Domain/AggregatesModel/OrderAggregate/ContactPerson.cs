@@ -18,7 +18,7 @@ namespace Order.Domain.AggregatesModel.OrderAggregate
         public ContactPerson(string name, string phone)
         {
             Name = name;
-            Phone = phone;
+            Phone = string.IsNullOrWhiteSpace(phone) ? throw new ArgumentNullException(nameof(phone)) : phone;
         }
 
         protected override IEnumerable<object> GetAtomicValues()
