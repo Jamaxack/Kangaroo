@@ -3,7 +3,6 @@ using Order.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Order.Domain.AggregatesModel.OrderAggregate
 {
@@ -30,18 +29,14 @@ namespace Order.Domain.AggregatesModel.OrderAggregate
             : base(id, name)
         { }
 
-        public static IEnumerable<OrderStatus> List() =>
-            new[] { New, Available, Active, Completed, Reactivated, Canceled, Delayed, Failed };
+        public static IEnumerable<OrderStatus> List() => new[] { New, Available, Active, Completed, Reactivated, Canceled, Delayed, Failed };
 
         public static OrderStatus FromName(string name)
         {
-            var state = List()
-                .SingleOrDefault(s => String.Equals(s.Name, name, StringComparison.CurrentCultureIgnoreCase));
+            var state = List().SingleOrDefault(s => String.Equals(s.Name, name, StringComparison.CurrentCultureIgnoreCase));
 
             if (state == null)
-            {
                 throw new OrderingDomainException($"Possible values for OrderStatus: {String.Join(",", List().Select(s => s.Name))}");
-            }
 
             return state;
         }
@@ -51,9 +46,7 @@ namespace Order.Domain.AggregatesModel.OrderAggregate
             var state = List().SingleOrDefault(s => s.Id == id);
 
             if (state == null)
-            {
                 throw new OrderingDomainException($"Possible values for OrderStatus: {String.Join(",", List().Select(s => s.Name))}");
-            }
 
             return state;
         }

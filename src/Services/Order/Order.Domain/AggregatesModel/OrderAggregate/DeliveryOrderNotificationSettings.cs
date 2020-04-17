@@ -1,14 +1,20 @@
 ﻿using Order.Domain.Common;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Order.Domain.AggregatesModel.OrderAggregate
 {
     public class DeliveryOrderNotificationSettings : ValueObject
     {
-        public bool ShouldNotifySenderOnOrderStatusChange { get; set; }
-        public bool ShouldNotifyRecipientOnOrderStatusChange { get; set; }
+        public bool ShouldNotifySenderOnOrderStatusChange { get; private set; }
+        public bool ShouldNotifyRecipientOnOrderStatusChange { get; private set; }
+
+        public DeliveryOrderNotificationSettings() { }
+
+        public DeliveryOrderNotificationSettings(bool shouldNotifySenderOnOrderStatusChange, bool shouldNotifyRecipientOnOrderStatusChange)
+        {
+            ShouldNotifySenderOnOrderStatusChange = shouldNotifySenderOnOrderStatusChange;
+            ShouldNotifyRecipientOnOrderStatusChange = shouldNotifyRecipientOnOrderStatusChange;
+        }
 
         protected override IEnumerable<object> GetAtomicValues()
         {
