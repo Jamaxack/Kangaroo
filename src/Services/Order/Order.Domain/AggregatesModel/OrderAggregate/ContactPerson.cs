@@ -10,14 +10,21 @@ namespace Order.Domain.AggregatesModel.OrderAggregate
     /// </summary>
     public class ContactPerson : ValueObject
     {
+        public string Name { get; private set; }
+        public string Phone { get; private set; }
+
         public ContactPerson() { }
 
-        public string Name { get; set; }
-        public string Phone { get; set; }
+        public ContactPerson(string name, string phone)
+        {
+            Name = name;
+            Phone = phone;
+        }
 
         protected override IEnumerable<object> GetAtomicValues()
         {
-            throw new NotImplementedException();
+            yield return Name;
+            yield return Phone;
         }
     }
 }

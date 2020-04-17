@@ -23,13 +23,15 @@ namespace Order.Domain.AggregatesModel.OrderAggregate
         public static OrderStatus Canceled = new OrderStatus(6, nameof(Canceled).ToLowerInvariant());
         //Order execution was delayed by a dispatcher
         public static OrderStatus Delayed = new OrderStatus(7, nameof(Delayed).ToLowerInvariant());
+        //Delivery failed (Courier could not find a customer)
+        public static OrderStatus Failed = new OrderStatus(8, nameof(Failed).ToLowerInvariant());
 
-        public OrderStatus(int id, string name)
+        public OrderStatus(short id, string name)
             : base(id, name)
         { }
 
         public static IEnumerable<OrderStatus> List() =>
-            new[] { New, Available, Active, Completed, Reactivated, Canceled, Delayed };
+            new[] { New, Available, Active, Completed, Reactivated, Canceled, Delayed, Failed };
 
         public static OrderStatus FromName(string name)
         {
@@ -44,7 +46,7 @@ namespace Order.Domain.AggregatesModel.OrderAggregate
             return state;
         }
 
-        public static OrderStatus From(int id)
+        public static OrderStatus From(short id)
         {
             var state = List().SingleOrDefault(s => s.Id == id);
 
