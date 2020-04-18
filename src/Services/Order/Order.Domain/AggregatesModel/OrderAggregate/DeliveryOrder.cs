@@ -9,11 +9,10 @@ namespace Order.Domain.AggregatesModel.OrderAggregate
 {
     public class DeliveryOrder : Entity, IAggregateRoot
     {
-        short _orderStatusId; 
+        short _orderStatusId;
         Guid _clientId;
         Guid? _courierId;
         readonly List<DeliveryLocation> _deliveryLocations;
-        readonly List<OrderStatus> _orderStatusHistory; 
 
         public long Number { get; private set; }
         public DateTime CreatedDateTime { get; private set; }
@@ -23,17 +22,15 @@ namespace Order.Domain.AggregatesModel.OrderAggregate
         public short Weight { get; private set; }
         public string Note { get; private set; }
         // DeliveryOrderNotificationSettings is a Value Object pattern example persisted as EF Core 2.0 owned entity
-        public DeliveryOrderNotificationSettings DeliveryOrderNotificationSettings { get; private set; } 
+        public DeliveryOrderNotificationSettings DeliveryOrderNotificationSettings { get; private set; }
         public OrderStatus OrderStatus => OrderStatus.From(_orderStatusId);
         public Guid GetClientId => _clientId;
         public Guid? GetCourierId => _courierId;
         public IReadOnlyCollection<DeliveryLocation> DeliveryLocations => _deliveryLocations;
-        public IReadOnlyCollection<OrderStatus> OrderStatusHistory => _orderStatusHistory; 
 
         public DeliveryOrder()
         {
             _deliveryLocations = new List<DeliveryLocation>();
-            _orderStatusHistory = new List<OrderStatus>(); 
             CreatedDateTime = DateTime.UtcNow;
             _orderStatusId = OrderStatus.New.Id;
         }
@@ -70,14 +67,8 @@ namespace Order.Domain.AggregatesModel.OrderAggregate
 
         public void SetCourierId(Guid id)
         {
-            _courierId = id; 
+            _courierId = id;
             _orderStatusId = OrderStatus.CourierAssigned.Id;
-            //TODO: set status history  
-        }
-
-        private void StatusChangeException(OrderStatus orderStatusToChange)
-        {
-            throw new OrderingDomainException($"Is not possible to change the order status from {OrderStatus.Name} to {orderStatusToChange.Name}.");
         }
     }
 }
