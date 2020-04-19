@@ -42,7 +42,7 @@ namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
             var state = List().SingleOrDefault(s => String.Equals(s.Name, name, StringComparison.CurrentCultureIgnoreCase));
 
             if (state == null)
-                throw new OrderingDomainException($"Possible values for OrderStatus: {String.Join(",", List().Select(s => s.Name))}");
+                throw new OrderDomainException($"Possible values for OrderStatus: {String.Join(",", List().Select(s => s.Name))}");
 
             return state;
         }
@@ -52,7 +52,7 @@ namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
             var state = List().SingleOrDefault(s => s.Id == id);
 
             if (state == null)
-                throw new OrderingDomainException($"Possible values for OrderStatus: {String.Join(",", List().Select(s => s.Name))}");
+                throw new OrderDomainException($"Possible values for OrderStatus: {String.Join(",", List().Select(s => s.Name))}");
 
             return state;
         }

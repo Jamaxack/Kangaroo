@@ -5,16 +5,16 @@ namespace Order.Domain.Exceptions
     /// <summary>
     /// Exception type for domain exceptions
     /// </summary>
-    public class OrderingDomainException : Exception
+    public class OrderDomainException : Exception
     {
-        public OrderingDomainException()
+        public OrderDomainException()
         { }
 
-        public OrderingDomainException(string message)
+        public OrderDomainException(string message)
             : base(message)
         { }
 
-        public OrderingDomainException(string message, Exception innerException)
+        public OrderDomainException(string message, Exception innerException)
             : base(message, innerException)
         { }
     }
