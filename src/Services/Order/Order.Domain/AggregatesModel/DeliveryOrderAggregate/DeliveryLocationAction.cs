@@ -11,7 +11,7 @@ namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
         public static DeliveryLocationAction PickUp = new DeliveryLocationAction(1, nameof(PickUp).ToLowerInvariant()); 
         public static DeliveryLocationAction DropOff = new DeliveryLocationAction(2, nameof(DropOff).ToLowerInvariant()); 
 
-        public DeliveryLocationAction(short id, string name)
+        public DeliveryLocationAction(int id, string name)
             : base(id, name)
         { }
 
@@ -27,7 +27,7 @@ namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
             return state;
         }
 
-        public static DeliveryLocationAction From(short id)
+        public static DeliveryLocationAction From(int id)
         {
             var state = List().SingleOrDefault(s => s.Id == id);
 

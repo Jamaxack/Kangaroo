@@ -31,7 +31,7 @@ namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
         //Delivery failed (Courier could not find a customer)
         public static DeliveryOrderStatus Failed = new DeliveryOrderStatus(11, nameof(Failed).ToLowerInvariant());
 
-        public DeliveryOrderStatus(short id, string name)
+        public DeliveryOrderStatus(int id, string name)
             : base(id, name)
         { }
 
@@ -47,7 +47,7 @@ namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
             return state;
         }
 
-        public static DeliveryOrderStatus From(short id)
+        public static DeliveryOrderStatus From(int id)
         {
             var state = List().SingleOrDefault(s => s.Id == id);
 

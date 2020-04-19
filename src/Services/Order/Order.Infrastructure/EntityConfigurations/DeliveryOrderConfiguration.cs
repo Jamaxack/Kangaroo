@@ -18,7 +18,7 @@ namespace Order.Infrastructure.EntityConfigurations
 
             builder.Ignore(x => x.DomainEvents);
 
-            builder.Property<short>("_deliveryOrderStatusId")
+            builder.Property<int>("_deliveryOrderStatusId")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("DeliveryOrderStatusId")
                 .IsRequired();
@@ -33,7 +33,7 @@ namespace Order.Infrastructure.EntityConfigurations
             builder.Property(x => x.CreatedDateTime).IsRequired();
             builder.Property(x => x.FinishedDateTime).IsRequired(false);
             builder.Property(x => x.PaymentAmount).IsRequired();
-            builder.Property(x => x.InsuranceAmount).IsRequired(false);
+            builder.Property(x => x.InsuranceAmount);
             builder.Property(x => x.Weight).IsRequired();
             builder.Property(x => x.Note).IsRequired(false);
 

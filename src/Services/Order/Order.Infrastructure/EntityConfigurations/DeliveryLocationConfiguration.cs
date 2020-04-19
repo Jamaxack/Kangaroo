@@ -19,21 +19,21 @@ namespace Order.Infrastructure.EntityConfigurations
             builder.Ignore(x => x.DomainEvents);
 
             builder.Property("_deliveryLocationActionId")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("DeliveryLocationActionId")
-                .IsRequired();
+                 .UsePropertyAccessMode(PropertyAccessMode.Field)
+                 .HasColumnName("DeliveryLocationActionId")
+                 .IsRequired();
             builder.Property<Guid>("DeliveryOrderId").IsRequired();
             builder.Property(x => x.Address).IsRequired(false);
             builder.Property(x => x.BuildingNumber).IsRequired(false);
             builder.Property(x => x.EnterenceNumber).IsRequired(false);
             builder.Property(x => x.FloorNumber).IsRequired(false);
             builder.Property(x => x.ApartmentNumber).IsRequired(false);
-            builder.Property(x => x.Latitude).IsRequired(false);
-            builder.Property(x => x.Longitude).IsRequired(false);
+            builder.Property(x => x.Latitude);
+            builder.Property(x => x.Longitude);
             builder.Property(x => x.Note).IsRequired(false);
-            builder.Property(x => x.BuyoutAmount).IsRequired(false);
+            builder.Property(x => x.BuyoutAmount);
             builder.Property(x => x.TakingAmount).IsRequired();
-            builder.Property(x => x.IsPaymentInThisDeliveryLocation).IsRequired(false);
+            builder.Property(x => x.IsPaymentInThisDeliveryLocation).IsRequired();
             builder.Property(x => x.ArrivalStartDateTime).IsRequired(false);
             builder.Property(x => x.ArrivalFinishDateTime).IsRequired(false);
             builder.Property(x => x.CourierArrivedDateTime).IsRequired(false);

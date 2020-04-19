@@ -10,7 +10,7 @@ namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
 {
     public class DeliveryOrder : Entity, IAggregateRoot
     {
-        short _deliveryOrderStatusId;
+        int _deliveryOrderStatusId;
         Guid _clientId;
         Guid? _courierId;
         readonly List<DeliveryLocation> _deliveryLocations;
@@ -24,7 +24,7 @@ namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
         public string Note { get; private set; }
         // DeliveryOrderNotificationSettings is a Value Object pattern example persisted as EF Core 2.0 owned entity
         public DeliveryOrderNotificationSettings DeliveryOrderNotificationSettings { get; private set; }
-        public DeliveryOrderStatus DeliveryOrderStatus => DeliveryOrderStatus.From(_deliveryOrderStatusId);
+        public DeliveryOrderStatus DeliveryOrderStatus { get; private set; }
         public Guid GetClientId => _clientId;
         public Guid? GetCourierId => _courierId;
         public IReadOnlyCollection<DeliveryLocation> DeliveryLocations => _deliveryLocations;

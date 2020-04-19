@@ -11,16 +11,16 @@ namespace Order.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<DeliveryLocationAction> builder)
         {
-            builder.ToTable("deliveryLocationActions", DeliveryOrderContext.DEFAULT_SCHEMA);
+            builder.ToTable("deliverylocationaction", DeliveryOrderContext.DEFAULT_SCHEMA);
 
-            builder.HasKey(ct => ct.Id);
+            builder.HasKey(x => x.Id);
 
-            builder.Property(ct => ct.Id)
+            builder.Property(x => x.Id)
                 .HasDefaultValue(1)
                 .ValueGeneratedNever()
                 .IsRequired();
 
-            builder.Property(ct => ct.Name)
+            builder.Property(x => x.Name)
                 .HasMaxLength(200)
                 .IsRequired();
         }

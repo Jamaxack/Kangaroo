@@ -7,7 +7,7 @@ namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
 {
     public class DeliveryLocation : Entity
     {
-        short _deliveryLocationActionId;
+        int _deliveryLocationActionId;
 
         public string Address { get; private set; }
         public string BuildingNumber { get; private set; }
@@ -20,7 +20,7 @@ namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
         public decimal BuyoutAmount { get; private set; } //Amount that courier bought something for client
         public decimal TakingAmount { get; private set; } //Amount that client should pay for courier: Delivery price + Buyout price
         public bool IsPaymentInThisDeliveryLocation { get; private set; } //Determines if payment will be in this DeliveryLocation
-        public DeliveryLocationAction DeliveryLocationAction => DeliveryLocationAction.From(_deliveryLocationActionId); // PickUp or DropOff
+        public DeliveryLocationAction DeliveryLocationAction { get; private set; } // PickUp or DropOff
         public ContactPerson ContactPerson { get; private set; }//Sender or Recipient 
         public DateTime? ArrivalStartDateTime { get; private set; }
         public DateTime? ArrivalFinishDateTime { get; private set; }
