@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Order.Domain.AggregatesModel.OrderAggregate
+namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
 {
     public class DeliveryLocationAction : Enumeration
     { 

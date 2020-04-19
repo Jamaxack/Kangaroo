@@ -1,7 +1,7 @@
 ﻿using Order.Domain.Common;
 using System.Collections.Generic;
 
-namespace Order.Domain.AggregatesModel.OrderAggregate
+namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
 {
     public class DeliveryOrderNotificationSettings : ValueObject
     {

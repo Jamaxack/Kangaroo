@@ -3,9 +3,9 @@ using Order.Domain.Common;
 using System;
 using System.Collections.Generic;
 
-namespace Order.Domain.AggregatesModel.OrderAggregate
+namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
 {
-    public class DeliveryLocation : ValueObject
+    public class DeliveryLocation : Entity
     {
         short _deliveryLocationActionId;
 
@@ -48,25 +48,6 @@ namespace Order.Domain.AggregatesModel.OrderAggregate
             ContactPerson = contactPerson;
             _deliveryLocationActionId = deliveryLocationtActionId;
             IsPaymentInThisDeliveryLocation = isPaymentInThisDeliveryLocation;
-        }
-
-        protected override IEnumerable<object> GetAtomicValues()
-        {
-            // Using a yield return statement to return each element one at a time 
-            yield return Address;
-            yield return BuildingNumber;
-            yield return EnterenceNumber;
-            yield return FloorNumber;
-            yield return ApartmentNumber;
-            yield return Latitude;
-            yield return Longitude;
-            yield return Note;
-            yield return BuyoutAmount;
-            yield return TakingAmount;
-            yield return ArrivalStartDateTime;
-            yield return ArrivalFinishDateTime;
-            yield return CourierArrivedDateTime;
-            yield return IsPaymentInThisDeliveryLocation;
         }
     }
 }

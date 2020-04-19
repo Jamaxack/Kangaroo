@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Order.Domain.AggregatesModel.OrderAggregate
+namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
 {
     /// <summary>
     /// Sender or Recipient person

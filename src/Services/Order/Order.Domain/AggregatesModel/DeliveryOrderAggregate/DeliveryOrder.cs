@@ -1,15 +1,16 @@
 ﻿using Order.Domain.AggregatesModel.CourierAggregate;
 using Order.Domain.Common;
+using Order.Domain.Events;
 using Order.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Order.Domain.AggregatesModel.OrderAggregate
+namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
 {
     public class DeliveryOrder : Entity, IAggregateRoot
     {
-        short _orderStatusId;
+        short _deliveryOrderStatusId;
         Guid _clientId;
         Guid? _courierId;
         readonly List<DeliveryLocation> _deliveryLocations;
@@ -23,7 +24,7 @@ namespace Order.Domain.AggregatesModel.OrderAggregate
         public string Note { get; private set; }
         // DeliveryOrderNotificationSettings is a Value Object pattern example persisted as EF Core 2.0 owned entity
         public DeliveryOrderNotificationSettings DeliveryOrderNotificationSettings { get; private set; }
-        public OrderStatus OrderStatus => OrderStatus.From(_orderStatusId);
+        public DeliveryOrderStatus DeliveryOrderStatus => DeliveryOrderStatus.From(_deliveryOrderStatusId);
         public Guid GetClientId => _clientId;
         public Guid? GetCourierId => _courierId;
         public IReadOnlyCollection<DeliveryLocation> DeliveryLocations => _deliveryLocations;
@@ -32,7 +33,7 @@ namespace Order.Domain.AggregatesModel.OrderAggregate
         {
             _deliveryLocations = new List<DeliveryLocation>();
             CreatedDateTime = DateTime.UtcNow;
-            _orderStatusId = OrderStatus.New.Id;
+            _deliveryOrderStatusId = DeliveryOrderStatus.New.Id;
         }
 
         public DeliveryOrder(Guid identityGuid, Guid clientId, long number, DateTime createdDateTime, DateTime? finishedDateTime, decimal paymentAmount, decimal insuranceAmount, short weight, string note, DeliveryOrderNotificationSettings deliveryOrderNotificationSettings) : this()
@@ -47,7 +48,7 @@ namespace Order.Domain.AggregatesModel.OrderAggregate
             Weight = weight;
             Note = note;
 
-            //TODO: Publish DeliveryOrder added DomainEvent with identityGuid
+            AddDomainEvent(new NewDeliveryOrderCreatedDomainEvent(this, clientId));
         }
 
         public void AddDelivaryLocation(string address, string buildingNumber, string enterenceNumber, string floorNumber, string apartmentNumber,
@@ -62,13 +63,13 @@ namespace Order.Domain.AggregatesModel.OrderAggregate
 
         public void SetOrderAvailableStatus()
         {
-            _orderStatusId = OrderStatus.Available.Id;
+            _deliveryOrderStatusId = DeliveryOrderStatus.Available.Id;
         }
 
         public void SetCourierId(Guid id)
         {
             _courierId = id;
-            _orderStatusId = OrderStatus.CourierAssigned.Id;
+            _deliveryOrderStatusId = DeliveryOrderStatus.CourierAssigned.Id;
         }
     }
 }
