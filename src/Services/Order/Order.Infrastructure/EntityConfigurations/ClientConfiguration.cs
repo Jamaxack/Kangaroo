@@ -8,7 +8,7 @@ namespace Order.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Client> clientConfiguration)
         {
-            clientConfiguration.ToTable("clients", DeliveryOrderContext.DEFAULT_SCHEMA);
+            clientConfiguration.ToTable("Clients", DeliveryOrderContext.DEFAULT_SCHEMA);
 
             clientConfiguration.HasKey(x => x.Id);
             clientConfiguration.Property(x => x.Id)

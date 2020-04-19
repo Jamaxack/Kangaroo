@@ -11,7 +11,7 @@ namespace Order.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<DeliveryLocation> builder)
         {
-            builder.ToTable("deliveryLocations", DeliveryOrderContext.DEFAULT_SCHEMA);
+            builder.ToTable("DeliveryLocations", DeliveryOrderContext.DEFAULT_SCHEMA);
 
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();

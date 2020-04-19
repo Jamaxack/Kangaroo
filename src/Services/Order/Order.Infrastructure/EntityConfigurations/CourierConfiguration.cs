@@ -8,7 +8,7 @@ namespace Order.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Courier> courierConfiguration)
         {
-            courierConfiguration.ToTable("couriers", DeliveryOrderContext.DEFAULT_SCHEMA);
+            courierConfiguration.ToTable("Couriers", DeliveryOrderContext.DEFAULT_SCHEMA);
 
             courierConfiguration.HasKey(x => x.Id);
             courierConfiguration.Property(x => x.Id)

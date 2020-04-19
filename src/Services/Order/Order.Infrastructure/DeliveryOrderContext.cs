@@ -19,7 +19,7 @@ namespace Order.Infrastructure
 {
     public class DeliveryOrderContext : DbContext, IUnitOfWork
     {
-        public const string DEFAULT_SCHEMA = "order";
+        public const string DEFAULT_SCHEMA = "Order";
 
         public DbSet<Client> Clients { get; set; }
         public DbSet<Courier> Couriers { get; set; }
