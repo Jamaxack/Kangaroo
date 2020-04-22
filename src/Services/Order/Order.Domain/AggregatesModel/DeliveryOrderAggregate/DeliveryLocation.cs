@@ -29,7 +29,7 @@ namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
         public DeliveryLocation() { }
 
         public DeliveryLocation(string address, string buildingNumber, string enterenceNumber, string floorNumber, string apartmentNumber, double latitude,
-            double longitude, string note, decimal buyoutAmount, decimal takingAmount, bool isPaymentInThisDeliveryLocation, short deliveryLocationtActionId,
+            double longitude, string note, decimal buyoutAmount, decimal takingAmount, bool isPaymentInThisDeliveryLocation, int deliveryLocationtActionId,
             DateTime? arrivalStartDateTime, DateTime? arrivalFinishDateTime, DateTime? courierArrivedDateTime, ContactPerson contactPerson)
         {
             Address = address;

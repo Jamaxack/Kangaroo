@@ -6,12 +6,9 @@ using Order.Domain.AggregatesModel.ClientAggregate;
 using Order.Domain.AggregatesModel.CourierAggregate;
 using Order.Domain.AggregatesModel.DeliveryOrderAggregate;
 using Order.Domain.Common;
-using Order.Infrastructure.EntityConfigurations;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,7 +22,7 @@ namespace Order.Infrastructure
         public DbSet<Courier> Couriers { get; set; }
         public DbSet<DeliveryOrder> DeliveryOrders { get; set; }
         public DbSet<DeliveryLocation> DeliveryLocations { get; set; }
-        public DbSet<DeliveryOrderStatus> OrderStatuses { get; set; }
+        public DbSet<DeliveryOrderStatus> DeliveryOrderStatuses { get; set; }
         public DbSet<DeliveryLocationAction> DeliveryLocationActions { get; set; }
 
         private readonly IMediator _mediator;

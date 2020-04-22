@@ -22,14 +22,17 @@ namespace Order.Infrastructure.EntityConfigurations
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("DeliveryOrderStatusId")
                 .IsRequired();
+
             builder.Property<Guid>("_clientId")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("ClientId")
                 .IsRequired();
+
             builder.Property<Guid?>("_courierId")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("CourierId")
                 .IsRequired(false);
+
             builder.Property(x => x.CreatedDateTime).IsRequired();
             builder.Property(x => x.FinishedDateTime).IsRequired(false);
             builder.Property(x => x.PaymentAmount).IsRequired();
@@ -41,7 +44,7 @@ namespace Order.Infrastructure.EntityConfigurations
             builder.OwnsOne(x => x.DeliveryOrderNotificationSettings, settings => { settings.WithOwner(); });
 
             // DDD Patterns comment:
-            //Set as field (New since EF 1.1) to access the DeliveryLocation collection property through its field
+            //Set as field (New since EF 1.1) to access the DeliveryLocations collection property through its field
             builder.Metadata
                 .FindNavigation(nameof(DeliveryOrder.DeliveryLocations))
                 .SetPropertyAccessMode(PropertyAccessMode.Field);

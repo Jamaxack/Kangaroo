@@ -1,10 +1,7 @@
-﻿using Order.Domain.AggregatesModel.CourierAggregate;
-using Order.Domain.Common;
+﻿using Order.Domain.Common;
 using Order.Domain.Events;
-using Order.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
 {
@@ -36,12 +33,10 @@ namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
             _deliveryOrderStatusId = DeliveryOrderStatus.New.Id;
         }
 
-        public DeliveryOrder(Guid identityGuid, Guid clientId, long number, DateTime createdDateTime, DateTime? finishedDateTime, decimal paymentAmount, decimal insuranceAmount, short weight, string note, DeliveryOrderNotificationSettings deliveryOrderNotificationSettings) : this()
+        public DeliveryOrder(Guid identityGuid, Guid clientId, long number, decimal paymentAmount, decimal insuranceAmount, short weight, string note, DeliveryOrderNotificationSettings deliveryOrderNotificationSettings) : this()
         {
             _clientId = clientId;
-            Number = number;
-            CreatedDateTime = createdDateTime;
-            FinishedDateTime = finishedDateTime;
+            Number = number; 
             DeliveryOrderNotificationSettings = deliveryOrderNotificationSettings;
             PaymentAmount = paymentAmount;
             InsuranceAmount = insuranceAmount;
@@ -52,7 +47,7 @@ namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
         }
 
         public void AddDelivaryLocation(string address, string buildingNumber, string enterenceNumber, string floorNumber, string apartmentNumber,
-            double latitude, double longitude, string note, decimal buyoutAmount, decimal takingAmount, bool isPaymentInThisDeliveryLocation, short deliveryLocationActionId,
+            double latitude, double longitude, string note, decimal buyoutAmount, decimal takingAmount, bool isPaymentInThisDeliveryLocation, int deliveryLocationActionId,
             DateTime? arrivalStartDateTime, DateTime? arrivalFinishDateTime, DateTime? courierArrivedDateTime, ContactPerson contactPerson)
         {
             var deliveryLocation = new DeliveryLocation(address, buildingNumber, enterenceNumber, floorNumber, apartmentNumber, latitude,
