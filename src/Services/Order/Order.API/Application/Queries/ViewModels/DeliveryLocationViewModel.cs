@@ -4,6 +4,7 @@ namespace Order.API.Application.Queries
 {
     public class DeliveryLocationViewModel
     {
+        public Guid Id { get; set; }
         public string Address { get; set; }
         public string BuildingNumber { get; set; }
         public string EnterenceNumber { get; set; }

@@ -29,6 +29,7 @@ namespace Order.API.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        [Route("{orderId:Guid}")]
         [HttpGet]
         [ProducesResponseType(typeof(DeliveryOrderViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -36,7 +37,35 @@ namespace Order.API.Controllers
         {
             var deliveryOrder = await _deliveryOrderQueries.GetDeliveryOrderByIdAsync(orderId);
             return Ok(deliveryOrder);
-        }  
+        }
+
+        [Route("ByClientId/{clientId:Guid}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(DeliveryOrderViewModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetOrderByClientIdAsync(Guid clientId)
+        {
+            var deliveryOrders = await _deliveryOrderQueries.GetDeliveryOrdersByClientIdAsync(clientId);
+            return Ok(deliveryOrders);
+        }
+
+        [Route("ByCourierId/{courierId:Guid}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(DeliveryOrderViewModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetOrderByCourierIdAsync(Guid courierId)
+        {
+            var deliveryOrders = await _deliveryOrderQueries.GetDeliveryOrdersByCourierIdAsync(courierId);
+            return Ok(deliveryOrders);
+        }
+        
+        [HttpGet]
+        [ProducesResponseType(typeof(DeliveryOrderViewModel), (int)HttpStatusCode.OK)] 
+        public async Task<IActionResult> GetOrdersAsync()
+        {
+            var deliveryOrders = await _deliveryOrderQueries.GetDeliveryOrdersAsync();
+            return Ok(deliveryOrders);
+        }
 
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]

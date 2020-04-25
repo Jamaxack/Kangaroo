@@ -6,6 +6,7 @@ namespace Order.API.Application.Queries
 {
     public class DeliveryOrderViewModel
     {
+        public Guid Id { get; set; } 
         public long Number { get; set; }
         public short Weight { get; set; }
         public DateTime CreatedDateTime { get; set; }
@@ -19,5 +20,10 @@ namespace Order.API.Application.Queries
         public Guid ClientId { get; set; }
         public Guid? CourierId { get; set; }
         public List<DeliveryLocationViewModel> DeliveryLocations { get; set; }
+
+        public DeliveryOrderViewModel()
+        {
+            DeliveryLocations = new List<DeliveryLocationViewModel>();
+        }
     }
 }

@@ -2,16 +2,117 @@
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Order.API.Application.Queries
 {
     public class DeliveryOrderQueries : IDeliveryOrderQueries
     {
+        const string SelectOrdersQuery = @"SELECT do.Id, do.Number, do.CreatedDateTime, do.FinishedDateTime, do.PaymentAmount,
+                        do.InsuranceAmount, do.Weight, do.Note, 
+                        do.DeliveryOrderNotificationSettings_ShouldNotifySenderOnOrderStatusChange as ShouldNotifySenderOnOrderStatusChange,
+                        do.DeliveryOrderNotificationSettings_ShouldNotifyRecipientOnOrderStatusChange as ShouldNotifyRecipientOnOrderStatusChange, 
+                        do.ClientId, do.CourierId, dos.Name as DeliveryOrderStatus, dla.Name as DeliveryLocationAction, dl.Id, dl.Address,
+                        dl.BuildingNumber, dl.EnterenceNumber, dl.FloorNumber, dl.ApartmentNumber, dl.Latitude, dl.Longitude, dl.Note,
+                        dl.BuyoutAmount, dl.TakingAmount, dl.IsPaymentInThisDeliveryLocation, dl.ContactPerson_Name as ContactPersonName,
+                        dl.ContactPerson_Phone as ContactPersonPhone, dl.ArrivalStartDateTime, dl.ArrivalFinishDateTime, dl.CourierArrivedDateTime
+                    FROM
+                        [Order].DeliveryOrders do
+                        LEFT JOIN [Order].DeliveryLocations dl ON do.Id = dl.DeliveryOrderId 
+                        LEFT JOIN [Order].DeliveryOrderStatus dos ON do.DeliveryOrderStatusId = dos.Id
+                        LEFT JOIN [Order].DeliveryLocationActions dla ON dl.DeliveryLocationActionId = dla.Id";
+
         string _connectionString = string.Empty;
         public DeliveryOrderQueries(string connectionString)
         {
             _connectionString = !string.IsNullOrWhiteSpace(connectionString) ? connectionString : throw new ArgumentNullException(nameof(connectionString));
+        }
+
+        public async Task<List<DeliveryOrderViewModel>> GetDeliveryOrdersAsync()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var deliveryOrders = new Dictionary<Guid, DeliveryOrderViewModel>();
+                connection.Open();
+                await connection.QueryAsync<DeliveryOrderViewModel, DeliveryLocationViewModel, DeliveryOrderViewModel>(SelectOrdersQuery,
+                 (deliveryOrder, deliveryLocation) =>
+                 {
+                     if (!deliveryOrders.TryGetValue(deliveryOrder.Id, out DeliveryOrderViewModel deliveryOrderEntry))
+                     {
+                         deliveryOrderEntry = deliveryOrder;
+                         deliveryOrders.Add(deliveryOrderEntry.Id, deliveryOrderEntry);
+                     }
+
+                     deliveryOrderEntry.DeliveryLocations.Add(deliveryLocation);
+                     return deliveryOrderEntry;
+                 });
+
+                var result = deliveryOrders.Values.ToList();
+
+                if (result.Count == 0)
+                    throw new KeyNotFoundException();
+
+                return result;
+            }
+        }
+
+        public async Task<List<DeliveryOrderViewModel>> GetDeliveryOrdersByClientIdAsync(Guid id)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var deliveryOrders = new Dictionary<Guid, DeliveryOrderViewModel>();
+                connection.Open();
+                await connection.QueryAsync<DeliveryOrderViewModel, DeliveryLocationViewModel, DeliveryOrderViewModel>(
+                 $"{SelectOrdersQuery} WHERE do.ClientId=@id",
+                 (deliveryOrder, deliveryLocation) =>
+                 {
+                     if (!deliveryOrders.TryGetValue(deliveryOrder.Id, out DeliveryOrderViewModel deliveryOrderEntry))
+                     {
+                         deliveryOrderEntry = deliveryOrder;
+                         deliveryOrders.Add(deliveryOrderEntry.Id, deliveryOrderEntry);
+                     }
+
+                     deliveryOrderEntry.DeliveryLocations.Add(deliveryLocation);
+                     return deliveryOrderEntry;
+                 }, new { id });
+
+                var result = deliveryOrders.Values.ToList();
+
+                if (result.Count == 0)
+                    throw new KeyNotFoundException();
+
+                return result;
+            }
+        }
+
+        public async Task<List<DeliveryOrderViewModel>> GetDeliveryOrdersByCourierIdAsync(Guid id)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var deliveryOrders = new Dictionary<Guid, DeliveryOrderViewModel>();
+                connection.Open();
+                await connection.QueryAsync<DeliveryOrderViewModel, DeliveryLocationViewModel, DeliveryOrderViewModel>(
+               $"{SelectOrdersQuery} WHERE do.CourierId=@id",
+                 (deliveryOrder, deliveryLocation) =>
+                 {
+                     if (!deliveryOrders.TryGetValue(deliveryOrder.Id, out DeliveryOrderViewModel deliveryOrderEntry))
+                     {
+                         deliveryOrderEntry = deliveryOrder;
+                         deliveryOrders.Add(deliveryOrderEntry.Id, deliveryOrderEntry);
+                     }
+
+                     deliveryOrderEntry.DeliveryLocations.Add(deliveryLocation);
+                     return deliveryOrderEntry;
+                 }, new { id });
+
+                var result = deliveryOrders.Values.ToList();
+
+                if (result.Count == 0)
+                    throw new KeyNotFoundException();
+
+                return result;
+            }
         }
 
         public async Task<DeliveryOrderViewModel> GetDeliveryOrderByIdAsync(Guid id)
@@ -20,20 +121,7 @@ namespace Order.API.Application.Queries
             {
                 connection.Open();
                 var result = await connection.QueryAsync<dynamic>(
-                  @"SELECT
-                        do.Number, do.CreatedDateTime, do.FinishedDateTime, do.PaymentAmount, do.InsuranceAmount, do.Weight, do.Note, 
-                        do.DeliveryOrderNotificationSettings_ShouldNotifySenderOnOrderStatusChange as ShouldNotifySenderOnOrderStatusChange,
-                        do.DeliveryOrderNotificationSettings_ShouldNotifyRecipientOnOrderStatusChange as ShouldNotifyRecipientOnOrderStatusChange, 
-                        do.ClientId, do.CourierId, dos.Name as DeliveryOrderStatus, dla.Name as DeliveryLocationAction, dl.Address,
-                        dl.BuildingNumber, dl.EnterenceNumber, dl.FloorNumber, dl.ApartmentNumber, dl.Latitude, dl.Longitude, dl.Note,
-                        dl.BuyoutAmount, dl.TakingAmount, dl.IsPaymentInThisDeliveryLocation, dl.ContactPerson_Name as ContactPersonName,
-                        dl.ContactPerson_Phone as ContactPersonPhone, dl.ArrivalStartDateTime, dl.ArrivalFinishDateTime, dl.CourierArrivedDateTime
-                    FROM
-                        [Order].DeliveryOrders do
-                        LEFT JOIN [Order].DeliveryLocations dl ON do.Id = dl.DeliveryOrderId 
-                        LEFT JOIN [Order].DeliveryOrderStatus dos ON do.DeliveryOrderStatusId = dos.Id
-                        LEFT JOIN [Order].DeliveryLocationActions dla ON dl.DeliveryLocationActionId = dla.Id
-                    WHERE do.Id=@id", new { id });
+                 $"{SelectOrdersQuery} WHERE do.Id=@id", new { id });
 
                 if (result.AsList().Count == 0)
                     throw new KeyNotFoundException();
