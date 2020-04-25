@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Order.Domain.AggregatesModel.DeliveryOrderAggregate;
+using System;
 
 namespace Order.API.Application.Commands
 {
@@ -21,5 +22,29 @@ namespace Order.API.Application.Commands
         public DateTime? ArrivalStartDateTime { get; set; }
         public DateTime? ArrivalFinishDateTime { get; set; }
         public DateTime? CourierArrivedDateTime { get; set; }
+
+        public static DeliveryLocationDTO FromLocation(DeliveryLocation location)
+        {
+            return new DeliveryLocationDTO()
+            {
+                Address = location.Address,
+                BuildingNumber = location.BuildingNumber,
+                EnterenceNumber = location.EnterenceNumber,
+                FloorNumber = location.FloorNumber,
+                ApartmentNumber = location.ApartmentNumber,
+                Latitude = location.Latitude,
+                Longitude = location.Longitude,
+                Note = location.Note,
+                BuyoutAmount = location.BuyoutAmount,
+                TakingAmount = location.TakingAmount,
+                IsPaymentInThisDeliveryLocation = location.IsPaymentInThisDeliveryLocation,
+                DeliveryLocationActionId = location.DeliveryLocationAction.Id,
+                ContactPersonName = location.ContactPerson.Name,
+                ContactPersonPhone = location.ContactPerson.Phone,
+                ArrivalStartDateTime = location.ArrivalStartDateTime,
+                ArrivalFinishDateTime = location.ArrivalFinishDateTime,
+                CourierArrivedDateTime = location.CourierArrivedDateTime
+            };
+        }
     }
 }
