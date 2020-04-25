@@ -5,6 +5,6 @@ namespace Order.API.Application.Queries
 {
     public interface IDeliveryOrderQueries
     {
-        Task<DeliveryOrder> GetDeliveryOrderAsync(Guid id); 
+        Task<DeliveryOrderViewModel> GetDeliveryOrderByIdAsync(Guid id); 
     }
 }

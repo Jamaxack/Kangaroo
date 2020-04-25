@@ -1,18 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using Order.Domain.AggregatesModel.DeliveryOrderAggregate;
+using System;
+using System.Collections.Generic;
 
 namespace Order.API.Application.Queries
 {
-    public class DeliveryOrder
+    public class DeliveryOrderViewModel
     {
-        public long number { get; set; }
-        public string deliveryOrderStatus { get;   set; } 
-        public List<DeliveryLocation> deliveryLocations { get; set; }
-
-    }
-
-    public class DeliveryLocation
-    {
-        public string address { get; set; }
-        public string note { get; set; }
+        public long Number { get; set; }
+        public short Weight { get; set; }
+        public DateTime CreatedDateTime { get; set; }
+        public DateTime? FinishedDateTime { get; set; }
+        public decimal PaymentAmount { get; set; }
+        public decimal InsuranceAmount { get; set; }
+        public string Note { get; set; } 
+        public bool ShouldNotifySenderOnOrderStatusChange { get; set; }
+        public bool ShouldNotifyRecipientOnOrderStatusChange { get; set; }
+        public string DeliveryOrderStatus { get; set; }
+        public Guid ClientId { get; set; }
+        public Guid? CourierId { get; set; }
+        public List<DeliveryLocationViewModel> DeliveryLocations { get; set; }
     }
 }

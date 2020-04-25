@@ -30,13 +30,13 @@ namespace Order.API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(DeliveryOrder), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(DeliveryOrderViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetOrderAsync(Guid orderId)
+        public async Task<IActionResult> GetOrderByIdAsync(Guid orderId)
         {
-            var deliveryOrder = await _deliveryOrderQueries.GetDeliveryOrderAsync(orderId);
+            var deliveryOrder = await _deliveryOrderQueries.GetDeliveryOrderByIdAsync(orderId);
             return Ok(deliveryOrder);
-        }
+        }  
 
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
