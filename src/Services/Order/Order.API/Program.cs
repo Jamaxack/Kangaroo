@@ -15,24 +15,10 @@ namespace Order.API
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(GetConfiguration(), args).Run();
-        }
-
-        private static IWebHost BuildWebHost(IConfiguration configuration, string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseConfiguration(configuration)
-                .Build();
-
-        private static IConfiguration GetConfiguration()
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables();
-
-            return builder.Build();
+              .UseStartup<Startup>()
+              .Build()
+              .Run();
         }
     }
 }

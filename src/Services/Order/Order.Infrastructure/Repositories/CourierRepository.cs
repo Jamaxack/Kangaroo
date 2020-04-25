@@ -36,14 +36,6 @@ namespace Order.Infrastructure.Repositories
                 .Entity;
         }
 
-        public async Task<Courier> FindAsync(Guid courierIdentityGuid)
-        {
-            var courier = await _context.Couriers
-                .SingleOrDefaultAsync(b => b.IdentityGuid == courierIdentityGuid);
-
-            return courier;
-        }
-
         public async Task<Courier> FindByIdAsync(Guid id)
         {
             var courier = await _context.Couriers

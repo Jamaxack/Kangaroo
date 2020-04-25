@@ -20,12 +20,7 @@ namespace Order.Infrastructure.EntityConfigurations
                 .IsRequired();
             courierConfiguration.Property(x => x.LastName);
             courierConfiguration.Property(x => x.Phone)
-                .IsRequired();
-
-            courierConfiguration.Property(x => x.IdentityGuid)
-                .IsRequired();
-            courierConfiguration.HasIndex(nameof(Courier.IdentityGuid))
-                .IsUnique();
+                .IsRequired(); 
         }
     }
 }

@@ -20,12 +20,7 @@ namespace Order.Infrastructure.EntityConfigurations
                 .IsRequired();
             clientConfiguration.Property(x => x.LastName);
             clientConfiguration.Property(x => x.Phone)
-                .IsRequired();
-
-            clientConfiguration.Property(x => x.IdentityGuid)
-                .IsRequired();
-            clientConfiguration.HasIndex(nameof(Client.IdentityGuid))
-                .IsUnique();
+                .IsRequired(); 
         }
     }
 }

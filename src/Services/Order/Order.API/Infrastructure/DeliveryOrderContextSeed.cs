@@ -54,9 +54,8 @@ namespace Order.API.Infrastructure
                     if (!context.DeliveryOrders.Any())
                     {
                         var client = context.Clients.Single();
-                        var identityGuid = Guid.NewGuid();
                         var settings = new DeliveryOrderNotificationSettings(true, true);
-                        var deliveryOrder = new DeliveryOrder(client.IdentityGuid, client.Id, 1, 8, 0, 1, "Just note", settings);
+                        var deliveryOrder = new DeliveryOrder(client.Id, 1, 8, 1, "Just note", settings);
                         context.DeliveryOrders.Add(deliveryOrder);
                         await context.SaveChangesAsync();
                     }
@@ -64,7 +63,6 @@ namespace Order.API.Infrastructure
                     if (!context.DeliveryLocations.Any())
                     {
                         var order = context.DeliveryOrders.Include(x => x.DeliveryOrderStatus).Single();
-                        var identityGuid = Guid.NewGuid();
                         var contactPersonPickup = new ContactPerson("PickupPerson", "+111111111");
                         var contactPersonDropoff = new ContactPerson("DropoffPerson", "+222222222");
                         order.AddDelivaryLocation("31, Amid", "0", "0", "0", "0", 0, 0, "RC cola", 11, 0, false, DeliveryLocationAction.PickUp.Id, DateTime.Now, DateTime.Now.AddMinutes(30), null, contactPersonPickup);

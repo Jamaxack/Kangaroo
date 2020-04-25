@@ -9,8 +9,7 @@ namespace Order.Domain.AggregatesModel.ClientAggregate
     public interface IClientRepository : IRepository<Client>
     {
         Client Add(Client client);
-        Client Update(Client client);
-        Task<Client> FindAsync(Guid clientIdentityGuid);
+        Client Update(Client client); 
         Task<Client> FindByIdAsync(Guid id);
     }
 }

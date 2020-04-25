@@ -39,13 +39,12 @@ namespace Order.API
                  },
                      ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
                  );
+
             //configure autofac
             var container = new ContainerBuilder();
             container.Populate(services);
-
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
-
             return new AutofacServiceProvider(container.Build());
         }
 

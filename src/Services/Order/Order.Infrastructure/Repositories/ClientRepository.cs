@@ -34,15 +34,7 @@ namespace Order.Infrastructure.Repositories
             return _context.Clients
                 .Update(client)
                 .Entity;
-        }
-
-        public async Task<Client> FindAsync(Guid clientIdentityGuid)
-        {
-            var client = await _context.Clients
-                .SingleOrDefaultAsync(b => b.IdentityGuid == clientIdentityGuid);
-
-            return client;
-        }
+        } 
 
         public async Task<Client> FindByIdAsync(Guid id)
         {
