@@ -1,7 +1,10 @@
 ﻿using Autofac;
+using FluentValidation;
 using MediatR;
+using Order.API.Application.Behaviors;
 using Order.API.Application.Commands;
 using Order.API.Application.DomainEventHandlers.NewDeliveryOrderCreatedEvent;
+using Order.API.Application.Validations;
 using Order.Infrastructure.Idempotency;
 using System.Reflection;
 
@@ -24,11 +27,18 @@ namespace Order.API.Infrastructure.AutofacModules
             builder.RegisterAssemblyTypes(typeof(NewDeliveryOrderCreatedDomainEventHandler)
                 .GetTypeInfo().Assembly).AsClosedTypesOf(typeof(INotificationHandler<>));
 
+            // Register the Command's Validators (Validators based on FluentValidation library)
+            builder.RegisterAssemblyTypes(typeof(CreateDeliveryOrderCommandValidator).GetTypeInfo().Assembly)
+                .Where(t => t.IsClosedTypeOf(typeof(IValidator<>)))
+                .AsImplementedInterfaces();
+
             builder.Register<ServiceFactory>(context =>
             {
                 var componentContext = context.Resolve<IComponentContext>();
                 return type => { object obj; return componentContext.TryResolve(type, out obj) ? obj : null; };
             });
+
+            builder.RegisterGeneric(typeof(ValidatorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
         }
     }
 }
