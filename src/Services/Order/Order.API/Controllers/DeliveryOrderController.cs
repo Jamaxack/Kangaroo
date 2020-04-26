@@ -29,41 +29,66 @@ namespace Order.API.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        //GET api/v1/[controller]/5f293549-65c4-4332-a88a-853b4dd937f0
         [Route("{orderId:Guid}")]
         [HttpGet]
         [ProducesResponseType(typeof(DeliveryOrderViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetOrderByIdAsync(Guid orderId)
         {
-            var deliveryOrder = await _deliveryOrderQueries.GetDeliveryOrderByIdAsync(orderId);
-            return Ok(deliveryOrder);
+            try
+            {
+                var deliveryOrder = await _deliveryOrderQueries.GetDeliveryOrderByIdAsync(orderId);
+                return Ok(deliveryOrder);
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
+        //GET api/v1/[controller]/ByClientId/5f293549-65c4-4332-a88a-853b4dd937f0
         [Route("ByClientId/{clientId:Guid}")]
         [HttpGet]
-        [ProducesResponseType(typeof(List<DeliveryOrderViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<DeliveryOrderViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetOrderByClientIdAsync(Guid clientId)
         {
-            var deliveryOrders = await _deliveryOrderQueries.GetDeliveryOrdersByClientIdAsync(clientId);
-            return Ok(deliveryOrders);
+            try
+            {
+                var deliveryOrders = await _deliveryOrderQueries.GetDeliveryOrdersByClientIdAsync(clientId);
+                return Ok(deliveryOrders);
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
+        //GET api/v1/[controller]/ByCourierId/5f293549-65c4-4332-a88a-853b4dd937f0
         [Route("ByCourierId/{courierId:Guid}")]
         [HttpGet]
-        [ProducesResponseType(typeof(List<DeliveryOrderViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<DeliveryOrderViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetOrderByCourierIdAsync(Guid courierId)
         {
-            var deliveryOrders = await _deliveryOrderQueries.GetDeliveryOrdersByCourierIdAsync(courierId);
-            return Ok(deliveryOrders);
+            try
+            {
+                var deliveryOrders = await _deliveryOrderQueries.GetDeliveryOrdersByCourierIdAsync(courierId);
+                return Ok(deliveryOrders);
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
-        
+
+        //GET api/v1/[controller][?pageSize=12&pageIndex=7]
         [HttpGet]
-        [ProducesResponseType(typeof(List<DeliveryOrderViewModel>), (int)HttpStatusCode.OK)] 
-        public async Task<IActionResult> GetOrdersAsync()
+        [ProducesResponseType(typeof(IEnumerable<DeliveryOrderViewModel>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetOrdersAsync([FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
         {
-            var deliveryOrders = await _deliveryOrderQueries.GetDeliveryOrdersAsync();
+            var deliveryOrders = await _deliveryOrderQueries.GetDeliveryOrdersAsync(pageSize, pageIndex);
             return Ok(deliveryOrders);
         }
 
@@ -76,7 +101,7 @@ namespace Order.API.Controllers
             if (requestId != Guid.Empty)
             {
                 var requestCreateDeliveryOrder = new IdentifiedCommand<CreateDeliveryOrderCommand, bool>(createDeliveryOrderCommand, requestId);
-               
+
                 _logger.LogInformation(
                     "----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
                     requestCreateDeliveryOrder.GetGenericTypeName(),

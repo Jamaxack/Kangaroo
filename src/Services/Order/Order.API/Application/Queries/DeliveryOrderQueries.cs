@@ -98,13 +98,17 @@ namespace Order.API.Application.Queries
             _connectionString = !string.IsNullOrWhiteSpace(connectionString) ? connectionString : throw new ArgumentNullException(nameof(connectionString));
         }
 
-        public async Task<List<DeliveryOrderViewModel>> GetDeliveryOrdersAsync()
+        public async Task<List<DeliveryOrderViewModel>> GetDeliveryOrdersAsync(int pageSize, int pageIndex)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                var deliveryOrders = new Dictionary<Guid, DeliveryOrderViewModel>();
                 connection.Open();
-                await connection.QueryAsync<DeliveryOrderViewModel, DeliveryLocationViewModel, DeliveryOrderViewModel>(SelectOrdersQuery,
+
+                var offset = pageSize * pageIndex;
+                var pagedQuery = $"{SelectOrdersQuery} {@"ORDER BY do.[Number] OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY"}";
+
+                var deliveryOrders = new Dictionary<Guid, DeliveryOrderViewModel>();
+                await connection.QueryAsync<DeliveryOrderViewModel, DeliveryLocationViewModel, DeliveryOrderViewModel>(pagedQuery,
                  (deliveryOrder, deliveryLocation) =>
                  {
                      if (!deliveryOrders.TryGetValue(deliveryOrder.Id, out DeliveryOrderViewModel deliveryOrderEntry))
@@ -115,12 +119,9 @@ namespace Order.API.Application.Queries
 
                      deliveryOrderEntry.DeliveryLocations.Add(deliveryLocation);
                      return deliveryOrderEntry;
-                 });
+                 }, param: new { offset, pageSize });
 
                 var result = deliveryOrders.Values.ToList();
-
-                if (result.Count == 0)
-                    throw new KeyNotFoundException();
 
                 return result;
             }
