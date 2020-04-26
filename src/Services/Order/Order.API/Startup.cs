@@ -1,10 +1,13 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Order.API.Infrastructure;
@@ -31,9 +34,10 @@ namespace Order.API
                 .AddControllers()
                 .AddNewtonsoftJson()
                 .Services
+                .AddHealthChecks(Configuration)
                 .AddCorsPolicy()
                 .AddSwagger()
-                .AddEntityFrameworkSqlServer(Configuration);
+                .AddDbContext(Configuration);
 
             //configure autofac
             var container = new ContainerBuilder();
@@ -45,7 +49,7 @@ namespace Order.API
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        { 
+        {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -63,15 +67,42 @@ namespace Order.API
             {
                 c.SwaggerEndpoint($"/swagger/v1/swagger.json", "Order.API V1");
             });
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
+                // ~/hc returns full health check response with Self and SQL server database  state
+                endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+                // ~/liveness returns HealthStatus: "Healthy", "Unhealthy" or "Degraded"
+                endpoints.MapHealthChecks("/liveness", new HealthCheckOptions()
+                {
+                    Predicate = healthCheckRegistration => healthCheckRegistration.Name.Contains("self")
+                });
             });
         }
     }
 
     static class ExtensionsMethods
     {
+        public static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
+        {
+            var healthCheckBuilder = services.AddHealthChecks();
+
+            healthCheckBuilder.AddCheck("self", () => HealthCheckResult.Healthy());
+
+            healthCheckBuilder.AddSqlServer(
+                configuration["ConnectionString"],
+                name: "OrderDB-check",
+                tags: new string[] { "orderdb" });
+
+            return services;
+        }
+
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(options =>
@@ -99,7 +130,7 @@ namespace Order.API
             return services;
         }
 
-        public static IServiceCollection AddEntityFrameworkSqlServer(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddEntityFrameworkSqlServer()
                 .AddDbContext<DeliveryOrderContext>(options =>
