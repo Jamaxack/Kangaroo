@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Order.API.Infrastructure;
 using Order.API.Infrastructure.AutofacModules;
+using Order.API.Infrastructure.Filters;
 using Order.Infrastructure;
 using System;
 using System.Reflection;
@@ -31,7 +32,11 @@ namespace Order.API
         public virtual IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services
-                .AddControllers()
+                .AddOptions()
+                .AddControllers(options =>
+                {
+                    options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+                })
                 .AddNewtonsoftJson()
                 .Services
                 .AddHealthChecks(Configuration)
