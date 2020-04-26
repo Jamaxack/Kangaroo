@@ -41,7 +41,7 @@ namespace Order.API.Controllers
 
         [Route("ByClientId/{clientId:Guid}")]
         [HttpGet]
-        [ProducesResponseType(typeof(DeliveryOrderViewModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<DeliveryOrderViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetOrderByClientIdAsync(Guid clientId)
         {
@@ -51,7 +51,7 @@ namespace Order.API.Controllers
 
         [Route("ByCourierId/{courierId:Guid}")]
         [HttpGet]
-        [ProducesResponseType(typeof(DeliveryOrderViewModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<DeliveryOrderViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetOrderByCourierIdAsync(Guid courierId)
         {
@@ -60,7 +60,7 @@ namespace Order.API.Controllers
         }
         
         [HttpGet]
-        [ProducesResponseType(typeof(DeliveryOrderViewModel), (int)HttpStatusCode.OK)] 
+        [ProducesResponseType(typeof(List<DeliveryOrderViewModel>), (int)HttpStatusCode.OK)] 
         public async Task<IActionResult> GetOrdersAsync()
         {
             var deliveryOrders = await _deliveryOrderQueries.GetDeliveryOrdersAsync();

@@ -9,19 +9,88 @@ namespace Order.API.Application.Queries
 {
     public class DeliveryOrderQueries : IDeliveryOrderQueries
     {
-        const string SelectOrdersQuery = @"SELECT do.Id, do.Number, do.CreatedDateTime, do.FinishedDateTime, do.PaymentAmount,
-                        do.InsuranceAmount, do.Weight, do.Note, 
-                        do.DeliveryOrderNotificationSettings_ShouldNotifySenderOnOrderStatusChange as ShouldNotifySenderOnOrderStatusChange,
-                        do.DeliveryOrderNotificationSettings_ShouldNotifyRecipientOnOrderStatusChange as ShouldNotifyRecipientOnOrderStatusChange, 
-                        do.ClientId, do.CourierId, dos.Name as DeliveryOrderStatus, dla.Name as DeliveryLocationAction, dl.Id, dl.Address,
-                        dl.BuildingNumber, dl.EnterenceNumber, dl.FloorNumber, dl.ApartmentNumber, dl.Latitude, dl.Longitude, dl.Note,
-                        dl.BuyoutAmount, dl.TakingAmount, dl.IsPaymentInThisDeliveryLocation, dl.ContactPerson_Name as ContactPersonName,
-                        dl.ContactPerson_Phone as ContactPersonPhone, dl.ArrivalStartDateTime, dl.ArrivalFinishDateTime, dl.CourierArrivedDateTime
-                    FROM
-                        [Order].DeliveryOrders do
-                        LEFT JOIN [Order].DeliveryLocations dl ON do.Id = dl.DeliveryOrderId 
-                        LEFT JOIN [Order].DeliveryOrderStatus dos ON do.DeliveryOrderStatusId = dos.Id
-                        LEFT JOIN [Order].DeliveryLocationActions dla ON dl.DeliveryLocationActionId = dla.Id";
+        #region SqlQueries
+        const string SelectOrdersQuery =
+            @"SELECT 
+	                do.[Id], 
+	                do.[Number],
+	                do.[CreatedDateTime],
+	                do.[FinishedDateTime],
+	                do.[PaymentAmount],
+	                do.[InsuranceAmount],
+	                do.[Weight],
+	                do.[Note],
+	                do.[DeliveryOrderNotificationSettings_ShouldNotifySenderOnOrderStatusChange] as ShouldNotifySenderOnOrderStatusChange,
+	                do.[DeliveryOrderNotificationSettings_ShouldNotifyRecipientOnOrderStatusChange] as ShouldNotifyRecipientOnOrderStatusChange,
+	                do.[ClientId],
+	                do.[CourierId],
+	                dos.[Name] as DeliveryOrderStatus,
+	                dla.[Name] as DeliveryLocationAction,
+	                dl.[Id],
+	                dl.[Address],
+	                dl.[BuildingNumber],
+	                dl.[EnterenceNumber],
+	                dl.[FloorNumber],
+	                dl.[ApartmentNumber],
+	                dl.[Latitude],
+	                dl.[Longitude],
+	                dl.[Note],
+	                dl.[BuyoutAmount],
+	                dl.[TakingAmount],
+	                dl.[IsPaymentInThisDeliveryLocation],
+	                dl.[ContactPerson_Name] as ContactPersonName,
+	                dl.[ContactPerson_Phone] as ContactPersonPhone,
+	                dl.[ArrivalStartDateTime],
+	                dl.[ArrivalFinishDateTime],
+	                dl.[CourierArrivedDateTime]
+                FROM
+	                [Order].DeliveryOrders do
+	                LEFT JOIN [Order].DeliveryLocations dl ON do.Id = dl.DeliveryOrderId
+	                LEFT JOIN [Order].DeliveryOrderStatus dos ON do.DeliveryOrderStatusId = dos.Id
+	                LEFT JOIN [Order].DeliveryLocationActions dla ON dl.DeliveryLocationActionId = dla.Id";
+
+        const string SelectOrderByIdSqlQuery =
+            @"SELECT TOP(1)
+                    do.[Id],
+                       [Number],
+                       [CreatedDateTime],
+                       [FinishedDateTime],
+                       [PaymentAmount],
+                       [InsuranceAmount],
+                       [Weight],
+                       [Note],
+                       [DeliveryOrderNotificationSettings_ShouldNotifySenderOnOrderStatusChange] as ShouldNotifySenderOnOrderStatusChange,
+                       [DeliveryOrderNotificationSettings_ShouldNotifyRecipientOnOrderStatusChange] as ShouldNotifyRecipientOnOrderStatusChange,
+                       [ClientId],
+                       [CourierId],
+	                   dos.[Name] as DeliveryOrderStatus
+                  FROM [Kangaroo.Services.Order].[Order].[DeliveryOrders] as do
+                  LEFT JOIN [Order].DeliveryOrderStatus dos ON dos.Id = do.DeliveryOrderStatusId
+                  WHERE do.[Id] = @orderId;
+   
+                SELECT
+                      dl.[Id],
+                      [Address],
+                      [BuildingNumber],
+                      [EnterenceNumber],
+                      [FloorNumber],
+                      [ApartmentNumber],
+                      [Latitude],
+                      [Longitude],
+                      [Note],
+                      [BuyoutAmount],
+                      [TakingAmount],
+                      [IsPaymentInThisDeliveryLocation], 
+                      [ContactPerson_Name] as ContactPersonName,
+                      [ContactPerson_Phone] as ContactPersonPhone,
+                      [ArrivalStartDateTime],
+                      [ArrivalFinishDateTime],
+                      [CourierArrivedDateTime],
+	                  dla.[Name] as DeliveryLocationAction
+                  FROM [Order].[DeliveryLocations] as dl
+                  LEFT JOIN [Order].DeliveryLocationActions dla ON dla.Id = dl.DeliveryLocationActionId 
+                  WHERE dl.[DeliveryOrderId] = @orderId";
+        #endregion
 
         string _connectionString = string.Empty;
         public DeliveryOrderQueries(string connectionString)
@@ -115,18 +184,16 @@ namespace Order.API.Application.Queries
             }
         }
 
-        public async Task<DeliveryOrderViewModel> GetDeliveryOrderByIdAsync(Guid id)
+        public async Task<DeliveryOrderViewModel> GetDeliveryOrderByIdAsync(Guid orderId)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                var result = await connection.QueryAsync<dynamic>(
-                 $"{SelectOrdersQuery} WHERE do.Id=@id", new { id });
+                var multiResult = await connection.QueryMultipleAsync(SelectOrderByIdSqlQuery, new { orderId });
 
-                if (result.AsList().Count == 0)
-                    throw new KeyNotFoundException();
-
-                return MapToDeliveryOrderViewModel(result);
+                var deliveryOrderViewModel = await multiResult.ReadSingleAsync<DeliveryOrderViewModel>();
+                deliveryOrderViewModel.DeliveryLocations.AddRange(await multiResult.ReadAsync<DeliveryLocationViewModel>());
+                return deliveryOrderViewModel;
             }
         }
 
