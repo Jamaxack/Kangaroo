@@ -5,9 +5,9 @@ using Order.Infrastructure.Idempotency;
 namespace Order.API.Application.Commands
 {
     // Use for Idempotency in Command process
-    public class CreateOrderIdentifiedCommandHandler : IdentifiedCommandHandler<CreateDeliveryOrderCommand, bool>
+    public class CreateDeliveryOrderIdentifiedCommandHandler : IdentifiedCommandHandler<CreateDeliveryOrderCommand, bool>
     {
-        public CreateOrderIdentifiedCommandHandler(
+        public CreateDeliveryOrderIdentifiedCommandHandler(
             IMediator mediator,
             IRequestManager requestManager,
             ILogger<IdentifiedCommandHandler<CreateDeliveryOrderCommand, bool>> logger)

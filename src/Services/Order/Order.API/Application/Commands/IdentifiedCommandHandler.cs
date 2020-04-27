@@ -66,7 +66,10 @@ namespace Order.API.Application.Commands
                             idProperty = nameof(createDeliveryOrderCommand.ClientId);
                             commandId = createDeliveryOrderCommand.ClientId;
                             break;
-
+                        case DeleteDeliveryLocationCommand deleteDeliveryLocationCommand:
+                            idProperty = nameof(deleteDeliveryLocationCommand.DeliveryLocationId);
+                            commandId = deleteDeliveryLocationCommand.DeliveryLocationId;
+                            break;
                         default:
                             break;
                     }

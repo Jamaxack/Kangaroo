@@ -119,5 +119,32 @@ namespace Order.API.Controllers
 
             return Ok();
         }
+
+        [HttpDelete]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)] 
+        public async Task<IActionResult> DeleteDeliveryLocationAsync([FromBody]DeleteDeliveryLocationCommand deleteDeliveryLocationCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
+        {
+            bool commandResult = false;
+            if (requestId != Guid.Empty)
+            {
+                var requestDeleteDeliveryLocation = new IdentifiedCommand<DeleteDeliveryLocationCommand, bool>(deleteDeliveryLocationCommand, requestId);
+
+                _logger.LogInformation(
+                    "----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
+                    requestDeleteDeliveryLocation.GetGenericTypeName(),
+                    nameof(requestDeleteDeliveryLocation.Command.DeliveryLocationId),
+                    requestDeleteDeliveryLocation.Command.DeliveryLocationId,
+                    requestDeleteDeliveryLocation);
+
+                commandResult = await _mediator.Send(requestDeleteDeliveryLocation);
+            }
+
+            if (!commandResult)
+            {
+                return BadRequest();
+            }
+
+            return NoContent();
+        }
     }
 }

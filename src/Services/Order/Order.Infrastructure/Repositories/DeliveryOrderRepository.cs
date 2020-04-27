@@ -25,12 +25,7 @@ namespace Order.Infrastructure.Repositories
         {
             var order = await _context.DeliveryOrders
                 .Include(x => x.DeliveryLocations)
-                .FirstOrDefaultAsync(x => x.Id == orderId);
-
-            if (order == null)
-            {
-                order = _context.DeliveryOrders.Local.FirstOrDefault(x => x.Id == orderId);
-            }
+                .FirstOrDefaultAsync(x => x.Id == orderId); 
 
             if (order != null)
             {
@@ -46,6 +41,6 @@ namespace Order.Infrastructure.Repositories
         public void Update(DeliveryOrder order)
         {
             _context.Entry(order).State = EntityState.Modified;
-        }
+        } 
     }
 }

@@ -46,15 +46,14 @@ namespace Order.Domain.AggregatesModel.DeliveryOrderAggregate
             AddDomainEvent(new NewDeliveryOrderCreatedDomainEvent(this, clientId));
         }
 
-        public void AddDelivaryLocation(string address, string buildingNumber, string enterenceNumber, string floorNumber, string apartmentNumber,
-            double latitude, double longitude, string note, decimal buyoutAmount, decimal takingAmount, bool isPaymentInThisDeliveryLocation,
-            int deliveryLocationActionId, DateTime? arrivalStartDateTime, DateTime? arrivalFinishDateTime, DateTime? courierArrivedDateTime,
-            ContactPerson contactPerson)
-        {
-            var deliveryLocation = new DeliveryLocation(address, buildingNumber, enterenceNumber, floorNumber, apartmentNumber, latitude,
-                longitude, note, buyoutAmount, takingAmount, isPaymentInThisDeliveryLocation, deliveryLocationActionId, arrivalStartDateTime,
-                arrivalFinishDateTime, courierArrivedDateTime, contactPerson);
+        public void AddDelivaryLocation(DeliveryLocation deliveryLocation)
+        { 
             _deliveryLocations.Add(deliveryLocation);
+        }
+
+        public void RemoveDeliveryLocation(DeliveryLocation deliveryLocation)
+        {
+            _deliveryLocations.Remove(deliveryLocation);
         }
 
         public void SetOrderAvailableStatus()

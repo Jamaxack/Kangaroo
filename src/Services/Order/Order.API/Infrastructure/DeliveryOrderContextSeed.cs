@@ -65,8 +65,11 @@ namespace Order.API.Infrastructure
                         var order = context.DeliveryOrders.Include(x => x.DeliveryOrderStatus).Single();
                         var contactPersonPickup = new ContactPerson("PickupPerson", "+111111111");
                         var contactPersonDropoff = new ContactPerson("DropoffPerson", "+222222222");
-                        order.AddDelivaryLocation("31, Amid", "0", "0", "0", "0", 0, 0, "RC cola", 11, 0, false, DeliveryLocationAction.PickUp.Id, DateTime.Now, DateTime.Now.AddMinutes(30), null, contactPersonPickup);
-                        order.AddDelivaryLocation("31, Yagondka street", "17", "2", "4", "24", 0, 0, "Note", 0, 20, true, DeliveryLocationAction.DropOff.Id, DateTime.Now.AddHours(1), DateTime.Now.AddHours(2), null, contactPersonDropoff);
+                        var deliveryLocationPickUp = new DeliveryLocation("31, Amid", "0", "0", "0", "0", 0, 0, "RC cola", 11, 0, false, DeliveryLocationAction.PickUp.Id, DateTime.Now, DateTime.Now.AddMinutes(30), null, contactPersonPickup);
+                        var deliveryLocationDropOff = new DeliveryLocation("31, Yagondka street", "17", "2", "4", "24", 0, 0, "Note", 0, 20, true, DeliveryLocationAction.DropOff.Id, DateTime.Now.AddHours(1), DateTime.Now.AddHours(2), null, contactPersonDropoff);
+
+                        order.AddDelivaryLocation(deliveryLocationPickUp);
+                        order.AddDelivaryLocation(deliveryLocationDropOff);
                         await context.SaveChangesAsync();
                     }
                 };
