@@ -21,12 +21,14 @@ namespace Order.API
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+        public IContainer Container { get; private set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public virtual IServiceProvider ConfigureServices(IServiceCollection services)
@@ -49,11 +51,13 @@ namespace Order.API
             container.Populate(services);
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
-            return new AutofacServiceProvider(container.Build());
+            Container = container.Build();
+            return new AutofacServiceProvider(Container);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime applicationLifetime
+            )
         {
             if (env.IsDevelopment())
             {
@@ -89,6 +93,8 @@ namespace Order.API
                     Predicate = healthCheckRegistration => healthCheckRegistration.Name.Contains("self")
                 });
             });
+            //Disposes container on application stopped
+            applicationLifetime.ApplicationStopped.Register(() => Container.Dispose());
         }
     }
 
