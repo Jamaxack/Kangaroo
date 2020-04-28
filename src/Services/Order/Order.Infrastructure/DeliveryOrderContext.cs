@@ -37,7 +37,7 @@ namespace Order.Infrastructure
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
             System.Diagnostics.Debug.WriteLine("DeliveryOrderContext::ctor ->" + this.GetHashCode());
-        } 
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -108,40 +108,6 @@ namespace Order.Infrastructure
                     _currentTransaction.Dispose();
                     _currentTransaction = null;
                 }
-            }
-        } 
-    }
-
-    public class DeliveryOrderContextDesignFactory : IDesignTimeDbContextFactory<DeliveryOrderContext>
-    {
-        public DeliveryOrderContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<DeliveryOrderContext>()
-                .UseSqlServer("Server=.;Initial Catalog=Kangaroo.Services.OrderDb;Integrated Security=true");
-
-            return new DeliveryOrderContext(optionsBuilder.Options, new NoMediator());
-        }
-
-        class NoMediator : IMediator
-        {
-            public Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default(CancellationToken)) where TNotification : INotification
-            {
-                return Task.CompletedTask;
-            }
-
-            public Task Publish(object notification, CancellationToken cancellationToken = default)
-            {
-                return Task.CompletedTask;
-            }
-
-            public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                return Task.FromResult<TResponse>(default(TResponse));
-            }
-
-            public Task<object> Send(object request, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                return Task.FromResult<object>(default(object));
             }
         }
     }

@@ -48,7 +48,7 @@ namespace Order.API.Infrastructure
                         var identityGuid = Guid.NewGuid();
                         var client = new Courier(identityGuid, "CourierFirstName", "CourierLastName", "+999999999");
                         context.Couriers.Add(client);
-                        await context.SaveChangesAsync();
+                        await context.SaveEntitiesAsync();
                     }
 
                     if (!context.DeliveryOrders.Any())
@@ -57,7 +57,7 @@ namespace Order.API.Infrastructure
                         var settings = new DeliveryOrderNotificationSettings(true, true);
                         var deliveryOrder = new DeliveryOrder(client.Id, 1, 8, 1, "Just note", settings);
                         context.DeliveryOrders.Add(deliveryOrder);
-                        await context.SaveChangesAsync();
+                        await context.SaveEntitiesAsync(); 
                     }
 
                     if (!context.DeliveryLocations.Any())
@@ -70,7 +70,8 @@ namespace Order.API.Infrastructure
 
                         order.AddDelivaryLocation(deliveryLocationPickUp);
                         order.AddDelivaryLocation(deliveryLocationDropOff);
-                        await context.SaveChangesAsync();
+                        await context.SaveEntitiesAsync();
+
                     }
                 };
             });

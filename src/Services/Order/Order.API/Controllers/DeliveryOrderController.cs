@@ -120,6 +120,35 @@ namespace Order.API.Controllers
             return Ok();
         }
 
+        [Route("SetAvailableStatus")]
+        [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> SetAvailableDeliveryOrderStatusAsync([FromBody]SetAvailableDeliveryOrderStatusCommand setAvailableDeliveryOrderStatusCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
+        {
+            bool commandResult = false;
+            if (requestId != Guid.Empty)
+            {
+                var requestSetAvailableDeliveryOrderStatusCommand = new IdentifiedCommand<SetAvailableDeliveryOrderStatusCommand, bool>(setAvailableDeliveryOrderStatusCommand, requestId);
+
+                _logger.LogInformation(
+                    "----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
+                    requestSetAvailableDeliveryOrderStatusCommand.GetGenericTypeName(),
+                    nameof(requestSetAvailableDeliveryOrderStatusCommand.Command.DeliveryOrderId),
+                    requestSetAvailableDeliveryOrderStatusCommand.Command.DeliveryOrderId,
+                    requestSetAvailableDeliveryOrderStatusCommand);
+
+                commandResult = await _mediator.Send(requestSetAvailableDeliveryOrderStatusCommand);
+            }
+
+            if (!commandResult)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+         
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.NoContent)] 
         public async Task<IActionResult> DeleteDeliveryLocationAsync([FromBody]DeleteDeliveryLocationCommand deleteDeliveryLocationCommand, [FromHeader(Name = "x-requestid")] Guid requestId)

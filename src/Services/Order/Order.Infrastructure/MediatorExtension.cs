@@ -21,7 +21,7 @@ namespace Order.Infrastructure
                 .ToList();
 
             domainEntities.ToList()
-                .ForEach(entity => entity.Entity.ClearDomainEvents());
+                .ForEach(entityEntry => entityEntry.Entity.ClearDomainEvents());
 
             foreach (var domainEvent in domainEvents)
                 await mediator.Publish(domainEvent);
