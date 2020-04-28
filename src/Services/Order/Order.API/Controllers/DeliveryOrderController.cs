@@ -95,7 +95,7 @@ namespace Order.API.Controllers
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CreateOrderAsync([FromBody]CreateDeliveryOrderCommand createDeliveryOrderCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
+        public async Task<IActionResult> CreateOrderAsync(CreateDeliveryOrderCommand createDeliveryOrderCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
         {
             bool commandResult = false;
             if (requestId != Guid.Empty)
@@ -124,7 +124,7 @@ namespace Order.API.Controllers
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetAvailableDeliveryOrderStatusAsync([FromBody]SetAvailableDeliveryOrderStatusCommand setAvailableDeliveryOrderStatusCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
+        public async Task<IActionResult> SetAvailableDeliveryOrderStatusAsync(SetAvailableDeliveryOrderStatusCommand setAvailableDeliveryOrderStatusCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
         {
             bool commandResult = false;
             if (requestId != Guid.Empty)
@@ -151,7 +151,7 @@ namespace Order.API.Controllers
          
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.NoContent)] 
-        public async Task<IActionResult> DeleteDeliveryLocationAsync([FromBody]DeleteDeliveryLocationCommand deleteDeliveryLocationCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
+        public async Task<IActionResult> DeleteDeliveryLocationAsync(DeleteDeliveryLocationCommand deleteDeliveryLocationCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
         {
             bool commandResult = false;
             if (requestId != Guid.Empty)
