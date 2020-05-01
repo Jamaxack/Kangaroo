@@ -7,25 +7,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EABD112F-1A4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{EF3F5020-51A0-4456-8E78-62D2A739A31C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Order", "Order", "{C71494D2-8E66-467D-B777-F1A0ADB80C5D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeliveryOrder", "DeliveryOrder", "{C71494D2-8E66-467D-B777-F1A0ADB80C5D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.API", "src\Services\Order\Order.API\Order.API.csproj", "{BFC7FF8A-5FD9-4F5D-9CFF-2CDBD42BAE66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeliveryOrder.API", "src\Services\DeliveryOrder\DeliveryOrder.API\DeliveryOrder.API.csproj", "{BFC7FF8A-5FD9-4F5D-9CFF-2CDBD42BAE66}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{60BD1EB9-CEA0-43F4-8274-DBEAE4D382BA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.UnitTests", "src\Services\Order\Order.UnitTests\Order.UnitTests.csproj", "{B10081F2-4A8F-47BC-8224-13D2E768E842}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeliveryOrder.UnitTests", "src\Services\DeliveryOrder\DeliveryOrder.UnitTests\DeliveryOrder.UnitTests.csproj", "{B10081F2-4A8F-47BC-8224-13D2E768E842}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Domain", "src\Services\Order\Order.Domain\Order.Domain.csproj", "{C930DBC2-A9D0-42B2-8A93-B9C97237622B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeliveryOrder.Domain", "src\Services\DeliveryOrder\DeliveryOrder.Domain\DeliveryOrder.Domain.csproj", "{C930DBC2-A9D0-42B2-8A93-B9C97237622B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Infrastructure", "src\Services\Order\Order.Infrastructure\Order.Infrastructure.csproj", "{8FF07C85-9D4E-4F90-A9E6-BBF65122B8BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeliveryOrder.Infrastructure", "src\Services\DeliveryOrder\DeliveryOrder.Infrastructure\DeliveryOrder.Infrastructure.csproj", "{8FF07C85-9D4E-4F90-A9E6-BBF65122B8BD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.FunctionalTests", "src\Services\Order\Order.FunctionalTests\Order.FunctionalTests.csproj", "{CE42047A-C9AB-4F6B-A63D-42729EE112C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeliveryOrder.FunctionalTests", "src\Services\DeliveryOrder\DeliveryOrder.FunctionalTests\DeliveryOrder.FunctionalTests.csproj", "{CE42047A-C9AB-4F6B-A63D-42729EE112C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{C9435634-EF09-40A8-8930-4660DE5CA6F2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{F40E1CFC-3117-49DF-8F64-A6B391FBBDDD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Location", "Location", "{68FF1D2E-6E6C-4373-8C64-B6A1C24FC17C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Courier", "Courier", "{68FF1D2E-6E6C-4373-8C64-B6A1C24FC17C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Delivery", "Delivery", "{E0FDF7E4-0A9C-4725-9CA0-B6F293C311A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeliveryOrderPriceCalculate", "DeliveryOrderPriceCalculate", "{142D7D27-31E4-4CD5-BEB7-BBAE870E91D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +73,8 @@ Global
 		{C9435634-EF09-40A8-8930-4660DE5CA6F2} = {EF3F5020-51A0-4456-8E78-62D2A739A31C}
 		{F40E1CFC-3117-49DF-8F64-A6B391FBBDDD} = {EF3F5020-51A0-4456-8E78-62D2A739A31C}
 		{68FF1D2E-6E6C-4373-8C64-B6A1C24FC17C} = {EF3F5020-51A0-4456-8E78-62D2A739A31C}
+		{E0FDF7E4-0A9C-4725-9CA0-B6F293C311A0} = {EF3F5020-51A0-4456-8E78-62D2A739A31C}
+		{142D7D27-31E4-4CD5-BEB7-BBAE870E91D2} = {EF3F5020-51A0-4456-8E78-62D2A739A31C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {162D44E4-5354-48E3-85D9-62CB2985F33B}
