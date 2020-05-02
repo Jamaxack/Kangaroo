@@ -10,12 +10,9 @@ namespace DeliveryOrder.Domain.AggregatesModel.DeliveryOrderAggregate
         public long Number { get; private set; }
         public DateTime CreatedDateTime { get; private set; }
         public DateTime? FinishedDateTime { get; private set; }
-        public decimal PaymentAmount { get; private set; }
-        public decimal InsuranceAmount { get; private set; }
+        public decimal Price { get; private set; }
         public short Weight { get; private set; }
         public string Note { get; private set; }
-        // DeliveryOrderNotificationSettings is a Value Object pattern example persisted as EF Core 2.0 owned entity
-        public DeliveryOrderNotificationSettings DeliveryOrderNotificationSettings { get; private set; }
 
         int _deliveryOrderStatusId;
         public DeliveryOrderStatus DeliveryOrderStatus { get; private set; }
@@ -36,13 +33,10 @@ namespace DeliveryOrder.Domain.AggregatesModel.DeliveryOrderAggregate
             _deliveryOrderStatusId = DeliveryOrderStatus.New.Id;
         }
 
-        public DeliveryOrder(Guid clientId, decimal paymentAmount, decimal insuranceAmount, short weight, string note,
-            DeliveryOrderNotificationSettings deliveryOrderNotificationSettings) : this()
+        public DeliveryOrder(Guid clientId, decimal price, short weight, string note) : this()
         {
             _clientId = clientId;
-            DeliveryOrderNotificationSettings = deliveryOrderNotificationSettings;
-            PaymentAmount = paymentAmount;
-            InsuranceAmount = insuranceAmount;
+            Price = price;
             Weight = weight;
             Note = note;
 

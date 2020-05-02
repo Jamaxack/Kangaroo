@@ -11,11 +11,8 @@ namespace DeliveryOrder.API.Application.Commands
         public short Weight { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public DateTime? FinishedDateTime { get; set; }
-        public decimal PaymentAmount { get; set; }
-        public decimal InsuranceAmount { get; set; }
-        public string Note { get; set; }
-        // DeliveryOrderNotificationSettings is a Value Object pattern example persisted as EF Core 2.0 owned entity
-        public DeliveryOrderNotificationSettings DeliveryOrderNotificationSettings { get; set; }
+        public decimal Price { get; set; } 
+        public string Note { get; set; } 
         public DeliveryOrderStatus DeliveryOrderStatus { get; set; }
         public Guid ClientId { get; set; }
         public Guid? CourierId { get; set; }
@@ -30,10 +27,8 @@ namespace DeliveryOrder.API.Application.Commands
                 Weight = deliveryOrder.Weight,
                 CreatedDateTime = deliveryOrder.CreatedDateTime,
                 FinishedDateTime = deliveryOrder.FinishedDateTime,
-                PaymentAmount = deliveryOrder.PaymentAmount,
-                InsuranceAmount = deliveryOrder.InsuranceAmount,
-                Note = deliveryOrder.Note,
-                DeliveryOrderNotificationSettings = deliveryOrder.DeliveryOrderNotificationSettings,
+                Price = deliveryOrder.Price, 
+                Note = deliveryOrder.Note, 
                 DeliveryOrderStatus = deliveryOrder.DeliveryOrderStatus,
                 ClientId = deliveryOrder.GetClientId,
                 CourierId = deliveryOrder.GetCourierId,

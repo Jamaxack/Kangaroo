@@ -35,13 +35,9 @@ namespace DeliveryOrder.Infrastructure.EntityConfigurations
 
             builder.Property(x => x.CreatedDateTime).IsRequired();
             builder.Property(x => x.FinishedDateTime).IsRequired(false);
-            builder.Property(x => x.PaymentAmount).IsRequired();
-            builder.Property(x => x.InsuranceAmount);
+            builder.Property(x => x.Price).IsRequired();
             builder.Property(x => x.Weight).IsRequired();
             builder.Property(x => x.Note).IsRequired(false);
-
-            //DeliveryOrderNotificationSettings value object persisted as owned entity type supported since EF Core 2.0
-            builder.OwnsOne(x => x.DeliveryOrderNotificationSettings, settings => { settings.WithOwner(); });
 
             // DDD Patterns comment:
             //Set as field (New since EF 1.1) to access the DeliveryLocations collection property through its field

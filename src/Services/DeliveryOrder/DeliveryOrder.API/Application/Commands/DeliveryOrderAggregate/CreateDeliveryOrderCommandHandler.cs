@@ -20,8 +20,8 @@ namespace DeliveryOrder.API.Application.Commands
 
         public async Task<bool> Handle(CreateDeliveryOrderCommand message, CancellationToken cancellationToken)
         {
-            var settings = new DeliveryOrderNotificationSettings(message.ShouldNotifySenderOnDeliveryOrderStatusChange, message.ShouldNotifyRecipientOnDeliveryOrderStatusChange);
-            var deliveryOrder = new Domain.AggregatesModel.DeliveryOrderAggregate.DeliveryOrder(message.ClientId, message.PaymentAmount, message.InsuranceAmount, message.Weight, message.Note, settings);
+
+            var deliveryOrder = new Domain.AggregatesModel.DeliveryOrderAggregate.DeliveryOrder(message.ClientId, message.Price, message.Weight, message.Note);
 
             foreach (var location in message.DeliveryLocations)
             {

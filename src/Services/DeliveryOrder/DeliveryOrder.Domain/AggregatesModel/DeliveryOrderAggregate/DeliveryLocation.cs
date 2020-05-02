@@ -21,6 +21,7 @@ namespace DeliveryOrder.Domain.AggregatesModel.DeliveryOrderAggregate
         public decimal TakingAmount { get; private set; } //Amount that client should pay for courier: Delivery price + Buyout price
         public bool IsPaymentInThisDeliveryLocation { get; private set; } //Determines if payment will be in this DeliveryLocation
         public DeliveryLocationAction DeliveryLocationAction { get; private set; } // PickUp or DropOff
+        // ContactPerson is a Value Object pattern example persisted as EF Core 2.0 owned entity
         public ContactPerson ContactPerson { get; private set; }//Sender or Recipient 
         public DateTime? ArrivalStartDateTime { get; private set; }
         public DateTime? ArrivalFinishDateTime { get; private set; }

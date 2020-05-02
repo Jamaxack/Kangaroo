@@ -54,8 +54,7 @@ namespace DeliveryOrder.API.Infrastructure
                     if (!context.DeliveryOrders.Any())
                     {
                         var client = context.Clients.Single();
-                        var settings = new DeliveryOrderNotificationSettings(true, true);
-                        var deliveryOrder = new Domain.AggregatesModel.DeliveryOrderAggregate.DeliveryOrder(client.Id, 1, 8, 1, "Just note", settings);
+                        var deliveryOrder = new Domain.AggregatesModel.DeliveryOrderAggregate.DeliveryOrder(client.Id, 1, 2, "Just note");
                         context.DeliveryOrders.Add(deliveryOrder);
                         await context.SaveEntitiesAsync();
                     }
