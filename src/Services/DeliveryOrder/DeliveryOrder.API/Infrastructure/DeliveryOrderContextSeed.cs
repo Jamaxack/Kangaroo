@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using DeliveryOrder.Domain.AggregatesModel.ClientAggregate;
-using DeliveryOrder.Domain.AggregatesModel.CourierAggregate;
+﻿using DeliveryOrder.Domain.AggregatesModel.ClientAggregate;
 using DeliveryOrder.Domain.AggregatesModel.DeliveryOrderAggregate;
 using DeliveryOrder.Infrastructure;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Polly;
 using Polly.Retry;
 using System;
@@ -36,15 +35,7 @@ namespace DeliveryOrder.API.Infrastructure
                         var client = new Client(identityGuid, "ClientFirstName", "ClientLastName", "+123456789");
                         context.Clients.Add(client);
                         await context.SaveChangesAsync();
-                    }
-
-                    if (!context.Couriers.Any())
-                    {
-                        var identityGuid = Guid.NewGuid();
-                        var client = new Courier(identityGuid, "CourierFirstName", "CourierLastName", "+999999999");
-                        context.Couriers.Add(client);
-                        await context.SaveEntitiesAsync();
-                    }
+                    } 
 
                     if (!context.DeliveryOrders.Any())
                     {

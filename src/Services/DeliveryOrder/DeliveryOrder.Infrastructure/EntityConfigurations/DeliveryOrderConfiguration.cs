@@ -1,5 +1,4 @@
 ﻿using DeliveryOrder.Domain.AggregatesModel.ClientAggregate;
-using DeliveryOrder.Domain.AggregatesModel.CourierAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -52,6 +51,7 @@ namespace DeliveryOrder.Infrastructure.EntityConfigurations
                     contactPersonSettings.WithOwner();
                 });
             });
+
             builder.OwnsOne(x => x.DropOffLocation, dropOffLocationSettings =>
             {
                 dropOffLocationSettings.WithOwner();
@@ -65,11 +65,6 @@ namespace DeliveryOrder.Infrastructure.EntityConfigurations
             builder.HasOne<Client>()
                 .WithMany()
                 .HasForeignKey("_clientId");
-
-            builder.HasOne<Courier>()
-                .WithMany()
-                .IsRequired(false)
-                .HasForeignKey("_courierId");
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using DeliveryOrder.Domain.AggregatesModel.ClientAggregate;
-using DeliveryOrder.Domain.AggregatesModel.CourierAggregate;
 using DeliveryOrder.Domain.AggregatesModel.DeliveryOrderAggregate;
 using DeliveryOrder.Domain.Common;
 using MediatR;
@@ -18,7 +17,6 @@ namespace DeliveryOrder.Infrastructure
         public const string DEFAULT_SCHEMA = "DeliveryOrder";
 
         public DbSet<Client> Clients { get; set; }
-        public DbSet<Courier> Couriers { get; set; }
         public DbSet<Domain.AggregatesModel.DeliveryOrderAggregate.DeliveryOrder> DeliveryOrders { get; set; }
         public DbSet<DeliveryOrderStatus> DeliveryOrderStatuses { get; set; }
 

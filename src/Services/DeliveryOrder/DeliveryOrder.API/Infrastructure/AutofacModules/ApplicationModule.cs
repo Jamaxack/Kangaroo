@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using DeliveryOrder.API.Application.Queries;
 using DeliveryOrder.Domain.AggregatesModel.ClientAggregate;
-using DeliveryOrder.Domain.AggregatesModel.CourierAggregate;
 using DeliveryOrder.Domain.AggregatesModel.DeliveryOrderAggregate;
 using DeliveryOrder.Infrastructure.Repositories;
 
@@ -25,11 +24,7 @@ namespace DeliveryOrder.API.Infrastructure.AutofacModules
             builder.RegisterType<ClientRepository>()
                 .As<IClientRepository>()
                 .InstancePerLifetimeScope();
-
-            builder.RegisterType<CourierRepository>()
-                .As<ICourierRepository>()
-                .InstancePerLifetimeScope();
-
+             
             builder.RegisterType<DeliveryOrderRepository>()
                 .As<IDeliveryOrderRepository>()
                 .InstancePerLifetimeScope();

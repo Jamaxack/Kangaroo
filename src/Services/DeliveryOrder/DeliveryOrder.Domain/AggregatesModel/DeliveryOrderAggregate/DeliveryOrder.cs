@@ -1,7 +1,6 @@
 ﻿using DeliveryOrder.Domain.Common;
 using DeliveryOrder.Domain.Events;
 using System;
-using System.Collections.Generic;
 
 namespace DeliveryOrder.Domain.AggregatesModel.DeliveryOrderAggregate
 {
@@ -24,7 +23,6 @@ namespace DeliveryOrder.Domain.AggregatesModel.DeliveryOrderAggregate
 
         Guid? _courierId;
         public Guid? GetCourierId => _courierId;
-
 
         public DeliveryOrder()
         {
