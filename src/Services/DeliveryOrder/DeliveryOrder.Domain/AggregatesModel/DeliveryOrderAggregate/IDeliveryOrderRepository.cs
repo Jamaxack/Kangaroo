@@ -15,5 +15,7 @@ namespace DeliveryOrder.Domain.AggregatesModel.DeliveryOrderAggregate
         void Update(DeliveryOrder deliveryOrder);
 
         Task<DeliveryOrder> GetAsync(Guid deliveryOrderId);
+
+        void Delete(DeliveryOrder deliveryOrder);
     }
 }

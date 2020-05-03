@@ -10,8 +10,9 @@ namespace DeliveryOrder.API.Application.Commands
         public Guid ClientId { get; set; }
         public decimal Price { get; set; } 
         public short Weight { get; set; }
-        public string Note { get; set; } 
-        public List<DeliveryLocationDTO> DeliveryLocations { get; set; }
+        public string Note { get; set; }
+        public DeliveryLocationDTO PickUpLocation { get; set; }
+        public DeliveryLocationDTO DropOffLocation { get; set; }
 
         public CreateDeliveryOrderCommand()
         {

@@ -8,7 +8,8 @@ namespace DeliveryOrder.API.Application.Validations
         public CreateDeliveryOrderCommandValidator()
         {
             RuleFor(x => x.ClientId).NotEmpty();
-            RuleFor(x => x.DeliveryLocations.Count).GreaterThanOrEqualTo(2);//At least pickup and drop off locations
+            RuleFor(x => x.PickUpLocation).NotNull();
+            RuleFor(x => x.DropOffLocation).NotNull();
         }
     }
 }

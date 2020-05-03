@@ -20,9 +20,7 @@ namespace DeliveryOrder.Infrastructure
         public DbSet<Client> Clients { get; set; }
         public DbSet<Courier> Couriers { get; set; }
         public DbSet<Domain.AggregatesModel.DeliveryOrderAggregate.DeliveryOrder> DeliveryOrders { get; set; }
-        public DbSet<DeliveryLocation> DeliveryLocations { get; set; }
         public DbSet<DeliveryOrderStatus> DeliveryOrderStatuses { get; set; }
-        public DbSet<DeliveryLocationAction> DeliveryLocationActions { get; set; }
 
         private readonly IMediator _mediator;
         IDbContextTransaction _currentTransaction;

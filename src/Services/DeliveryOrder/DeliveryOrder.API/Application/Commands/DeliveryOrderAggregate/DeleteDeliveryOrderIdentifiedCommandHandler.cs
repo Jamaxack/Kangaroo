@@ -5,12 +5,12 @@ using DeliveryOrder.Infrastructure.Idempotency;
 namespace DeliveryOrder.API.Application.Commands
 {
     // Use for Idempotency in Command process
-    public class DeleteDeliveryLocationIdentifiedCommandHandler : IdentifiedCommandHandler<DeleteDeliveryLocationCommand, bool>
+    public class DeleteDeliveryOrderIdentifiedCommandHandler : IdentifiedCommandHandler<DeleteDeliveryOrderCommand, bool>
     {
-        public DeleteDeliveryLocationIdentifiedCommandHandler(
+        public DeleteDeliveryOrderIdentifiedCommandHandler(
             IMediator mediator,
             IRequestManager requestManager,
-            ILogger<IdentifiedCommandHandler<DeleteDeliveryLocationCommand, bool>> logger)
+            ILogger<IdentifiedCommandHandler<DeleteDeliveryOrderCommand, bool>> logger)
             : base(mediator, requestManager, logger)
         { }
 

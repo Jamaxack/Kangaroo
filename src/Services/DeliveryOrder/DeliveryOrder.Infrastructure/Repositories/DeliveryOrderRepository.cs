@@ -23,14 +23,10 @@ namespace DeliveryOrder.Infrastructure.Repositories
 
         public async Task<Domain.AggregatesModel.DeliveryOrderAggregate.DeliveryOrder> GetAsync(Guid deliveryOrderId)
         {
-            var deliveryOrder = await _context.DeliveryOrders
-                .Include(x => x.DeliveryLocations)
-                .FirstOrDefaultAsync(x => x.Id == deliveryOrderId);
+            var deliveryOrder = await _context.DeliveryOrders.FirstOrDefaultAsync(x => x.Id == deliveryOrderId);
 
             if (deliveryOrder != null)
             {
-                await _context.Entry(deliveryOrder)
-                    .Collection(i => i.DeliveryLocations).LoadAsync();
                 await _context.Entry(deliveryOrder)
                     .Reference(i => i.DeliveryOrderStatus).LoadAsync();
             }
@@ -41,6 +37,11 @@ namespace DeliveryOrder.Infrastructure.Repositories
         public void Update(Domain.AggregatesModel.DeliveryOrderAggregate.DeliveryOrder deliveryOrder)
         {
             _context.Entry(deliveryOrder).State = EntityState.Modified;
+        }
+
+        public void Delete(Domain.AggregatesModel.DeliveryOrderAggregate.DeliveryOrder deliveryOrder)
+        {
+            _context.Entry(deliveryOrder).State = EntityState.Deleted;
         }
     }
 }

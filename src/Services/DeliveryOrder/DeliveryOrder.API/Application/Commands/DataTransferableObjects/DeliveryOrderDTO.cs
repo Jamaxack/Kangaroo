@@ -11,12 +11,13 @@ namespace DeliveryOrder.API.Application.Commands
         public short Weight { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public DateTime? FinishedDateTime { get; set; }
-        public decimal Price { get; set; } 
-        public string Note { get; set; } 
+        public decimal Price { get; set; }
+        public string Note { get; set; }
         public DeliveryOrderStatus DeliveryOrderStatus { get; set; }
         public Guid ClientId { get; set; }
         public Guid? CourierId { get; set; }
-        public IEnumerable<DeliveryLocationDTO> DeliveryLocations { get; set; }
+        public DeliveryLocationDTO PickUpLocation { get; set; }
+        public DeliveryLocationDTO DropOffLocation { get; set; }
 
 
         public static DeliveryOrderDTO FromDeliveryOrder(Domain.AggregatesModel.DeliveryOrderAggregate.DeliveryOrder deliveryOrder)
@@ -27,12 +28,13 @@ namespace DeliveryOrder.API.Application.Commands
                 Weight = deliveryOrder.Weight,
                 CreatedDateTime = deliveryOrder.CreatedDateTime,
                 FinishedDateTime = deliveryOrder.FinishedDateTime,
-                Price = deliveryOrder.Price, 
-                Note = deliveryOrder.Note, 
+                Price = deliveryOrder.Price,
+                Note = deliveryOrder.Note,
                 DeliveryOrderStatus = deliveryOrder.DeliveryOrderStatus,
                 ClientId = deliveryOrder.GetClientId,
                 CourierId = deliveryOrder.GetCourierId,
-                DeliveryLocations = deliveryOrder.DeliveryLocations.Select(location => DeliveryLocationDTO.FromLocation(location)),
+                DropOffLocation = DeliveryLocationDTO.FromLocation(deliveryOrder.DropOffLocation),
+                PickUpLocation = DeliveryLocationDTO.FromLocation(deliveryOrder.PickUpLocation),
             };
         }
     }

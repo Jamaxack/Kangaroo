@@ -20,16 +20,9 @@ namespace DeliveryOrder.API.Application.Commands
 
         public async Task<bool> Handle(CreateDeliveryOrderCommand message, CancellationToken cancellationToken)
         {
-
             var deliveryOrder = new Domain.AggregatesModel.DeliveryOrderAggregate.DeliveryOrder(message.ClientId, message.Price, message.Weight, message.Note);
-
-            foreach (var location in message.DeliveryLocations)
-            {
-                var contactPerson = new ContactPerson(location.ContactPersonName, location.ContactPersonPhone);
-                var deliveryLocation = new DeliveryLocation(location.Address, location.BuildingNumber, location.EntranceNumber, location.FloorNumber, location.ApartmentNumber, location.Latitude, location.Longitude, location.Note, location.BuyoutAmount, location.TakingAmount, location.IsPaymentInThisDeliveryLocation, location.DeliveryLocationActionId, location.ArrivalStartDateTime, location.ArrivalFinishDateTime, location.CourierArrivedDateTime, contactPerson);
-
-                deliveryOrder.AddDelivaryLocation(deliveryLocation);
-            }
+            deliveryOrder.SetPickUpLocation(message.PickUpLocation.GetDeliveryLocation());
+            deliveryOrder.SetDropOffLocation(message.DropOffLocation.GetDeliveryLocation());
 
             _logger.LogInformation("----- Creating DeliveryOrder: {@DeliveryOrder}", deliveryOrder);
 

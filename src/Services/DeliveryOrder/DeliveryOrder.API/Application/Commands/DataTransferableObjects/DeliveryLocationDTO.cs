@@ -12,13 +12,8 @@ namespace DeliveryOrder.API.Application.Commands
         public string ApartmentNumber { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public string Note { get; set; } // Navigation instruction, etc.
-        public decimal BuyoutAmount { get; set; } //Amount that courier bought something for client
-        public decimal TakingAmount { get; set; } //Amount that client should pay for courier: Delivery price + Buyout price
-        public bool IsPaymentInThisDeliveryLocation { get; set; } //Determines if payment will be in this DeliveryLocation
-        public int DeliveryLocationActionId { get; set; } // PickUp or DropOff
-        public string ContactPersonName { get; set; }//Sender or Recipient 
-        public string ContactPersonPhone { get; set; }//Sender or Recipient 
+        public string Note { get; set; } // Navigation instruction, etc. 
+        public ContactPersonDTO ContactPerson { get; set; }//Sender or Recipient 
         public DateTime? ArrivalStartDateTime { get; set; }
         public DateTime? ArrivalFinishDateTime { get; set; }
         public DateTime? CourierArrivedDateTime { get; set; }
@@ -35,16 +30,17 @@ namespace DeliveryOrder.API.Application.Commands
                 Latitude = location.Latitude,
                 Longitude = location.Longitude,
                 Note = location.Note,
-                BuyoutAmount = location.BuyoutAmount,
-                TakingAmount = location.TakingAmount,
-                IsPaymentInThisDeliveryLocation = location.IsPaymentInThisDeliveryLocation,
-                DeliveryLocationActionId = location.DeliveryLocationAction.Id,
-                ContactPersonName = location.ContactPerson.Name,
-                ContactPersonPhone = location.ContactPerson.Phone,
+                ContactPerson = ContactPersonDTO.FromContactPerson(location.ContactPerson),
                 ArrivalStartDateTime = location.ArrivalStartDateTime,
                 ArrivalFinishDateTime = location.ArrivalFinishDateTime,
                 CourierArrivedDateTime = location.CourierArrivedDateTime
             };
+        }
+
+        public DeliveryLocation GetDeliveryLocation()
+        {
+            var contactPerson = new ContactPerson(ContactPerson.Name, ContactPerson.Phone);
+            return new DeliveryLocation(Address, BuildingNumber, EntranceNumber, FloorNumber, ApartmentNumber, Latitude, Longitude, Note, ArrivalStartDateTime, ArrivalFinishDateTime, CourierArrivedDateTime, contactPerson);
         }
     }
 }

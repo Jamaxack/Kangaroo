@@ -66,9 +66,9 @@ namespace DeliveryOrder.API.Application.Commands
                             idProperty = nameof(createDeliveryOrderCommand.ClientId);
                             commandId = createDeliveryOrderCommand.ClientId;
                             break;
-                        case DeleteDeliveryLocationCommand deleteDeliveryLocationCommand:
-                            idProperty = nameof(deleteDeliveryLocationCommand.DeliveryLocationId);
-                            commandId = deleteDeliveryLocationCommand.DeliveryLocationId;
+                        case DeleteDeliveryOrderCommand deleteDeliveryOrderCommand:
+                            idProperty = nameof(deleteDeliveryOrderCommand.DeliveryOrderId);
+                            commandId = deleteDeliveryOrderCommand.DeliveryOrderId;
                             break;
                         default:
                             break;

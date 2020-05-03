@@ -11,7 +11,7 @@ using DeliveryOrder.API.Application.Queries;
 
 namespace DeliveryOrder.API.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/[controller]/[action]")]
     [ApiController]
     public class DeliveryOrderController : ControllerBase
     {
@@ -29,12 +29,12 @@ namespace DeliveryOrder.API.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        //GET api/v1/[controller]/5f293549-65c4-4332-a88a-853b4dd937f0
+        //GET ~/api/v1/[controller]/ByDeliveryOrderId/3fa85f64-5717-4562-b3fc-2c963f66afa6 
         [Route("{deliveryOrderId:Guid}")]
         [HttpGet]
         [ProducesResponseType(typeof(DeliveryOrderViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetDeliveryOrderByIdAsync(Guid deliveryOrderId)
+        public async Task<IActionResult> ByDeliveryOrderIdAsync(Guid deliveryOrderId)
         {
             try
             {
@@ -47,12 +47,12 @@ namespace DeliveryOrder.API.Controllers
             }
         }
 
-        //GET api/v1/[controller]/ByClientId/5f293549-65c4-4332-a88a-853b4dd937f0
-        [Route("ByClientId/{clientId:Guid}")]
+        //GET ~/api/v1/[controller]/ByClientId/3fa85f64-5717-4562-b3fc-2c963f66afa6 
+        [Route("{clientId:Guid}")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<DeliveryOrderViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetDeliveryOrderByClientIdAsync(Guid clientId)
+        public async Task<IActionResult> ByClientIdAsync(Guid clientId)
         {
             try
             {
@@ -65,12 +65,12 @@ namespace DeliveryOrder.API.Controllers
             }
         }
 
-        //GET api/v1/[controller]/ByCourierId/5f293549-65c4-4332-a88a-853b4dd937f0
-        [Route("ByCourierId/{courierId:Guid}")]
+        //GET ~/api/v1/[controller]/ByCourierId/3fa85f64-5717-4562-b3fc-2c963f66afa6 
+        [Route("{courierId:Guid}")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<DeliveryOrderViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetDeliveryOrderByCourierIdAsync(Guid courierId)
+        public async Task<IActionResult> ByCourierIdAsync(Guid courierId)
         {
             try
             {
@@ -83,19 +83,20 @@ namespace DeliveryOrder.API.Controllers
             }
         }
 
-        //GET api/v1/[controller][?pageSize=12&pageIndex=7]
+        //GET ~/api/v1/[controller]/Get[?pageSize=12&pageIndex=7]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<DeliveryOrderViewModel>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetDeliveryOrdersAsync([FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
+        public async Task<IActionResult> GetAsync([FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
         {
             var deliveryOrders = await _deliveryOrderQueries.GetDeliveryOrdersAsync(pageSize, pageIndex);
             return Ok(deliveryOrders);
         }
 
+        //POST ~/api/v1/[controller]/Create
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CreateDeliveryOrderAsync(CreateDeliveryOrderCommand createDeliveryOrderCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
+        public async Task<IActionResult> CreateAsync(CreateDeliveryOrderCommand createDeliveryOrderCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
         {
             bool commandResult = false;
             if (requestId != Guid.Empty)
@@ -120,11 +121,11 @@ namespace DeliveryOrder.API.Controllers
             return Ok();
         }
 
-        [Route("SetAvailableStatus")]
+        //POST ~/api/v1/[controller]/SetStatusToAvailable
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetAvailableDeliveryOrderStatusAsync(SetAvailableDeliveryOrderStatusCommand setAvailableDeliveryOrderStatusCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
+        public async Task<IActionResult> SetStatusToAvailableAsync(SetAvailableDeliveryOrderStatusCommand setAvailableDeliveryOrderStatusCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
         {
             bool commandResult = false;
             if (requestId != Guid.Empty)
@@ -149,23 +150,24 @@ namespace DeliveryOrder.API.Controllers
             return Ok();
         }
 
+        //POST ~/api/v1/[controller]/Delete
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> DeleteDeliveryLocationAsync(DeleteDeliveryLocationCommand deleteDeliveryLocationCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
+        public async Task<IActionResult> DeleteAsync(DeleteDeliveryOrderCommand deleteDeliveryOrderCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
         {
             bool commandResult = false;
             if (requestId != Guid.Empty)
             {
-                var requestDeleteDeliveryLocation = new IdentifiedCommand<DeleteDeliveryLocationCommand, bool>(deleteDeliveryLocationCommand, requestId);
+                var requestDeleteDeliveryOrder = new IdentifiedCommand<DeleteDeliveryOrderCommand, bool>(deleteDeliveryOrderCommand, requestId);
 
                 _logger.LogInformation(
                     "----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
-                    requestDeleteDeliveryLocation.GetGenericTypeName(),
-                    nameof(requestDeleteDeliveryLocation.Command.DeliveryLocationId),
-                    requestDeleteDeliveryLocation.Command.DeliveryLocationId,
-                    requestDeleteDeliveryLocation);
+                    requestDeleteDeliveryOrder.GetGenericTypeName(),
+                    nameof(requestDeleteDeliveryOrder.Command.DeliveryOrderId),
+                    requestDeleteDeliveryOrder.Command.DeliveryOrderId,
+                    requestDeleteDeliveryOrder);
 
-                commandResult = await _mediator.Send(requestDeleteDeliveryLocation);
+                commandResult = await _mediator.Send(requestDeleteDeliveryOrder);
             }
 
             if (!commandResult)

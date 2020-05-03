@@ -11,79 +11,44 @@ namespace DeliveryOrder.API.Application.Queries
     {
         #region SqlQueries
         const string SelectDeliveryOrdersQuery =
-            @"SELECT 
-	                do.[Id], 
-	                do.[Number],
-	                do.[CreatedDateTime],
-	                do.[FinishedDateTime],
-	                do.[Price], 
-	                do.[Weight],
-	                do.[Note],
-	                do.[ClientId],
-	                do.[CourierId],
-	                dos.[Name] as DeliveryOrderStatus,
-	                dla.[Name] as DeliveryLocationAction,
-	                dl.[Id],
-	                dl.[Address],
-	                dl.[BuildingNumber],
-	                dl.[EntranceNumber],
-	                dl.[FloorNumber],
-	                dl.[ApartmentNumber],
-	                dl.[Latitude],
-	                dl.[Longitude],
-	                dl.[Note],
-	                dl.[BuyoutAmount],
-	                dl.[TakingAmount],
-	                dl.[IsPaymentInThisDeliveryLocation],
-	                dl.[ContactPerson_Name] as ContactPersonName,
-	                dl.[ContactPerson_Phone] as ContactPersonPhone,
-	                dl.[ArrivalStartDateTime],
-	                dl.[ArrivalFinishDateTime],
-	                dl.[CourierArrivedDateTime]
-                FROM
-	                [DeliveryOrder].DeliveryOrders do
-	                LEFT JOIN [DeliveryOrder].DeliveryLocations dl ON do.Id = dl.DeliveryOrderId
-	                LEFT JOIN [DeliveryOrder].DeliveryOrderStatus dos ON do.DeliveryOrderStatusId = dos.Id
-	                LEFT JOIN [DeliveryOrder].DeliveryLocationActions dla ON dl.DeliveryLocationActionId = dla.Id";
-
-        const string SelectDeliveryOrderByIdSqlQuery =
-            @"SELECT TOP(1)
-                    do.[Id],
-                       [Number],
-                       [CreatedDateTime],
-                       [FinishedDateTime],
-                       [Price],
-                       [Weight],
-                       [Note],
-                       [ClientId],
-                       [CourierId],
-	                   dos.[Name] as DeliveryOrderStatus
-                  FROM [Kangaroo.Services.DeliveryOrder].[DeliveryOrder].[DeliveryOrders] as do
-                  LEFT JOIN [DeliveryOrder].DeliveryOrderStatus dos ON dos.Id = do.DeliveryOrderStatusId
-                  WHERE do.[Id] = @deliveryOrderId;
-   
-                SELECT
-                      dl.[Id],
-                      [Address],
-                      [BuildingNumber],
-                      [EntranceNumber],
-                      [FloorNumber],
-                      [ApartmentNumber],
-                      [Latitude],
-                      [Longitude],
-                      [Note],
-                      [BuyoutAmount],
-                      [TakingAmount],
-                      [IsPaymentInThisDeliveryLocation], 
-                      [ContactPerson_Name] as ContactPersonName,
-                      [ContactPerson_Phone] as ContactPersonPhone,
-                      [ArrivalStartDateTime],
-                      [ArrivalFinishDateTime],
-                      [CourierArrivedDateTime],
-	                  dla.[Name] as DeliveryLocationAction
-                  FROM [DeliveryOrder].[DeliveryLocations] as dl
-                  LEFT JOIN [DeliveryOrder].DeliveryLocationActions dla ON dla.Id = dl.DeliveryLocationActionId 
-                  WHERE dl.[DeliveryOrderId] = @deliveryOrderId";
+              @"SELECT deliveryOrder.Id,
+                       Number,
+                       CreatedDateTime,
+                       FinishedDateTime,
+                       Price,
+                       Weight,
+                       Note,
+                       PickUpLocation_Address,
+                       PickUpLocation_BuildingNumber,
+                       PickUpLocation_EntranceNumber,
+                       PickUpLocation_FloorNumber,
+                       PickUpLocation_ApartmentNumber,
+                       PickUpLocation_Latitude,
+                       PickUpLocation_Longitude,
+                       PickUpLocation_Note,
+                       PickUpLocation_ContactPerson_Name,
+                       PickUpLocation_ContactPerson_Phone,
+                       PickUpLocation_ArrivalStartDateTime,
+                       PickUpLocation_ArrivalFinishDateTime,
+                       PickUpLocation_CourierArrivedDateTime,
+                       DropOffLocation_Address,
+                       DropOffLocation_BuildingNumber,
+                       DropOffLocation_EntranceNumber,
+                       DropOffLocation_FloorNumber,
+                       DropOffLocation_ApartmentNumber,
+                       DropOffLocation_Latitude,
+                       DropOffLocation_Longitude,
+                       DropOffLocation_Note,
+                       DropOffLocation_ContactPerson_Name,
+                       DropOffLocation_ContactPerson_Phone,
+                       DropOffLocation_ArrivalStartDateTime,
+                       DropOffLocation_ArrivalFinishDateTime,
+                       DropOffLocation_CourierArrivedDateTime,
+                       ClientId,
+                       CourierId,
+	                   deliveryOrderStatus.Name as DeliveryOrderStatus
+                  FROM DeliveryOrder.DeliveryOrders deliveryOrder
+                  LEFT JOIN DeliveryOrder.DeliveryOrderStatus deliveryOrderStatus ON deliveryOrderStatus.Id = deliveryOrder.DeliveryOrderStatusId";
         #endregion
 
         string _connectionString = string.Empty;
@@ -97,27 +62,15 @@ namespace DeliveryOrder.API.Application.Queries
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-
                 var offset = pageSize * pageIndex;
-                var pagedQuery = $"{SelectDeliveryOrdersQuery} {@"Order BY do.[Number] OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY"}";
+                var pagedQuery = $"{SelectDeliveryOrdersQuery} {@"Order BY deliveryOrder.Number OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY"}";
+                var queryResult = await connection.QueryAsync(pagedQuery, param: new { offset, pageSize });
 
-                var deliveryOrders = new Dictionary<Guid, DeliveryOrderViewModel>();
-                await connection.QueryAsync<DeliveryOrderViewModel, DeliveryLocationViewModel, DeliveryOrderViewModel>(pagedQuery,
-                 (deliveryOrder, deliveryLocation) =>
-                 {
-                     if (!deliveryOrders.TryGetValue(deliveryOrder.Id, out DeliveryOrderViewModel deliveryOrderEntry))
-                     {
-                         deliveryOrderEntry = deliveryOrder;
-                         deliveryOrders.Add(deliveryOrderEntry.Id, deliveryOrderEntry);
-                     }
+                var deliveryOrders = new List<DeliveryOrderViewModel>();
+                foreach (var deliveryOrder in queryResult)
+                    deliveryOrders.Add(MapToDeliveryOrderViewModel(deliveryOrder));
 
-                     deliveryOrderEntry.DeliveryLocations.Add(deliveryLocation);
-                     return deliveryOrderEntry;
-                 }, param: new { offset, pageSize });
-
-                var result = deliveryOrders.Values.ToList();
-
-                return result;
+                return deliveryOrders;
             }
         }
 
@@ -125,28 +78,17 @@ namespace DeliveryOrder.API.Application.Queries
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                var deliveryOrders = new Dictionary<Guid, DeliveryOrderViewModel>();
                 connection.Open();
-                await connection.QueryAsync<DeliveryOrderViewModel, DeliveryLocationViewModel, DeliveryOrderViewModel>(
-                 $"{SelectDeliveryOrdersQuery} WHERE do.ClientId=@id",
-                 (deliveryOrder, deliveryLocation) =>
-                 {
-                     if (!deliveryOrders.TryGetValue(deliveryOrder.Id, out DeliveryOrderViewModel deliveryOrderEntry))
-                     {
-                         deliveryOrderEntry = deliveryOrder;
-                         deliveryOrders.Add(deliveryOrderEntry.Id, deliveryOrderEntry);
-                     }
+                var queryResult = await connection.QueryAsync($"{SelectDeliveryOrdersQuery} WHERE deliveryOrder.ClientId=@id", new { id });
 
-                     deliveryOrderEntry.DeliveryLocations.Add(deliveryLocation);
-                     return deliveryOrderEntry;
-                 }, new { id });
-
-                var result = deliveryOrders.Values.ToList();
-
-                if (result.Count == 0)
+                if (queryResult.Count() == 0)
                     throw new KeyNotFoundException();
 
-                return result;
+                var deliveryOrders = new List<DeliveryOrderViewModel>();
+                foreach (var deliveryOrder in queryResult)
+                    deliveryOrders.Add(MapToDeliveryOrderViewModel(deliveryOrder));
+
+                return deliveryOrders;
             }
         }
 
@@ -154,28 +96,17 @@ namespace DeliveryOrder.API.Application.Queries
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                var deliveryOrders = new Dictionary<Guid, DeliveryOrderViewModel>();
                 connection.Open();
-                await connection.QueryAsync<DeliveryOrderViewModel, DeliveryLocationViewModel, DeliveryOrderViewModel>(
-               $"{SelectDeliveryOrdersQuery} WHERE do.CourierId=@id",
-                 (deliveryOrder, deliveryLocation) =>
-                 {
-                     if (!deliveryOrders.TryGetValue(deliveryOrder.Id, out DeliveryOrderViewModel deliveryOrderEntry))
-                     {
-                         deliveryOrderEntry = deliveryOrder;
-                         deliveryOrders.Add(deliveryOrderEntry.Id, deliveryOrderEntry);
-                     }
+                var queryResult = await connection.QueryAsync($"{SelectDeliveryOrdersQuery} WHERE deliveryOrder.CourierId=@id", new { id });
 
-                     deliveryOrderEntry.DeliveryLocations.Add(deliveryLocation);
-                     return deliveryOrderEntry;
-                 }, new { id });
-
-                var result = deliveryOrders.Values.ToList();
-
-                if (result.Count == 0)
+                if (queryResult.Count() == 0)
                     throw new KeyNotFoundException();
 
-                return result;
+                var deliveryOrders = new List<DeliveryOrderViewModel>();
+                foreach (var deliveryOrder in queryResult)
+                    deliveryOrders.Add(MapToDeliveryOrderViewModel(deliveryOrder));
+
+                return deliveryOrders;
             }
         }
 
@@ -184,54 +115,78 @@ namespace DeliveryOrder.API.Application.Queries
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                var multiResult = await connection.QueryMultipleAsync(SelectDeliveryOrderByIdSqlQuery, new { deliveryOrderId });
+                var queryString = $"{SelectDeliveryOrdersQuery} WHERE deliveryOrder.Id = @deliveryOrderId;";
+                var deliveryOrderDynamic = await connection.QueryFirstOrDefaultAsync(queryString, new { deliveryOrderId });
 
-                var deliveryOrderViewModel = await multiResult.ReadSingleAsync<DeliveryOrderViewModel>();
-                deliveryOrderViewModel.DeliveryLocations.AddRange(await multiResult.ReadAsync<DeliveryLocationViewModel>());
-                return deliveryOrderViewModel;
+                if (deliveryOrderDynamic == null)
+                    throw new KeyNotFoundException();
+
+                return MapToDeliveryOrderViewModel(deliveryOrderDynamic);
             }
         }
 
         DeliveryOrderViewModel MapToDeliveryOrderViewModel(dynamic queryResult)
         {
-            var deliveryOrder = new DeliveryOrderViewModel
+            var pickUpContactPerson = new ContactPersonViewModel()
             {
-                Number = queryResult[0].Number,
-                Weight = queryResult[0].Weight,
-                CreatedDateTime = queryResult[0].CreatedDateTime,
-                FinishedDateTime = queryResult[0].FinishedDateTime,
-                Price = queryResult[0].Price, 
-                Note = queryResult[0].Note, 
-                DeliveryOrderStatus = queryResult[0].DeliveryOrderStatus,
-                ClientId = queryResult[0].ClientId,
-                CourierId = queryResult[0].CourierId,
-                DeliveryLocations = new List<DeliveryLocationViewModel>()
+                Name = queryResult.PickUpLocation_ContactPerson_Name,
+                Phone = queryResult.PickUpLocation_ContactPerson_Phone
             };
 
-            foreach (dynamic location in queryResult)
+            var pickUpDeliveryLocation = new DeliveryLocationViewModel
             {
-                var deliveryLocation = new DeliveryLocationViewModel
-                {
-                    Address = location.Address,
-                    BuildingNumber = location.BuildingNumber,
-                    EntranceNumber = location.EntranceNumber,
-                    FloorNumber = location.FloorNumber,
-                    ApartmentNumber = location.ApartmentNumber,
-                    Latitude = location.Latitude,
-                    Longitude = location.Longitude,
-                    Note = location.Note,
-                    BuyoutAmount = location.BuyoutAmount,
-                    TakingAmount = location.TakingAmount,
-                    IsPaymentInThisDeliveryLocation = location.IsPaymentInThisDeliveryLocation,
-                    DeliveryLocationAction = location.DeliveryLocationAction,
-                    ContactPersonName = location.ContactPersonName,
-                    ContactPersonPhone = location.ContactPersonPhone,
-                    ArrivalStartDateTime = location.ArrivalStartDateTime,
-                    ArrivalFinishDateTime = location.ArrivalFinishDateTime,
-                    CourierArrivedDateTime = location.CourierArrivedDateTime
-                };
-                deliveryOrder.DeliveryLocations.Add(deliveryLocation);
-            }
+                Address = queryResult.PickUpLocation_Address,
+                BuildingNumber = queryResult.PickUpLocation_BuildingNumber,
+                EntranceNumber = queryResult.PickUpLocation_EntranceNumber,
+                FloorNumber = queryResult.PickUpLocation_FloorNumber,
+                ApartmentNumber = queryResult.PickUpLocation_ApartmentNumber,
+                Latitude = queryResult.PickUpLocation_Latitude,
+                Longitude = queryResult.PickUpLocation_Longitude,
+                Note = queryResult.PickUpLocation_Note,
+                ContactPerson = pickUpContactPerson,
+                ArrivalStartDateTime = queryResult.PickUpLocation_ArrivalStartDateTime,
+                ArrivalFinishDateTime = queryResult.PickUpLocation_ArrivalFinishDateTime,
+                CourierArrivedDateTime = queryResult.PickUpLocation_CourierArrivedDateTime
+            };
+
+            var dropOffContactPerson = new ContactPersonViewModel()
+            {
+                Name = queryResult.DropOffLocation_ContactPerson_Name,
+                Phone = queryResult.DropOffLocation_ContactPerson_Phone
+            };
+
+            var dropOffDeliveryLocation = new DeliveryLocationViewModel
+            {
+                Address = queryResult.DropOffLocation_Address,
+                BuildingNumber = queryResult.DropOffLocation_BuildingNumber,
+                EntranceNumber = queryResult.DropOffLocation_EntranceNumber,
+                FloorNumber = queryResult.DropOffLocation_FloorNumber,
+                ApartmentNumber = queryResult.DropOffLocation_ApartmentNumber,
+                Latitude = queryResult.DropOffLocation_Latitude,
+                Longitude = queryResult.DropOffLocation_Longitude,
+                Note = queryResult.DropOffLocation_Note,
+                ContactPerson = dropOffContactPerson,
+                ArrivalStartDateTime = queryResult.DropOffLocation_ArrivalStartDateTime,
+                ArrivalFinishDateTime = queryResult.DropOffLocation_ArrivalFinishDateTime,
+                CourierArrivedDateTime = queryResult.DropOffLocation_CourierArrivedDateTime
+            };
+
+            var deliveryOrder = new DeliveryOrderViewModel
+            {
+                Id = queryResult.Id,
+                Number = queryResult.Number,
+                CreatedDateTime = queryResult.CreatedDateTime,
+                FinishedDateTime = queryResult.FinishedDateTime,
+                Price = queryResult.Price,
+                Weight = queryResult.Weight,
+                Note = queryResult.Note,
+                PickUpLocation = pickUpDeliveryLocation,
+                DropOffLocation = dropOffDeliveryLocation,
+                DeliveryOrderStatus = queryResult.DeliveryOrderStatus,
+                ClientId = queryResult.ClientId,
+                CourierId = queryResult.CourierId,
+            };
+
             return deliveryOrder;
         }
     }

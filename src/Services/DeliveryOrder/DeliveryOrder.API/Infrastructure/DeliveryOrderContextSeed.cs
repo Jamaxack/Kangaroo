@@ -29,11 +29,6 @@ namespace DeliveryOrder.API.Infrastructure
                         await context.SaveChangesAsync();
                     }
 
-                    if (!context.DeliveryLocationActions.Any())
-                    {
-                        context.DeliveryLocationActions.AddRange(GetPredefinedDeliveryLocationActions());
-                        await context.SaveChangesAsync();
-                    }
                     //TODO: Only for demo purposes
                     if (!context.Clients.Any())
                     {
@@ -54,24 +49,19 @@ namespace DeliveryOrder.API.Infrastructure
                     if (!context.DeliveryOrders.Any())
                     {
                         var client = context.Clients.Single();
-                        var deliveryOrder = new Domain.AggregatesModel.DeliveryOrderAggregate.DeliveryOrder(client.Id, 1, 2, "Just note");
-                        context.DeliveryOrders.Add(deliveryOrder);
-                        await context.SaveEntitiesAsync();
-                    }
+                        var order = new Domain.AggregatesModel.DeliveryOrderAggregate.DeliveryOrder(client.Id, 1, 2, "Just note");
+                        context.DeliveryOrders.Add(order);
 
-                    if (!context.DeliveryLocations.Any())
-                    {
-                        var deliveryOrder = context.DeliveryOrders.Include(x => x.DeliveryOrderStatus).Single();
                         var contactPersonPickup = new ContactPerson("PickupPerson", "+111111111");
                         var contactPersonDropoff = new ContactPerson("DropoffPerson", "+222222222");
-                        var deliveryLocationPickUp = new DeliveryLocation("31, Amid", "0", "0", "0", "0", 0, 0, "RC cola", 11, 0, false, DeliveryLocationAction.PickUp.Id, DateTime.Now, DateTime.Now.AddMinutes(30), null, contactPersonPickup);
-                        var deliveryLocationDropOff = new DeliveryLocation("31, Yagondka street", "17", "2", "4", "24", 0, 0, "Note", 0, 20, true, DeliveryLocationAction.DropOff.Id, DateTime.Now.AddHours(1), DateTime.Now.AddHours(2), null, contactPersonDropoff);
+                        var deliveryLocationPickUp = new DeliveryLocation("31, Amid", "0", "0", "0", "0", 0, 0, "RC cola", DateTime.Now, DateTime.Now.AddMinutes(30), null, contactPersonPickup);
+                        var deliveryLocationDropOff = new DeliveryLocation("31, Yagondka street", "17", "2", "4", "24", 0, 0, "Note", DateTime.Now.AddHours(1), DateTime.Now.AddHours(2), null, contactPersonDropoff);
 
-                        deliveryOrder.AddDelivaryLocation(deliveryLocationPickUp);
-                        deliveryOrder.AddDelivaryLocation(deliveryLocationDropOff);
+                        order.SetPickUpLocation(deliveryLocationPickUp);
+                        order.SetDropOffLocation(deliveryLocationDropOff);
                         await context.SaveEntitiesAsync();
-
                     }
+                    await context.SaveEntitiesAsync();
                 };
             });
         }
@@ -91,15 +81,6 @@ namespace DeliveryOrder.API.Infrastructure
                 DeliveryOrderStatus.Canceled,
                 DeliveryOrderStatus.Delayed,
                 DeliveryOrderStatus.Failed
-            };
-        }
-
-        IEnumerable<DeliveryLocationAction> GetPredefinedDeliveryLocationActions()
-        {
-            return new List<DeliveryLocationAction>()
-            {
-                DeliveryLocationAction.PickUp,
-                DeliveryLocationAction.DropOff
             };
         }
 

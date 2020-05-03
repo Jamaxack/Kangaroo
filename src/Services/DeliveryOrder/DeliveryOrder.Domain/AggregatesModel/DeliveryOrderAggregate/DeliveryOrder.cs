@@ -16,6 +16,8 @@ namespace DeliveryOrder.Domain.AggregatesModel.DeliveryOrderAggregate
 
         int _deliveryOrderStatusId;
         public DeliveryOrderStatus DeliveryOrderStatus { get; private set; }
+        public DeliveryLocation PickUpLocation { get; private set; }
+        public DeliveryLocation DropOffLocation { get; private set; }
 
         Guid _clientId;
         public Guid GetClientId => _clientId;
@@ -23,12 +25,9 @@ namespace DeliveryOrder.Domain.AggregatesModel.DeliveryOrderAggregate
         Guid? _courierId;
         public Guid? GetCourierId => _courierId;
 
-        readonly List<DeliveryLocation> _deliveryLocations;
-        public IReadOnlyCollection<DeliveryLocation> DeliveryLocations => _deliveryLocations;
 
         public DeliveryOrder()
         {
-            _deliveryLocations = new List<DeliveryLocation>();
             CreatedDateTime = DateTime.UtcNow;
             _deliveryOrderStatusId = DeliveryOrderStatus.New.Id;
         }
@@ -43,14 +42,14 @@ namespace DeliveryOrder.Domain.AggregatesModel.DeliveryOrderAggregate
             AddDomainEvent(new DeliveryOrderCreatedDomainEvent(this, clientId));
         }
 
-        public void AddDelivaryLocation(DeliveryLocation deliveryLocation)
+        public void SetPickUpLocation(DeliveryLocation pickUpLocation)
         {
-            _deliveryLocations.Add(deliveryLocation);
+            PickUpLocation = pickUpLocation;
         }
 
-        public void RemoveDeliveryLocation(DeliveryLocation deliveryLocation)
+        public void SetDropOffLocation(DeliveryLocation dropOffLocation)
         {
-            _deliveryLocations.Remove(deliveryLocation);
+            DropOffLocation = dropOffLocation;
         }
 
         public void SetDeliveryOrderAvailableStatus()

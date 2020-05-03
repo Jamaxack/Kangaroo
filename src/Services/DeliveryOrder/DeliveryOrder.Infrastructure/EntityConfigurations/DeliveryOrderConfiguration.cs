@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DeliveryOrder.Domain.AggregatesModel.ClientAggregate;
+﻿using DeliveryOrder.Domain.AggregatesModel.ClientAggregate;
 using DeliveryOrder.Domain.AggregatesModel.CourierAggregate;
-using DeliveryOrder.Domain.AggregatesModel.DeliveryOrderAggregate;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
 namespace DeliveryOrder.Infrastructure.EntityConfigurations
@@ -39,23 +38,38 @@ namespace DeliveryOrder.Infrastructure.EntityConfigurations
             builder.Property(x => x.Weight).IsRequired();
             builder.Property(x => x.Note).IsRequired(false);
 
-            // DDD Patterns comment:
-            //Set as field (New since EF 1.1) to access the DeliveryLocations collection property through its field
-            builder.Metadata
-                .FindNavigation(nameof(Domain.AggregatesModel.DeliveryOrderAggregate.DeliveryOrder.DeliveryLocations))
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
-
             builder.HasOne(o => o.DeliveryOrderStatus)
                 .WithMany()
                 .HasForeignKey("_deliveryOrderStatusId");
+
+            //PickUpLocation value object persisted as owned entity type supported since EF Core 2.0
+            builder.OwnsOne(x => x.PickUpLocation, pickUpLocationSettings =>
+            {
+                pickUpLocationSettings.WithOwner();
+                //ContactPerson value object persisted as owned entity type
+                pickUpLocationSettings.OwnsOne(x => x.ContactPerson, contactPersonSettings =>
+                {
+                    contactPersonSettings.WithOwner();
+                });
+            });
+            builder.OwnsOne(x => x.DropOffLocation, dropOffLocationSettings =>
+            {
+                dropOffLocationSettings.WithOwner();
+                //ContactPerson value object persisted as owned entity type
+                dropOffLocationSettings.OwnsOne(x => x.ContactPerson, contactPersonSettings =>
+                {
+                    contactPersonSettings.WithOwner();
+                });
+            });
+
             builder.HasOne<Client>()
                 .WithMany()
                 .HasForeignKey("_clientId");
+
             builder.HasOne<Courier>()
                 .WithMany()
                 .IsRequired(false)
                 .HasForeignKey("_courierId");
-
         }
     }
 }
