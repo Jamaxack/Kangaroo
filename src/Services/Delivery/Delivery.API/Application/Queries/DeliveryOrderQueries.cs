@@ -47,8 +47,8 @@ namespace Delivery.API.Application.Queries
                        ClientId,
                        CourierId,
 	                   deliveryOrderStatus.Name as DeliveryOrderStatus
-                  FROM DeliveryOrder.DeliveryOrders deliveryOrder
-                  LEFT JOIN DeliveryOrder.DeliveryOrderStatus deliveryOrderStatus ON deliveryOrderStatus.Id = deliveryOrder.DeliveryOrderStatusId";
+                  FROM Delivery.DeliveryOrders deliveryOrder
+                  LEFT JOIN Delivery.DeliveryOrderStatus deliveryOrderStatus ON deliveryOrderStatus.Id = deliveryOrder.DeliveryOrderStatusId";
         #endregion
 
         string _connectionString = string.Empty;
