@@ -5,10 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\" />
-    <Folder Include="Model\" />
     <Folder Include="IntegrationEvents\" />
     <Folder Include="ViewModel\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="2.10.3" />
+    <PackageReference Include="MongoDB.Driver" Version="2.10.3" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.10.3" />
   </ItemGroup>
 
 
