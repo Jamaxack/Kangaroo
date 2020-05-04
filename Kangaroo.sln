@@ -7,19 +7,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EABD112F-1A4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{EF3F5020-51A0-4456-8E78-62D2A739A31C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Delivery", "Delivery", "{C71494D2-8E66-467D-B777-F1A0ADB80C5D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Delivering", "Delivering", "{C71494D2-8E66-467D-B777-F1A0ADB80C5D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivery.API", "src\Services\Delivery\Delivery.API\Delivery.API.csproj", "{BFC7FF8A-5FD9-4F5D-9CFF-2CDBD42BAE66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.API", "src\Services\Delivery\Delivery.API\Delivering.API.csproj", "{BFC7FF8A-5FD9-4F5D-9CFF-2CDBD42BAE66}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{60BD1EB9-CEA0-43F4-8274-DBEAE4D382BA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivery.UnitTests", "src\Services\Delivery\Delivery.UnitTests\Delivery.UnitTests.csproj", "{B10081F2-4A8F-47BC-8224-13D2E768E842}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.UnitTests", "src\Services\Delivery\Delivery.UnitTests\Delivering.UnitTests.csproj", "{B10081F2-4A8F-47BC-8224-13D2E768E842}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivery.Domain", "src\Services\Delivery\Delivery.Domain\Delivery.Domain.csproj", "{C930DBC2-A9D0-42B2-8A93-B9C97237622B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.Domain", "src\Services\Delivery\Delivery.Domain\Delivering.Domain.csproj", "{C930DBC2-A9D0-42B2-8A93-B9C97237622B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivery.Infrastructure", "src\Services\Delivery\Delivery.Infrastructure\Delivery.Infrastructure.csproj", "{8FF07C85-9D4E-4F90-A9E6-BBF65122B8BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.Infrastructure", "src\Services\Delivery\Delivery.Infrastructure\Delivering.Infrastructure.csproj", "{8FF07C85-9D4E-4F90-A9E6-BBF65122B8BD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivery.FunctionalTests", "src\Services\Delivery\Delivery.FunctionalTests\Delivery.FunctionalTests.csproj", "{CE42047A-C9AB-4F6B-A63D-42729EE112C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.FunctionalTests", "src\Services\Delivery\Delivery.FunctionalTests\Delivering.FunctionalTests.csproj", "{CE42047A-C9AB-4F6B-A63D-42729EE112C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{C9435634-EF09-40A8-8930-4660DE5CA6F2}"
 EndProject
@@ -31,11 +31,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeliveryOrderPriceCalculate
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C92C70AD-4DF3-495E-81BA-BC5C7415F8D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Courier.API", "src\Services\Courier\Courier.API\Courier.API.csproj", "{E1FE8FFD-88E9-48BB-B1A2-9E8C02B7FF37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Courier.API", "src\Services\Courier\Courier.API\Courier.API.csproj", "{E1FE8FFD-88E9-48BB-B1A2-9E8C02B7FF37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Courier.FunctionalTests", "src\Services\Courier\Courier.FunctionalTests\Courier.FunctionalTests.csproj", "{0A8D208B-600A-482B-94FC-AE1C6E6539CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Courier.FunctionalTests", "src\Services\Courier\Courier.FunctionalTests\Courier.FunctionalTests.csproj", "{0A8D208B-600A-482B-94FC-AE1C6E6539CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Courier.UnitTests", "src\Services\Courier\Courier.UnitTests\Courier.UnitTests.csproj", "{06BBF85A-9D9D-4063-865C-783CB814439E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Courier.UnitTests", "src\Services\Courier\Courier.UnitTests\Courier.UnitTests.csproj", "{06BBF85A-9D9D-4063-865C-783CB814439E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
