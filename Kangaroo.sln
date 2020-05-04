@@ -9,17 +9,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{EF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Delivering", "Delivering", "{C71494D2-8E66-467D-B777-F1A0ADB80C5D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.API", "src\Services\Delivery\Delivery.API\Delivering.API.csproj", "{BFC7FF8A-5FD9-4F5D-9CFF-2CDBD42BAE66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.API", "src\Services\Delivering\Delivering.API\Delivering.API.csproj", "{BFC7FF8A-5FD9-4F5D-9CFF-2CDBD42BAE66}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{60BD1EB9-CEA0-43F4-8274-DBEAE4D382BA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.UnitTests", "src\Services\Delivery\Delivery.UnitTests\Delivering.UnitTests.csproj", "{B10081F2-4A8F-47BC-8224-13D2E768E842}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.UnitTests", "src\Services\Delivering\Delivering.UnitTests\Delivering.UnitTests.csproj", "{B10081F2-4A8F-47BC-8224-13D2E768E842}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.Domain", "src\Services\Delivery\Delivery.Domain\Delivering.Domain.csproj", "{C930DBC2-A9D0-42B2-8A93-B9C97237622B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.Domain", "src\Services\Delivering\Delivering.Domain\Delivering.Domain.csproj", "{C930DBC2-A9D0-42B2-8A93-B9C97237622B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.Infrastructure", "src\Services\Delivery\Delivery.Infrastructure\Delivering.Infrastructure.csproj", "{8FF07C85-9D4E-4F90-A9E6-BBF65122B8BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.Infrastructure", "src\Services\Delivering\Delivering.Infrastructure\Delivering.Infrastructure.csproj", "{8FF07C85-9D4E-4F90-A9E6-BBF65122B8BD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.FunctionalTests", "src\Services\Delivery\Delivery.FunctionalTests\Delivering.FunctionalTests.csproj", "{CE42047A-C9AB-4F6B-A63D-42729EE112C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivering.FunctionalTests", "src\Services\Delivering\Delivering.FunctionalTests\Delivering.FunctionalTests.csproj", "{CE42047A-C9AB-4F6B-A63D-42729EE112C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{C9435634-EF09-40A8-8930-4660DE5CA6F2}"
 EndProject
