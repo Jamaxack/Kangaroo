@@ -1,4 +1,4 @@
-﻿using Delivering.Domain.AggregatesModel.DeliveryOrderAggregate;
+﻿using Delivering.Domain.AggregatesModel.DeliveryAggregate;
 
 namespace Delivering.API.Application.Commands
 {

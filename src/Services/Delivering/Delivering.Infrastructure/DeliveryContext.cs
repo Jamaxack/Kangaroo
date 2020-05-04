@@ -1,5 +1,5 @@
 ﻿using Delivering.Domain.AggregatesModel.ClientAggregate;
-using Delivering.Domain.AggregatesModel.DeliveryOrderAggregate;
+using Delivering.Domain.AggregatesModel.DeliveryAggregate;
 using Delivering.Domain.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,8 +17,8 @@ namespace Delivering.Infrastructure
         public const string DEFAULT_SCHEMA = "Delivering";
 
         public DbSet<Client> Clients { get; set; }
-        public DbSet<DeliveryOrder> DeliveryOrders { get; set; }
-        public DbSet<DeliveryOrderStatus> DeliveryOrderStatuses { get; set; }
+        public DbSet<Delivery> Deliverys { get; set; }
+        public DbSet<DeliveryStatus> DeliveryStatuses { get; set; }
 
         private readonly IMediator _mediator;
         IDbContextTransaction _currentTransaction;
@@ -31,7 +31,7 @@ namespace Delivering.Infrastructure
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
-            System.Diagnostics.Debug.WriteLine("DeliveryOrderContext::ctor ->" + this.GetHashCode());
+            System.Diagnostics.Debug.WriteLine("DeliveryContext::ctor ->" + this.GetHashCode());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

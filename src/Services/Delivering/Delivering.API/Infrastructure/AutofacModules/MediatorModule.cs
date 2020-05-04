@@ -3,7 +3,7 @@ using FluentValidation;
 using MediatR;
 using Delivering.API.Application.Behaviors;
 using Delivering.API.Application.Commands;
-using Delivering.API.Application.DomainEventHandlers.NewDeliveryOrderCreatedEvent;
+using Delivering.API.Application.DomainEventHandlers.NewDeliveryCreatedEvent;
 using Delivering.API.Application.Validations;
 using Delivering.Infrastructure.Idempotency;
 using System.Reflection;

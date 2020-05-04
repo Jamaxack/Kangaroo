@@ -62,13 +62,13 @@ namespace Delivering.API.Application.Commands
 
                     switch (command)
                     {
-                        case CreateDeliveryOrderCommand createDeliveryOrderCommand:
-                            idProperty = nameof(createDeliveryOrderCommand.ClientId);
-                            commandId = createDeliveryOrderCommand.ClientId;
+                        case CreateDeliveryCommand createDeliveryCommand:
+                            idProperty = nameof(createDeliveryCommand.ClientId);
+                            commandId = createDeliveryCommand.ClientId;
                             break;
-                        case DeleteDeliveryOrderCommand deleteDeliveryOrderCommand:
-                            idProperty = nameof(deleteDeliveryOrderCommand.DeliveryOrderId);
-                            commandId = deleteDeliveryOrderCommand.DeliveryOrderId;
+                        case DeleteDeliveryCommand deleteDeliveryCommand:
+                            idProperty = nameof(deleteDeliveryCommand.DeliveryId);
+                            commandId = deleteDeliveryCommand.DeliveryId;
                             break;
                         default:
                             break;

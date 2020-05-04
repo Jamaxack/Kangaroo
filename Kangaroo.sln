@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{F4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Courier", "Courier", "{68FF1D2E-6E6C-4373-8C64-B6A1C24FC17C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeliveryOrderPriceCalculate", "DeliveryOrderPriceCalculate", "{142D7D27-31E4-4CD5-BEB7-BBAE870E91D2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeliveryPriceCalculate", "DeliveryPriceCalculate", "{142D7D27-31E4-4CD5-BEB7-BBAE870E91D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C92C70AD-4DF3-495E-81BA-BC5C7415F8D0}"
 EndProject

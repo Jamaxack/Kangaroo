@@ -1,5 +1,5 @@
 ﻿using Delivering.Domain.AggregatesModel.ClientAggregate;
-using Delivering.Domain.AggregatesModel.DeliveryOrderAggregate;
+using Delivering.Domain.AggregatesModel.DeliveryAggregate;
 using Delivering.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.SqlClient;
@@ -21,9 +21,9 @@ namespace Delivering.API.Infrastructure
             {
                 using (context)
                 {
-                    if (!context.DeliveryOrderStatuses.Any())
+                    if (!context.DeliveryStatuses.Any())
                     {
-                        context.DeliveryOrderStatuses.AddRange(GetPredefinedDeliveryOrderStatus());
+                        context.DeliveryStatuses.AddRange(GetPredefinedDeliveryStatus());
                         await context.SaveChangesAsync();
                     }
 
@@ -36,11 +36,11 @@ namespace Delivering.API.Infrastructure
                         await context.SaveChangesAsync();
                     }
 
-                    if (!context.DeliveryOrders.Any())
+                    if (!context.Deliverys.Any())
                     {
                         var client = context.Clients.Single();
-                        var order = new DeliveryOrder(client.Id, 1, 2, "Just note");
-                        context.DeliveryOrders.Add(order);
+                        var order = new Delivery(client.Id, 1, 2, "Just note");
+                        context.Deliverys.Add(order);
 
                         var contactPersonPickup = new ContactPerson("PickupPerson", "+111111111");
                         var contactPersonDropoff = new ContactPerson("DropoffPerson", "+222222222");
@@ -56,21 +56,21 @@ namespace Delivering.API.Infrastructure
             });
         }
 
-        IEnumerable<DeliveryOrderStatus> GetPredefinedDeliveryOrderStatus()
+        IEnumerable<DeliveryStatus> GetPredefinedDeliveryStatus()
         {
-            return new List<DeliveryOrderStatus>()
+            return new List<DeliveryStatus>()
             {
-                DeliveryOrderStatus.New,
-                DeliveryOrderStatus.Available,
-                DeliveryOrderStatus.CourierAssigned,
-                DeliveryOrderStatus.CourierDeparted,
-                DeliveryOrderStatus.CourierPickedUp,
-                DeliveryOrderStatus.CourierArrived,
-                DeliveryOrderStatus.Completed,
-                DeliveryOrderStatus.Reactivated,
-                DeliveryOrderStatus.Canceled,
-                DeliveryOrderStatus.Delayed,
-                DeliveryOrderStatus.Failed
+                DeliveryStatus.New,
+                DeliveryStatus.Available,
+                DeliveryStatus.CourierAssigned,
+                DeliveryStatus.CourierDeparted,
+                DeliveryStatus.CourierPickedUp,
+                DeliveryStatus.CourierArrived,
+                DeliveryStatus.Completed,
+                DeliveryStatus.Reactivated,
+                DeliveryStatus.Canceled,
+                DeliveryStatus.Delayed,
+                DeliveryStatus.Failed
             };
         }
 

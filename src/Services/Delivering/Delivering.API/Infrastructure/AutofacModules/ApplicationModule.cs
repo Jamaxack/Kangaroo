@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Delivering.API.Application.Queries;
 using Delivering.Domain.AggregatesModel.ClientAggregate;
-using Delivering.Domain.AggregatesModel.DeliveryOrderAggregate;
+using Delivering.Domain.AggregatesModel.DeliveryAggregate;
 using Delivering.Infrastructure.Repositories;
 
 namespace Delivering.API.Infrastructure.AutofacModules
@@ -17,16 +17,16 @@ namespace Delivering.API.Infrastructure.AutofacModules
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.Register(x => new DeliveryOrderQueries(QueriesConnectionString))
-                .As<IDeliveryOrderQueries>()
+            builder.Register(x => new DeliveryQueries(QueriesConnectionString))
+                .As<IDeliveryQueries>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<ClientRepository>()
                 .As<IClientRepository>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<DeliveryOrderRepository>()
-                .As<IDeliveryOrderRepository>()
+            builder.RegisterType<DeliveryRepository>()
+                .As<IDeliveryRepository>()
                 .InstancePerLifetimeScope();
         }
     }
