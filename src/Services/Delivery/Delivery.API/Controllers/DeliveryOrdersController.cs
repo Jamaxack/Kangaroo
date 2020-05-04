@@ -13,16 +13,16 @@ namespace Delivery.API.Controllers
 {
     [Route("api/v1/[controller]/[action]")]
     [ApiController]
-    public class DeliveryOrderController : ControllerBase
+    public class DeliveryOrdersController : ControllerBase
     {
         readonly IMediator _mediator;
-        readonly ILogger<DeliveryOrderController> _logger;
+        readonly ILogger<DeliveryOrdersController> _logger;
         readonly IDeliveryOrderQueries _deliveryOrderQueries;
 
-        public DeliveryOrderController(
+        public DeliveryOrdersController(
             IMediator mediator,
             IDeliveryOrderQueries deliveryOrderQueries,
-            ILogger<DeliveryOrderController> logger)
+            ILogger<DeliveryOrdersController> logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _deliveryOrderQueries = deliveryOrderQueries;

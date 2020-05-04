@@ -4,5 +4,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Infrastructure\" />
+    <Folder Include="Model\" />
+    <Folder Include="IntegrationEvents\" />
+    <Folder Include="ViewModel\" />
+  </ItemGroup>
+
 
 </Project>

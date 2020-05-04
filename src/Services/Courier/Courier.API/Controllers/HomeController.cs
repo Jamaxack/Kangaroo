@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Delivery.API.Controllers
+namespace Courier.API.Controllers
 {
     public class HomeController : Controller
     {
