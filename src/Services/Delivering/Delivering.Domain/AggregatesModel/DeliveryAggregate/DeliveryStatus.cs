@@ -9,27 +9,27 @@ namespace Delivering.Domain.AggregatesModel.DeliveryAggregate
     public class DeliveryStatus : Enumeration
     {
         //Newly created Delivery, waiting for verification from our dispatchers
-        public static DeliveryStatus New = new DeliveryStatus(1, nameof(New).ToLowerInvariant());
+        public static DeliveryStatus New = new DeliveryStatus(1, nameof(New));
         //Delivery was verified and is available for couriers
-        public static DeliveryStatus Available = new DeliveryStatus(2, nameof(Available).ToLowerInvariant());
+        public static DeliveryStatus Available = new DeliveryStatus(2, nameof(Available));
         //A courier was assigned and is working on the Delivery
-        public static DeliveryStatus CourierAssigned = new DeliveryStatus(3, nameof(CourierAssigned).ToLowerInvariant());
+        public static DeliveryStatus CourierAssigned = new DeliveryStatus(3, nameof(CourierAssigned));
         //Courier departed to the pick-up DeliveryLocation
-        public static DeliveryStatus CourierDeparted = new DeliveryStatus(4, nameof(CourierDeparted).ToLowerInvariant());
+        public static DeliveryStatus CourierDeparted = new DeliveryStatus(4, nameof(CourierDeparted));
         //Courier took parcel at the pick-up DeliveryLocation
-        public static DeliveryStatus CourierPickedUp = new DeliveryStatus(5, nameof(CourierPickedUp).ToLowerInvariant());
+        public static DeliveryStatus CourierPickedUp = new DeliveryStatus(5, nameof(CourierPickedUp));
         //Courier has arrived and is waiting for a customer
-        public static DeliveryStatus CourierArrived = new DeliveryStatus(6, nameof(CourierArrived).ToLowerInvariant());
+        public static DeliveryStatus CourierArrived = new DeliveryStatus(6, nameof(CourierArrived));
         //Delivery is completed
-        public static DeliveryStatus Completed = new DeliveryStatus(7, nameof(Completed).ToLowerInvariant());
+        public static DeliveryStatus Completed = new DeliveryStatus(7, nameof(Completed));
         //Delivery was reactivated and is again available for couriers
-        public static DeliveryStatus Reactivated = new DeliveryStatus(8, nameof(Reactivated).ToLowerInvariant());
+        public static DeliveryStatus Reactivated = new DeliveryStatus(8, nameof(Reactivated));
         //Delivery was canceled
-        public static DeliveryStatus Canceled = new DeliveryStatus(9, nameof(Canceled).ToLowerInvariant());
+        public static DeliveryStatus Canceled = new DeliveryStatus(9, nameof(Canceled));
         //Delivery execution was delayed by a dispatcher
-        public static DeliveryStatus Delayed = new DeliveryStatus(10, nameof(Delayed).ToLowerInvariant());
+        public static DeliveryStatus Delayed = new DeliveryStatus(10, nameof(Delayed));
         //Delivery failed (Courier could not find a customer)
-        public static DeliveryStatus Failed = new DeliveryStatus(11, nameof(Failed).ToLowerInvariant());
+        public static DeliveryStatus Failed = new DeliveryStatus(11, nameof(Failed));
 
         public DeliveryStatus(int id, string name)
             : base(id, name)

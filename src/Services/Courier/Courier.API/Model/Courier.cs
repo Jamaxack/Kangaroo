@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.Collections.Generic;
 
 namespace Courier.API.Model
 {
@@ -10,5 +11,7 @@ namespace Courier.API.Model
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Phone { get; set; }
+
+        public List<Delivery> Deliveries { get; set; }
     }
 }
