@@ -76,5 +76,11 @@
                 .Find(filter)
                 .FirstOrDefaultAsync();
         }
+
+        public Task DeleteDeliveryByIdAsync(Guid deliveryId)
+        {
+            var deleteFilter = Builders<Delivery>.Filter.Eq("_id", deliveryId);
+            return _courierContext.Deliveries.DeleteOneAsync(deleteFilter);
+        }
     }
 }

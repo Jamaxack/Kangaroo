@@ -19,5 +19,6 @@
         Task InsertDeliveryAsync(Delivery delivery);
         Task<Delivery> GetDeliveryByIdAsync(Guid deliveryId);
         Task<List<Delivery>> GetDeliveriesByCourierIdAsync(Guid courierId);
+        Task DeleteDeliveryByIdAsync(Guid deliveryId);
     }
 }

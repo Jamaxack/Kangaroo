@@ -1,6 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Courier.API.Infrastructure;
+using Courier.API.Infrastructure.Filters;
 using Courier.API.Infrastructure.Repositories;
 using Courier.API.Infrastructure.Services;
 using HealthChecks.UI.Client;
@@ -30,7 +31,11 @@ namespace Courier.API
         public virtual IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddHealthCheck(Configuration);
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+            })
+            .AddNewtonsoftJson();
 
             services.Configure<CourierSettings>(Configuration);
             services.AddSwaggerGen(options =>
