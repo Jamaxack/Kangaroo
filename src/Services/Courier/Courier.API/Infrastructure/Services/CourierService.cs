@@ -37,7 +37,7 @@
         {
             if (courierId == Guid.Empty)
                 throw new CourierDomainException("Courier Id is not specified");
-
+             
             return _courierRepository.GetCurrentCourierLocationByCourierIdAsync(courierId);
         }
 
@@ -70,6 +70,7 @@
 
         public Task InsertCourierLocationAsync(CourierLocation courierLocation)
         {
+            courierLocation.DateTime = DateTime.UtcNow;
             return _courierRepository.InsertCourierLocationAsync(courierLocation);
         }
 

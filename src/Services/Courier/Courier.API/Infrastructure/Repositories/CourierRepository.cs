@@ -55,9 +55,11 @@
 
         public Task<CourierLocation> GetCurrentCourierLocationByCourierIdAsync(Guid courierId)
         {
+            //Get last inserted document, so it is current courier location
             var filter = Builders<CourierLocation>.Filter.Eq("CourierId", courierId);
             return _courierContext.CourierLocations
                 .Find(filter)
+                .SortByDescending(x=>x.DateTime)
                 .FirstOrDefaultAsync();
         }
 
