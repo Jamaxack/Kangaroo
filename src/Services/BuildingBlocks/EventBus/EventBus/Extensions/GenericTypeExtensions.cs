@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 
-namespace Delivering.API.Application.Commands
+namespace Kangaroo.BuildingBlocks.EventBus.Extensions
 {
-    //TODO: Move to EventBus
     public static class GenericTypeExtensions
     {
         public static string GetGenericTypeName(this Type type)
@@ -23,9 +22,9 @@ namespace Delivering.API.Application.Commands
             return typeName;
         }
 
-        public static string GetGenericTypeName(this object obj)
+        public static string GetGenericTypeName(this object @object)
         {
-            return obj.GetType().GetGenericTypeName();
+            return @object.GetType().GetGenericTypeName();
         }
     }
 }

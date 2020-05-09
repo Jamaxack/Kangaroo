@@ -1,8 +1,8 @@
-﻿using FluentValidation;
+﻿using Delivering.Domain.Exceptions;
+using FluentValidation;
+using Kangaroo.BuildingBlocks.EventBus.Extensions;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Delivering.API.Application.Commands;
-using Delivering.Domain.Exceptions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

@@ -1,9 +1,8 @@
-﻿using MediatR;
+﻿using Delivering.Infrastructure.Idempotency;
+using Kangaroo.BuildingBlocks.EventBus.Extensions;
+using MediatR;
 using Microsoft.Extensions.Logging;
-using Delivering.Infrastructure.Idempotency;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
