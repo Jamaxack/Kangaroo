@@ -1,17 +1,18 @@
-﻿using MediatR;
-using System;
-
-namespace Delivering.Domain.Events
+﻿namespace Delivering.Domain.Events
 {
+    using MediatR;
+    using System;
+    using AggregatesModel.DeliveryAggregate;
+
     public class DeliveryCreatedDomainEvent : INotification
     {
         public Guid ClientId { get; }
-        public AggregatesModel.DeliveryAggregate.Delivery Delivery { get; }
+        public Delivery Delivery { get; }
 
-        public DeliveryCreatedDomainEvent(AggregatesModel.DeliveryAggregate.Delivery Delivery, Guid clientId)
+        public DeliveryCreatedDomainEvent(Delivery delivery, Guid clientId)
         {
             ClientId = clientId;
-            Delivery = Delivery;
+            Delivery = delivery;
         }
     }
 }

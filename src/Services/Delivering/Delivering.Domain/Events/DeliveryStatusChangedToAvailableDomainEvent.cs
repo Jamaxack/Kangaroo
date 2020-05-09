@@ -10,10 +10,10 @@ namespace Delivering.Domain.Events
         public Guid DeliveryId { get; }
         public int DeliveryStatusBeforeChange { get; }
 
-        public DeliveryStatusChangedToAvailableDomainEvent(Guid DeliveryId, int DeliveryStatusBeforeChange)
+        public DeliveryStatusChangedToAvailableDomainEvent(Guid deliveryId, int deliveryStatusBeforeChange)
         {
-            DeliveryId = DeliveryId;
-            DeliveryStatusBeforeChange = DeliveryStatusBeforeChange;
+            DeliveryId = deliveryId;
+            DeliveryStatusBeforeChange = deliveryStatusBeforeChange;
         }
     }
 }
