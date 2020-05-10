@@ -1,4 +1,5 @@
-﻿using Courier.API.Infrastructure.Services;
+﻿using Courier.API.DataTransferableObjects;
+using Courier.API.Infrastructure.Services;
 using Courier.API.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,7 +25,7 @@ namespace Courier.API.Controllers
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        public async Task<IActionResult> CreateAsync(CourierLocation courierLocation)
+        public async Task<IActionResult> CreateAsync(CourierLocationDTO courierLocation)
         {
             await _courierLocationService.InsertCourierLocationAsync(courierLocation);
             return Accepted();

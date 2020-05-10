@@ -1,13 +1,10 @@
-﻿using Courier.API.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Courier.API.DataTransferableObjects;
 using System.Threading.Tasks;
 
 namespace Courier.API.Infrastructure.Services
 {
     public interface ICourierLocationService
     {
-        Task InsertCourierLocationAsync(CourierLocation courierLocation);
+        Task InsertCourierLocationAsync(CourierLocationDTO courierLocation);
     }
 }

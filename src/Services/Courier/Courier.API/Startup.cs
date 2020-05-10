@@ -1,9 +1,13 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Courier.API.Infrastructure;
 using Courier.API.Infrastructure.Filters;
 using Courier.API.Infrastructure.Repositories;
 using Courier.API.Infrastructure.Services;
+using Courier.API.Mapping;
+using Courier.API.Validators;
+using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
 using Kangaroo.BuildingBlocks.EventBus;
 using Kangaroo.BuildingBlocks.EventBus.Abstractions;
@@ -34,18 +38,17 @@ namespace Courier.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public virtual IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(options =>
-            {
-                options.Filters.Add(typeof(HttpGlobalExceptionFilter));
-            })
+            services.AddControllers(options => options.Filters.Add(typeof(HttpGlobalExceptionFilter)))
             .AddNewtonsoftJson()
+            .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<IFluentValidator>())
             .Services
             .AddHealthCheck(Configuration)
             .Configure<CourierSettings>(Configuration)
             .RegisterEventBus(Configuration)
             .AddSwaggerGen()
             .AddCors()
-            .AddDependencyInjections();
+            .AddDependencyInjections()
+            .AddAutoMapper(typeof(MappingProfile));
 
             //configure autofac
             var container = new ContainerBuilder();
