@@ -4,7 +4,7 @@
     {
         NotStarted = 1, //Awaiting delivery
         CourierDeparted = 2,
-        PickedUp = 3,
+        CourierPickedUp = 3,
         CourierArrived = 4,
         Completed = 5,
         Canceled = 6,

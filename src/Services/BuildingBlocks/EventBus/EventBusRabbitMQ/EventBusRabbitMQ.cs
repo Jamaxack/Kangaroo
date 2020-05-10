@@ -204,7 +204,7 @@ namespace Kangaroo.BuildingBlocks.EventBusRabbitMQ
         private async Task Consumer_Received(object sender, BasicDeliverEventArgs eventArgs)
         {
             var eventName = eventArgs.RoutingKey;
-            var message = Encoding.UTF8.GetString(eventArgs.Body);
+            var message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
 
             try
             {

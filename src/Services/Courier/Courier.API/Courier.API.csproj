@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="IntegrationEvents\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>
 
@@ -21,6 +20,11 @@
     <PackageReference Include="MongoDB.Driver.Core" Version="2.10.3" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\EventBus\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\EventBus\EventBus\EventBus.csproj" />
   </ItemGroup>
 
 

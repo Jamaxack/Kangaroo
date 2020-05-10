@@ -13,9 +13,9 @@ namespace Kangaroo.BuildingBlocks.EventBusRabbitMQ
     public class DefaultRabbitMQPersistentConnection
        : IRabbitMQPersistentConnection
     {
-        private readonly IConnectionFactory _connectionFactory;
-        private readonly ILogger<DefaultRabbitMQPersistentConnection> _logger;
-        private readonly int _retryCount;
+        readonly IConnectionFactory _connectionFactory;
+        readonly ILogger<DefaultRabbitMQPersistentConnection> _logger;
+        readonly int _retryCount;
         IConnection _connection;
         bool _disposed;
 
@@ -78,8 +78,7 @@ namespace Kangaroo.BuildingBlocks.EventBusRabbitMQ
 
                 policy.Execute(() =>
                 {
-                    _connection = _connectionFactory
-                          .CreateConnection();
+                    _connection = _connectionFactory.CreateConnection();
                 });
 
                 if (IsConnected)

@@ -9,7 +9,7 @@
     using System.Net;
     using System.Threading.Tasks;
 
-    [Route("api/v1/[controller]/[action]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class CouriersController : ControllerBase
     {
@@ -27,6 +27,7 @@
         public async Task<IActionResult> GetAsync()
             => Ok(await _courierService.GetCouriersAsync());
 
+        [Route("{courierId}")]
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -34,8 +35,9 @@
         public async Task<IActionResult> GetByIdAsync(Guid courierId)
             => Ok(await _courierService.GetCourierByIdAsync(courierId));
 
+        [Route("{courierId}/Deliveries")]
         [HttpGet]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)] 
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(List<Courier>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetDeliveriesByCourierIdAsync(Guid courierId)
            => Ok(await _courierService.GetDeliveriesByCourierIdAsync(courierId));
@@ -43,7 +45,7 @@
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        public async Task<IActionResult> CreateCourierAsync(Courier courier)
+        public async Task<IActionResult> CreateAsync(Courier courier)
         {
             await _courierService.InsertCourierAsync(courier);
             return Accepted();
@@ -52,55 +54,20 @@
         [HttpPut]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        public async Task<IActionResult> UpdateCourierAsync(Courier courier)
+        public async Task<IActionResult> UpdateAsync(Courier courier)
         {
             await _courierService.UpdateCourierAsync(courier);
             return Accepted();
         }
 
-        [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        public async Task<IActionResult> CreateCourierLocationAsync(CourierLocation courierLocation)
-        {
-            await _courierService.InsertCourierLocationAsync(courierLocation);
-            return Accepted();
-        }
-
-
+        [Route("{courierId}/CurrentLocation")]
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(CourierLocation), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetCurrectLocationByIdAsync(Guid courierId)
+        public async Task<IActionResult> GetCurrectLocationByCourierIdAsync(Guid courierId)
         {
-           return Ok(await _courierService.GetCurrentCourierLocationByCourierIdAsync(courierId));
-        }
-
-        [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        public async Task<IActionResult> CreateDeliveryAsync(Delivery delivery)
-        {
-            await _courierService.InsertDeliveryAsync(delivery);
-            return Accepted();
-        }
-
-        [HttpGet]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(Delivery), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetDeliveryByIdAsync(Guid deliveryId)
-            => Ok(await _courierService.GetDeliveryByIdAsync(deliveryId));
-
-
-        [HttpDelete]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        public async Task<IActionResult> DeleteDeliveryByIdAsync(Guid deliveryId)
-        {
-            await _courierService.DeleteDeliveryByIdAsync(deliveryId);
-            return Accepted();
+            return Ok(await _courierService.GetCurrentCourierLocationByCourierIdAsync(courierId));
         }
     }
 }

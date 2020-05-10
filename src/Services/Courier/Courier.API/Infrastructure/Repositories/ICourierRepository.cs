@@ -10,15 +10,8 @@
         Task InsertCourierAsync(Courier courier);
         Task UpdateCourierAsync(Courier courier);
         Task<Courier> GetCourierByIdAsync(Guid courierId);
-        Task<List<Courier>> GetCouriersAsync();
-
-        Task InsertCourierLocationAsync(CourierLocation courierLocation);
-        Task<CourierLocation> GetCurrentCourierLocationByCourierIdAsync(Guid courierId);
-
-        Task InsertDeliveryAsync(Delivery delivery);
-        Task<Delivery> GetDeliveryByIdAsync(Guid deliveryId);
         Task<List<Delivery>> GetDeliveriesByCourierIdAsync(Guid courierId);
-        Task DeleteDeliveryByIdAsync(Guid deliveryId);
-
+        Task<List<Courier>> GetCouriersAsync();
+        Task<CourierLocation> GetCurrentCourierLocationByCourierIdAsync(Guid courierId);
     }
 }
