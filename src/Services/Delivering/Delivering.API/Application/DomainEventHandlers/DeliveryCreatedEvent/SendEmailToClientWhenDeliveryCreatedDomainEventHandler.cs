@@ -3,7 +3,7 @@ using Delivering.Domain.Events;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Delivering.API.Application.DomainEventHandlers.NewDeliveryCreatedEvent
+namespace Delivering.API.Application.DomainEventHandlers
 {
     public class SendEmailToClientWhenDeliveryCreatedDomainEventHandler : INotificationHandler<DeliveryCreatedDomainEvent>
     {

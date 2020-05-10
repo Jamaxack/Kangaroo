@@ -86,7 +86,6 @@ namespace Kangaroo.BuildingBlocks.EventBusRabbitMQ
 
             using (var channel = _persistentConnection.CreateModel())
             {
-
                 _logger.LogTrace("Declaring RabbitMQ exchange to publish event: {EventId}", @event.Id);
 
                 channel.ExchangeDeclare(exchange: BROKER_NAME, type: "direct");
@@ -221,8 +220,7 @@ namespace Kangaroo.BuildingBlocks.EventBusRabbitMQ
             }
 
             // Even on exception we take the message off the queue.
-            // in a REAL WORLD app this should be handled with a Dead Letter Exchange (DLX). 
-            // For more information see: https://www.rabbitmq.com/dlx.html
+            // TODO: This should be handled with a Dead Letter Exchange (DLX): https://www.rabbitmq.com/dlx.html
             _consumerChannel.BasicAck(eventArgs.DeliveryTag, multiple: false);
         }
 

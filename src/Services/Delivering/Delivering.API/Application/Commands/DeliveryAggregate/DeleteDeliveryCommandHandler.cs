@@ -10,27 +10,27 @@ namespace Delivering.API.Application.Commands
 
     public class DeleteDeliveryCommandHandler : IRequestHandler<DeleteDeliveryCommand, bool>
     {
-        private readonly IDeliveryRepository _DeliveryRepository;
+        private readonly IDeliveryRepository _deliveryRepository;
         private readonly ILogger<DeleteDeliveryCommand> _logger;
 
 
-        public DeleteDeliveryCommandHandler(IDeliveryRepository DeliveryRepository, ILogger<DeleteDeliveryCommand> logger)
+        public DeleteDeliveryCommandHandler(IDeliveryRepository deliveryRepository, ILogger<DeleteDeliveryCommand> logger)
         {
-            _DeliveryRepository = DeliveryRepository ?? throw new ArgumentNullException(nameof(DeliveryRepository));
+            _deliveryRepository = deliveryRepository ?? throw new ArgumentNullException(nameof(deliveryRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<bool> Handle(DeleteDeliveryCommand message, CancellationToken cancellationToken)
         {
-            var Delivery = await _DeliveryRepository.GetAsync(message.DeliveryId);
-            if (Delivery == null)
+            var delivery = await _deliveryRepository.GetAsync(message.DeliveryId);
+            if (delivery == null)
                 return false;
 
-            _logger.LogInformation("----- Deleting Delivery: {@DeliveryLocation}", Delivery);
+            _logger.LogInformation("----- Deleting Delivery: {@DeliveryLocation}", delivery);
 
-            _DeliveryRepository.Delete(Delivery);
+            _deliveryRepository.Delete(delivery);
 
-            return await _DeliveryRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+            return await _deliveryRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
     }
 }

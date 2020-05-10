@@ -1,14 +1,11 @@
-﻿using MediatR;
-using Microsoft.Extensions.Logging;
-using Delivering.Domain.AggregatesModel.DeliveryAggregate;
+﻿using Delivering.Domain.AggregatesModel.DeliveryAggregate;
 using Delivering.Domain.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using MediatR;
+using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Delivering.API.Application.DomainEventHandlers.DeliveryStatusChangedToAvailableEvent
+namespace Delivering.API.Application.DomainEventHandlers
 {
     public class DeliveryStatusChangedToAvailableDomainEventHandler : INotificationHandler<DeliveryStatusChangedToAvailableDomainEvent>
     {
@@ -23,8 +20,6 @@ namespace Delivering.API.Application.DomainEventHandlers.DeliveryStatusChangedTo
         {
             _logger.LogInformation("Delivery with Id: {DeliveryId} has been successfully updated status from {DeliveryStatusBeforeChange} to {Status} ({Id})",
                     notification.DeliveryId, DeliveryStatus.From(notification.DeliveryStatusBeforeChange), nameof(DeliveryStatus.Available), DeliveryStatus.Available.Id);
-
-            //TODO: Publish Integration event
 
             return Task.CompletedTask;
         }

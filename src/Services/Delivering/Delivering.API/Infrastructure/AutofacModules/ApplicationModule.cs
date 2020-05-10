@@ -3,6 +3,8 @@ using Delivering.API.Application.Queries;
 using Delivering.Domain.AggregatesModel.ClientAggregate;
 using Delivering.Domain.AggregatesModel.DeliveryAggregate;
 using Delivering.Infrastructure.Repositories;
+using Kangaroo.BuildingBlocks.EventBus.Abstractions;
+using System.Reflection;
 
 namespace Delivering.API.Infrastructure.AutofacModules
 {
@@ -28,6 +30,9 @@ namespace Delivering.API.Infrastructure.AutofacModules
             builder.RegisterType<DeliveryRepository>()
                 .As<IDeliveryRepository>()
                 .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(typeof(Startup).GetTypeInfo().Assembly)
+               .AsClosedTypesOf(typeof(IIntegrationEventHandler<>));
         }
     }
 }

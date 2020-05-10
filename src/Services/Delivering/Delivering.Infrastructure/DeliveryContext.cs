@@ -17,7 +17,7 @@ namespace Delivering.Infrastructure
         public const string DEFAULT_SCHEMA = "Delivering";
 
         public DbSet<Client> Clients { get; set; }
-        public DbSet<Delivery> Deliverys { get; set; }
+        public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<DeliveryStatus> DeliveryStatuses { get; set; }
 
         private readonly IMediator _mediator;

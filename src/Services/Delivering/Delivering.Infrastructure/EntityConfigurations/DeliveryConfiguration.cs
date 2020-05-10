@@ -10,14 +10,14 @@ namespace Delivering.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Delivery> builder)
         {
-            builder.ToTable("Deliverys", DeliveringContext.DEFAULT_SCHEMA);
+            builder.ToTable("Deliveries", DeliveringContext.DEFAULT_SCHEMA);
 
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
             builder.Ignore(x => x.DomainEvents);
 
-            builder.Property<int>("_DeliveryStatusId")
+            builder.Property<int>("_deliveryStatusId")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("DeliveryStatusId")
                 .IsRequired();
@@ -40,7 +40,7 @@ namespace Delivering.Infrastructure.EntityConfigurations
 
             builder.HasOne(o => o.DeliveryStatus)
                 .WithMany()
-                .HasForeignKey("_DeliveryStatusId");
+                .HasForeignKey("_deliveryStatusId");
 
             //PickUpLocation value object persisted as owned entity type supported since EF Core 2.0
             builder.OwnsOne(x => x.PickUpLocation, pickUpLocationSettings =>

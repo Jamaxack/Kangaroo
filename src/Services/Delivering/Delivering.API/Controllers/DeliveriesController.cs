@@ -56,8 +56,8 @@ namespace Delivering.API.Controllers
         {
             try
             {
-                var Deliverys = await _DeliveryQueries.GetDeliverysByClientIdAsync(clientId);
-                return Ok(Deliverys);
+                var deliveries = await _DeliveryQueries.GetDeliverysByClientIdAsync(clientId);
+                return Ok(deliveries);
             }
             catch
             {
@@ -74,8 +74,8 @@ namespace Delivering.API.Controllers
         {
             try
             {
-                var Deliverys = await _DeliveryQueries.GetDeliverysByCourierIdAsync(courierId);
-                return Ok(Deliverys);
+                var deliveries = await _DeliveryQueries.GetDeliverysByCourierIdAsync(courierId);
+                return Ok(deliveries);
             }
             catch
             {
@@ -88,8 +88,8 @@ namespace Delivering.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<DeliveryViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAsync([FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
         {
-            var Deliverys = await _DeliveryQueries.GetDeliverysAsync(pageSize, pageIndex);
-            return Ok(Deliverys);
+            var deliveries = await _DeliveryQueries.GetDeliverysAsync(pageSize, pageIndex);
+            return Ok(deliveries);
         }
 
         //POST ~/api/v1/[controller]/Create

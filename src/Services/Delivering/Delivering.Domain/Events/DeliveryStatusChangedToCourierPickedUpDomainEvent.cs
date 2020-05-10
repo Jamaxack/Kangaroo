@@ -3,12 +3,12 @@ using System;
 
 namespace Delivering.Domain.Events
 {
-    public class DeliveryStatusChangedToAvailableDomainEvent : INotification
+    public class DeliveryStatusChangedToCourierPickedUpDomainEvent : INotification
     {
         public Guid DeliveryId { get; }
         public int DeliveryStatusBeforeChange { get; }
 
-        public DeliveryStatusChangedToAvailableDomainEvent(Guid deliveryId, int deliveryStatusBeforeChange)
+        public DeliveryStatusChangedToCourierPickedUpDomainEvent(Guid deliveryId, int deliveryStatusBeforeChange)
         {
             DeliveryId = deliveryId;
             DeliveryStatusBeforeChange = deliveryStatusBeforeChange;

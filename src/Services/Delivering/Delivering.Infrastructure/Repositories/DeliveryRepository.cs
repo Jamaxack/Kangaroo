@@ -16,32 +16,32 @@ namespace Delivering.Infrastructure.Repositories
             _context = context ?? throw new ArgumentException(nameof(context));
         }
 
-        public Delivery Add(Delivery Delivery)
+        public Delivery Add(Delivery delivery)
         {
-            return _context.Deliverys.Add(Delivery).Entity;
+            return _context.Deliveries.Add(delivery).Entity;
         }
 
         public async Task<Delivery> GetAsync(Guid DeliveryId)
         {
-            var Delivery = await _context.Deliverys.FirstOrDefaultAsync(x => x.Id == DeliveryId);
+            var delivery = await _context.Deliveries.FirstOrDefaultAsync(x => x.Id == DeliveryId);
 
-            if (Delivery != null)
+            if (delivery != null)
             {
-                await _context.Entry(Delivery)
+                await _context.Entry(delivery)
                     .Reference(i => i.DeliveryStatus).LoadAsync();
             }
 
-            return Delivery;
+            return delivery;
         }
 
-        public void Update(Delivery Delivery)
+        public void Update(Delivery delivery)
         {
-            _context.Entry(Delivery).State = EntityState.Modified;
+            _context.Entry(delivery).State = EntityState.Modified;
         }
 
-        public void Delete(Delivery Delivery)
+        public void Delete(Delivery delivery)
         {
-            _context.Entry(Delivery).State = EntityState.Deleted;
+            _context.Entry(delivery).State = EntityState.Deleted;
         }
     }
 }

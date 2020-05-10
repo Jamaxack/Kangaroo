@@ -47,7 +47,7 @@ namespace Delivering.API.Application.Queries
                        ClientId,
                        CourierId,
 	                   DeliveryStatus.Name as DeliveryStatus
-                  FROM Delivering.Deliverys Delivery
+                  FROM Delivering.Deliveries Delivery
                   LEFT JOIN Delivering.DeliveryStatus DeliveryStatus ON DeliveryStatus.Id = Delivery.DeliveryStatusId";
         #endregion
 
@@ -66,11 +66,11 @@ namespace Delivering.API.Application.Queries
                 var pagedQuery = $"{SelectDeliverysQuery} {@"Order BY Delivery.Number OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY"}";
                 var queryResult = await connection.QueryAsync(pagedQuery, param: new { offset, pageSize });
 
-                var Deliverys = new List<DeliveryViewModel>();
+                var deliveries = new List<DeliveryViewModel>();
                 foreach (var Delivery in queryResult)
-                    Deliverys.Add(MapToDeliveryViewModel(Delivery));
+                    deliveries.Add(MapToDeliveryViewModel(Delivery));
 
-                return Deliverys;
+                return deliveries;
             }
         }
 
@@ -84,11 +84,11 @@ namespace Delivering.API.Application.Queries
                 if (queryResult.Count() == 0)
                     throw new KeyNotFoundException();
 
-                var Deliverys = new List<DeliveryViewModel>();
+                var deliveries = new List<DeliveryViewModel>();
                 foreach (var Delivery in queryResult)
-                    Deliverys.Add(MapToDeliveryViewModel(Delivery));
+                    deliveries.Add(MapToDeliveryViewModel(Delivery));
 
-                return Deliverys;
+                return deliveries;
             }
         }
 
@@ -102,11 +102,11 @@ namespace Delivering.API.Application.Queries
                 if (queryResult.Count() == 0)
                     throw new KeyNotFoundException();
 
-                var Deliverys = new List<DeliveryViewModel>();
+                var deliveries = new List<DeliveryViewModel>();
                 foreach (var Delivery in queryResult)
-                    Deliverys.Add(MapToDeliveryViewModel(Delivery));
+                    deliveries.Add(MapToDeliveryViewModel(Delivery));
 
-                return Deliverys;
+                return deliveries;
             }
         }
 

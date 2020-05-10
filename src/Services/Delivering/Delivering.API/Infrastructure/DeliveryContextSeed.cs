@@ -36,11 +36,11 @@ namespace Delivering.API.Infrastructure
                         await context.SaveChangesAsync();
                     }
 
-                    if (!context.Deliverys.Any())
+                    if (!context.Deliveries.Any())
                     {
                         var client = context.Clients.Single();
                         var order = new Delivery(client.Id, 1, 2, "Just note");
-                        context.Deliverys.Add(order);
+                        context.Deliveries.Add(order);
 
                         var contactPersonPickup = new ContactPerson("PickupPerson", "+111111111");
                         var contactPersonDropoff = new ContactPerson("DropoffPerson", "+222222222");

@@ -115,9 +115,9 @@ namespace Courier.API
 
         public static IServiceCollection RegisterEventBus(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
+            services.AddSingleton<IRabbitMQPersistentConnection>(serviceProvider =>
             {
-                var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
+                var logger = serviceProvider.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
 
                 var factory = new ConnectionFactory()
                 {

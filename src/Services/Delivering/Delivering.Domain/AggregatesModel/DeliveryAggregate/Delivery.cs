@@ -13,7 +13,7 @@ namespace Delivering.Domain.AggregatesModel.DeliveryAggregate
         public short Weight { get; private set; }
         public string Note { get; private set; }
 
-        int _DeliveryStatusId;
+        int _deliveryStatusId;
         public DeliveryStatus DeliveryStatus { get; private set; }
         public DeliveryLocation PickUpLocation { get; private set; }
         public DeliveryLocation DropOffLocation { get; private set; }
@@ -27,7 +27,7 @@ namespace Delivering.Domain.AggregatesModel.DeliveryAggregate
         public Delivery()
         {
             CreatedDateTime = DateTime.UtcNow;
-            _DeliveryStatusId = DeliveryStatus.New.Id;
+            _deliveryStatusId = DeliveryStatus.New.Id;
         }
 
         public Delivery(Guid clientId, decimal price, short weight, string note) : this()
@@ -52,15 +52,22 @@ namespace Delivering.Domain.AggregatesModel.DeliveryAggregate
 
         public void SetDeliveryAvailableStatus()
         {
-            var DeliveryStatusBeforeChange = _DeliveryStatusId;
-            _DeliveryStatusId = DeliveryStatus.Available.Id;
-            AddDomainEvent(new DeliveryStatusChangedToAvailableDomainEvent(Id, DeliveryStatusBeforeChange));
+            var deliveryStatusBeforeChange = _deliveryStatusId;
+            _deliveryStatusId = DeliveryStatus.Available.Id;
+            AddDomainEvent(new DeliveryStatusChangedToAvailableDomainEvent(Id, deliveryStatusBeforeChange));
+        }
+
+        public void SetCourierPickedUpDeliveryStatus()
+        {
+            var deliveryStatusBeforeChange = _deliveryStatusId;
+            _deliveryStatusId = DeliveryStatus.CourierPickedUp.Id;
+            AddDomainEvent(new DeliveryStatusChangedToCourierPickedUpDomainEvent(Id, deliveryStatusBeforeChange));
         }
 
         public void SetCourierId(Guid id)
         {
             _courierId = id;
-            _DeliveryStatusId = DeliveryStatus.CourierAssigned.Id;
+            _deliveryStatusId = DeliveryStatus.CourierAssigned.Id;
         }
     }
 }

@@ -1,20 +1,31 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Delivering.API.Application.IntegrationEvents;
+using Delivering.API.Application.IntegrationEvents.EventHandling;
+using Delivering.API.Application.IntegrationEvents.Events;
+using Delivering.API.Infrastructure;
+using Delivering.API.Infrastructure.AutofacModules;
+using Delivering.API.Infrastructure.Filters;
+using Delivering.Infrastructure;
 using HealthChecks.UI.Client;
+using Kangaroo.BuildingBlocks.EventBus;
+using Kangaroo.BuildingBlocks.EventBus.Abstractions;
+using Kangaroo.BuildingBlocks.EventBusRabbitMQ;
+using Kangaroo.BuildingBlocks.IntegrationEventLogEF.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Delivering.API.Infrastructure;
-using Delivering.API.Infrastructure.AutofacModules;
-using Delivering.API.Infrastructure.Filters;
-using Delivering.Infrastructure;
+using RabbitMQ.Client;
 using System;
+using System.Data.Common;
 using System.Reflection;
 
 namespace Delivering.API
@@ -44,6 +55,8 @@ namespace Delivering.API
                 .AddHealthChecks(Configuration)
                 .AddCorsPolicy()
                 .AddSwagger()
+                .AddEventBus(Configuration)
+                .AddIntegrations(Configuration)
                 .AddDbContext(Configuration);
 
             //configure autofac
@@ -95,6 +108,13 @@ namespace Delivering.API
             });
             //Disposes container on application stopped
             applicationLifetime.ApplicationStopped.Register(() => Container.Dispose());
+            ConfigureEventBus(app);
+        }
+
+        void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<DeliveryStatusChangedToCourierPickedUpIntegrationEvent, DeliveryStatusChangedToCourierPickedUpIntegrationEventHandler>();
         }
     }
 
@@ -155,6 +175,65 @@ namespace Delivering.API
                 },
                     ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
                 );
+            return services;
+        }
+
+        public static IServiceCollection AddEventBus(this IServiceCollection services, IConfiguration configuration)
+        {
+            var subscriptionClientName = configuration["SubscriptionClientName"];
+            services.AddSingleton<IEventBus, EventBusRabbitMQ>(serviceProvider =>
+            {
+                var rabbitMQPersistentConnection = serviceProvider.GetRequiredService<IRabbitMQPersistentConnection>();
+                var iLifetimeScope = serviceProvider.GetRequiredService<ILifetimeScope>();
+                var logger = serviceProvider.GetRequiredService<ILogger<EventBusRabbitMQ>>();
+                var eventBusSubcriptionsManager = serviceProvider.GetRequiredService<IEventBusSubscriptionsManager>();
+
+                var retryCount = 5;
+                if (!string.IsNullOrEmpty(configuration["EventBusRetryCount"]))
+                {
+                    retryCount = int.Parse(configuration["EventBusRetryCount"]);
+                }
+
+                return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, subscriptionClientName, retryCount);
+            });
+            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+            return services;
+        }
+
+        public static IServiceCollection AddIntegrations(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
+                sp => (DbConnection c) => new IntegrationEventLogService(c));
+
+            services.AddTransient<IDeliveringIntegrationEventService, DeliveringIntegrationEventService>();
+            services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
+            {
+                var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
+                var factory = new ConnectionFactory()
+                {
+                    HostName = configuration["EventBusConnection"],
+                    DispatchConsumersAsync = true
+                };
+
+                if (!string.IsNullOrEmpty(configuration["EventBusUserName"]))
+                {
+                    factory.UserName = configuration["EventBusUserName"];
+                }
+
+                if (!string.IsNullOrEmpty(configuration["EventBusPassword"]))
+                {
+                    factory.Password = configuration["EventBusPassword"];
+                }
+
+                var retryCount = 5;
+                if (!string.IsNullOrEmpty(configuration["EventBusRetryCount"]))
+                {
+                    retryCount = int.Parse(configuration["EventBusRetryCount"]);
+                }
+
+                return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
+            });
             return services;
         }
     }
