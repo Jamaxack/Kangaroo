@@ -21,9 +21,9 @@ namespace Delivering.Infrastructure.Repositories
             return _context.Deliveries.Add(delivery).Entity;
         }
 
-        public async Task<Delivery> GetAsync(Guid DeliveryId)
+        public async Task<Delivery> GetAsync(Guid deliveryId)
         {
-            var delivery = await _context.Deliveries.FirstOrDefaultAsync(x => x.Id == DeliveryId);
+            var delivery = await _context.Deliveries.FirstOrDefaultAsync(x => x.Id == deliveryId);
 
             if (delivery != null)
             {

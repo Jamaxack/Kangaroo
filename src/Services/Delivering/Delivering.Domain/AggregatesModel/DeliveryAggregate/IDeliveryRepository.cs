@@ -10,12 +10,12 @@ namespace Delivering.Domain.AggregatesModel.DeliveryAggregate
     //as requisite for the Delivery Aggregate
     public interface IDeliveryRepository : IRepository<Delivery>
     {
-        Delivery Add(Delivery Delivery);
+        Delivery Add(Delivery delivery);
 
-        void Update(Delivery Delivery);
+        void Update(Delivery delivery);
 
-        Task<Delivery> GetAsync(Guid DeliveryId);
+        Task<Delivery> GetAsync(Guid deliveryId);
 
-        void Delete(Delivery Delivery);
+        void Delete(Delivery delivery);
     }
 }

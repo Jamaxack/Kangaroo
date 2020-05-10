@@ -9,26 +9,26 @@ namespace Delivering.API.Application.Commands
 {
     public class SetAvailableDeliveryStatusCommandHandler : IRequestHandler<SetAvailableDeliveryStatusCommand, bool>
     {
-        private readonly IDeliveryRepository _DeliveryRepository;
+        private readonly IDeliveryRepository _deliveryRepository;
         private readonly ILogger<SetAvailableDeliveryStatusCommand> _logger;
 
         public SetAvailableDeliveryStatusCommandHandler(IDeliveryRepository DeliveryRepository, ILogger<SetAvailableDeliveryStatusCommand> logger)
         {
-            _DeliveryRepository = DeliveryRepository ?? throw new ArgumentNullException(nameof(DeliveryRepository));
+            _deliveryRepository = DeliveryRepository ?? throw new ArgumentNullException(nameof(DeliveryRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<bool> Handle(SetAvailableDeliveryStatusCommand message, CancellationToken cancellationToken)
         {
-            var Delivery = await _DeliveryRepository.GetAsync(message.DeliveryId);
-            if (Delivery == null)
+            var delivery = await _deliveryRepository.GetAsync(message.DeliveryId);
+            if (delivery == null)
                 return false;
 
-            _logger.LogInformation("----- Setting Delivery status to Available: {@Delivery}", Delivery);
+            _logger.LogInformation("----- Setting Delivery status to Available: {@Delivery}", delivery);
 
-            Delivery.SetDeliveryAvailableStatus();
+            delivery.SetDeliveryAvailableStatus();
 
-            return await _DeliveryRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+            return await _deliveryRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
     }
 }

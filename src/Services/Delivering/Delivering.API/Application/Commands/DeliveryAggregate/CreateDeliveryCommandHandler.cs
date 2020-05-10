@@ -9,26 +9,26 @@ namespace Delivering.API.Application.Commands
 {
     public class CreateDeliveryCommandHandler : IRequestHandler<CreateDeliveryCommand, bool>
     {
-        private readonly IDeliveryRepository _DeliveryRepository;
+        private readonly IDeliveryRepository _deliveryRepository;
         private readonly ILogger<CreateDeliveryCommandHandler> _logger;
 
-        public CreateDeliveryCommandHandler(IDeliveryRepository DeliveryRepository, ILogger<CreateDeliveryCommandHandler> logger)
+        public CreateDeliveryCommandHandler(IDeliveryRepository deliveryRepository, ILogger<CreateDeliveryCommandHandler> logger)
         {
-            _DeliveryRepository = DeliveryRepository ?? throw new ArgumentNullException(nameof(DeliveryRepository));
+            _deliveryRepository = deliveryRepository ?? throw new ArgumentNullException(nameof(deliveryRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<bool> Handle(CreateDeliveryCommand message, CancellationToken cancellationToken)
         {
-            var Delivery = new Delivery(message.ClientId, message.Price, message.Weight, message.Note);
-            Delivery.SetPickUpLocation(message.PickUpLocation.GetDeliveryLocation());
-            Delivery.SetDropOffLocation(message.DropOffLocation.GetDeliveryLocation());
+            var delivery = new Delivery(message.ClientId, message.Price, message.Weight, message.Note);
+            delivery.SetPickUpLocation(message.PickUpLocation.GetDeliveryLocation());
+            delivery.SetDropOffLocation(message.DropOffLocation.GetDeliveryLocation());
 
-            _logger.LogInformation("----- Creating Delivery: {@Delivery}", Delivery);
+            _logger.LogInformation("----- Creating Delivery: {@Delivery}", delivery);
 
-            _DeliveryRepository.Add(Delivery);
+            _deliveryRepository.Add(delivery);
 
-            return await _DeliveryRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+            return await _deliveryRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
     }
 }

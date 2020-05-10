@@ -17,15 +17,15 @@ namespace Delivering.API.Controllers
     {
         readonly IMediator _mediator;
         readonly ILogger<DeliveriesController> _logger;
-        readonly IDeliveryQueries _DeliveryQueries;
+        readonly IDeliveryQueries _deliveryQueries;
 
         public DeliveriesController(
             IMediator mediator,
-            IDeliveryQueries DeliveryQueries,
+            IDeliveryQueries deliveryQueries,
             ILogger<DeliveriesController> logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            _DeliveryQueries = DeliveryQueries;
+            _deliveryQueries = deliveryQueries;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -34,12 +34,12 @@ namespace Delivering.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(DeliveryViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> ByDeliveryIdAsync(Guid DeliveryId)
+        public async Task<IActionResult> ByDeliveryIdAsync(Guid deliveryId)
         {
             try
             {
-                var Delivery = await _DeliveryQueries.GetDeliveryByIdAsync(DeliveryId);
-                return Ok(Delivery);
+                var delivery = await _deliveryQueries.GetDeliveryByIdAsync(deliveryId);
+                return Ok(delivery);
             }
             catch
             {
@@ -56,7 +56,7 @@ namespace Delivering.API.Controllers
         {
             try
             {
-                var deliveries = await _DeliveryQueries.GetDeliverysByClientIdAsync(clientId);
+                var deliveries = await _deliveryQueries.GetDeliverysByClientIdAsync(clientId);
                 return Ok(deliveries);
             }
             catch
@@ -74,7 +74,7 @@ namespace Delivering.API.Controllers
         {
             try
             {
-                var deliveries = await _DeliveryQueries.GetDeliverysByCourierIdAsync(courierId);
+                var deliveries = await _deliveryQueries.GetDeliverysByCourierIdAsync(courierId);
                 return Ok(deliveries);
             }
             catch
@@ -88,7 +88,7 @@ namespace Delivering.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<DeliveryViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAsync([FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
         {
-            var deliveries = await _DeliveryQueries.GetDeliverysAsync(pageSize, pageIndex);
+            var deliveries = await _deliveryQueries.GetDeliverysAsync(pageSize, pageIndex);
             return Ok(deliveries);
         }
 

@@ -67,8 +67,8 @@ namespace Delivering.API.Application.Queries
                 var queryResult = await connection.QueryAsync(pagedQuery, param: new { offset, pageSize });
 
                 var deliveries = new List<DeliveryViewModel>();
-                foreach (var Delivery in queryResult)
-                    deliveries.Add(MapToDeliveryViewModel(Delivery));
+                foreach (var delivery in queryResult)
+                    deliveries.Add(MapToDeliveryViewModel(delivery));
 
                 return deliveries;
             }
@@ -85,8 +85,8 @@ namespace Delivering.API.Application.Queries
                     throw new KeyNotFoundException();
 
                 var deliveries = new List<DeliveryViewModel>();
-                foreach (var Delivery in queryResult)
-                    deliveries.Add(MapToDeliveryViewModel(Delivery));
+                foreach (var delivery in queryResult)
+                    deliveries.Add(MapToDeliveryViewModel(delivery));
 
                 return deliveries;
             }
@@ -103,25 +103,25 @@ namespace Delivering.API.Application.Queries
                     throw new KeyNotFoundException();
 
                 var deliveries = new List<DeliveryViewModel>();
-                foreach (var Delivery in queryResult)
-                    deliveries.Add(MapToDeliveryViewModel(Delivery));
+                foreach (var delivery in queryResult)
+                    deliveries.Add(MapToDeliveryViewModel(delivery));
 
                 return deliveries;
             }
         }
 
-        public async Task<DeliveryViewModel> GetDeliveryByIdAsync(Guid DeliveryId)
+        public async Task<DeliveryViewModel> GetDeliveryByIdAsync(Guid deliveryId)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 var queryString = $"{SelectDeliverysQuery} WHERE Delivery.Id = @DeliveryId;";
-                var DeliveryDynamic = await connection.QueryFirstOrDefaultAsync(queryString, new { DeliveryId });
+                var deliveryDynamic = await connection.QueryFirstOrDefaultAsync(queryString, new { deliveryId });
 
-                if (DeliveryDynamic == null)
+                if (deliveryDynamic == null)
                     throw new KeyNotFoundException();
 
-                return MapToDeliveryViewModel(DeliveryDynamic);
+                return MapToDeliveryViewModel(deliveryDynamic);
             }
         }
 
@@ -171,7 +171,7 @@ namespace Delivering.API.Application.Queries
                 CourierArrivedDateTime = queryResult.DropOffLocation_CourierArrivedDateTime
             };
 
-            var Delivery = new DeliveryViewModel
+            var delivery = new DeliveryViewModel
             {
                 Id = queryResult.Id,
                 Number = queryResult.Number,
@@ -187,7 +187,7 @@ namespace Delivering.API.Application.Queries
                 CourierId = queryResult.CourierId,
             };
 
-            return Delivery;
+            return delivery;
         }
     }
 }

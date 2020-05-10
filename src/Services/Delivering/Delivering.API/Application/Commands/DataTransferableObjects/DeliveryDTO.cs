@@ -20,21 +20,21 @@ namespace Delivering.API.Application.Commands
         public DeliveryLocationDTO DropOffLocation { get; set; }
 
 
-        public static DeliveryDTO FromDelivery(Delivery Delivery)
+        public static DeliveryDTO FromDelivery(Delivery delivery)
         {
             return new DeliveryDTO()
             {
-                Number = Delivery.Number,
-                Weight = Delivery.Weight,
-                CreatedDateTime = Delivery.CreatedDateTime,
-                FinishedDateTime = Delivery.FinishedDateTime,
-                Price = Delivery.Price,
-                Note = Delivery.Note,
-                DeliveryStatus = Delivery.DeliveryStatus,
-                ClientId = Delivery.GetClientId,
-                CourierId = Delivery.GetCourierId,
-                DropOffLocation = DeliveryLocationDTO.FromLocation(Delivery.DropOffLocation),
-                PickUpLocation = DeliveryLocationDTO.FromLocation(Delivery.PickUpLocation),
+                Number = delivery.Number,
+                Weight = delivery.Weight,
+                CreatedDateTime = delivery.CreatedDateTime,
+                FinishedDateTime = delivery.FinishedDateTime,
+                Price = delivery.Price,
+                Note = delivery.Note,
+                DeliveryStatus = delivery.DeliveryStatus,
+                ClientId = delivery.GetClientId,
+                CourierId = delivery.GetCourierId,
+                DropOffLocation = DeliveryLocationDTO.FromLocation(delivery.DropOffLocation),
+                PickUpLocation = DeliveryLocationDTO.FromLocation(delivery.PickUpLocation),
             };
         }
     }
