@@ -33,36 +33,7 @@ namespace Courier.API.Infrastructure
                     Latitude = 0.1223,
                     Longitude = 1.2111
                 };
-                await context.CourierLocations.InsertOneAsync(courierLocation);
-
-                var delivery = new Delivery()
-                {
-                    Number = 1,
-                    CourierId = courier.Id,
-                    Price = 12,
-                    Note = "Amid Store",
-                    Weight = 2,
-                    DeliveryStatus = DeliveryStatus.NotStarted,
-                    PickUpLocation = new DeliveryLocation()
-                    {
-                        Address = "31mkr Amid store",
-                        ContactPerson = new ContactPerson()
-                        {
-                            Name = "PickUpPerson",
-                            Phone = "+123321123"
-                        }
-                    },
-                    DropOffLocation = new DeliveryLocation()
-                    {
-                        Address = "31/17/24",
-                        ContactPerson = new ContactPerson()
-                        {
-                            Name = "DropOffPerson",
-                            Phone = "+999888777"
-                        }
-                    },
-                };
-                await context.Deliveries.InsertOneAsync(delivery);
+                await context.CourierLocations.InsertOneAsync(courierLocation); 
             }
         }
     }

@@ -2,12 +2,14 @@
 {
     public enum DeliveryStatus
     {
-        NotStarted = 1, //Awaiting delivery
-        CourierDeparted = 2,
-        CourierPickedUp = 3,
-        CourierArrived = 4,
-        Completed = 5,
-        Canceled = 6,
-        Failed = 7
+        Available = 1,
+        CourierAssigned = 2,
+        CourierDeparted = 3,
+        CourierPickedUp = 4,
+        CourierArrived = 5,
+        Completed = 6,
+        Canceled = 7,
+        Delayed = 8,
+        Failed = 9
     }
 }

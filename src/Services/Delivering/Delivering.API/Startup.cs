@@ -111,6 +111,7 @@ namespace Delivering.API
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
             eventBus.Subscribe<DeliveryStatusChangedToCourierPickedUpIntegrationEvent, DeliveryStatusChangedToCourierPickedUpIntegrationEventHandler>();
+            eventBus.Subscribe<CourierAssignedToDeliveryIntegrationEvent, CourierAssignedToDeliveryIntegrationEventHandler>();
         }
     }
 

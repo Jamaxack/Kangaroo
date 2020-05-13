@@ -62,11 +62,11 @@ namespace Delivering.Domain.AggregatesModel.DeliveryAggregate
             var deliveryStatusBeforeChange = _deliveryStatusId;
             _deliveryStatusId = DeliveryStatus.CourierPickedUp.Id;
             AddDomainEvent(new DeliveryStatusChangedToCourierPickedUpDomainEvent(Id, deliveryStatusBeforeChange));
-        }
+        } 
 
-        public void SetCourierId(Guid id)
+        public void AssignCourier(Guid courierId)
         {
-            _courierId = id;
+            _courierId = courierId;
             _deliveryStatusId = DeliveryStatus.CourierAssigned.Id;
         }
     }

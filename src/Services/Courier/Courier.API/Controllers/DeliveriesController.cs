@@ -1,8 +1,10 @@
-﻿using Courier.API.Infrastructure.Services;
+﻿using Courier.API.DataTransferableObjects;
+using Courier.API.Infrastructure.Services;
 using Courier.API.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -21,12 +23,28 @@ namespace Courier.API.Controllers
             _logger = logger;
         }
 
+        [Route("Available")]
+        [HttpGet]
+        [ProducesResponseType(typeof(List<Delivery>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetAvailableDeliveriesAsync()
+            => Ok(await _deliveryService.GetAvailableDeliveriesAsync());
+
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         public async Task<IActionResult> CreateDeliveryAsync(Delivery delivery)
         {
             await _deliveryService.InsertDeliveryAsync(delivery);
+            return Accepted();
+        }
+
+        [Route("AssignCourier")]
+        [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        public async Task<IActionResult> AssignCourierToDeliveryAsync(AssignCourierToDeliveryDTO assignCourierToDelivery)
+        {
+            await _deliveryService.AssignCourierToDeliveryAsync(assignCourierToDelivery);
             return Accepted();
         }
 
@@ -54,7 +72,7 @@ namespace Courier.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         public async Task<IActionResult> PickedUpAsync(Guid deliveryId)
         {
-            await _deliveryService.DeliveryStatusChangedToCourierPickedUp(deliveryId);
+            await _deliveryService.DeliveryStatusChangedToCourierPickedUpAsync(deliveryId);
             return Accepted();
         }
     }
