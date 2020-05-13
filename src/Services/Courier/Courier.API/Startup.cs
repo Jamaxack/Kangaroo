@@ -5,6 +5,8 @@ using Courier.API.Infrastructure;
 using Courier.API.Infrastructure.Filters;
 using Courier.API.Infrastructure.Repositories;
 using Courier.API.Infrastructure.Services;
+using Courier.API.IntegrationEvents.EventHandling;
+using Courier.API.IntegrationEvents.Events;
 using Courier.API.Mapping;
 using Courier.API.Validators;
 using FluentValidation.AspNetCore;
@@ -92,8 +94,14 @@ namespace Courier.API
             });
 
             CourierContextSeed.SeedAsync(app, loggerFactory).Wait();
+            ConfigureEventBus(app);
         }
 
+        void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<DeliveryCreatedIntegrationEvent, DeliveryCreatedIntegrationEventHandler>();
+        }
     }
 
     public static class StartupExtensionMethods
@@ -146,12 +154,12 @@ namespace Courier.API
 
             var subscriptionClientName = configuration["SubscriptionClientName"];
 
-            services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
+            services.AddSingleton<IEventBus, EventBusRabbitMQ>(serviceProvider =>
             {
-                var rabbitMQPersistentConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
-                var iLifetimeScope = sp.GetRequiredService<ILifetimeScope>();
-                var logger = sp.GetRequiredService<ILogger<EventBusRabbitMQ>>();
-                var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
+                var rabbitMQPersistentConnection = serviceProvider.GetRequiredService<IRabbitMQPersistentConnection>();
+                var iLifetimeScope = serviceProvider.GetRequiredService<ILifetimeScope>();
+                var logger = serviceProvider.GetRequiredService<ILogger<EventBusRabbitMQ>>();
+                var eventBusSubcriptionsManager = serviceProvider.GetRequiredService<IEventBusSubscriptionsManager>();
 
                 var retryCount = 5;
                 if (!string.IsNullOrEmpty(configuration["EventBusRetryCount"]))
@@ -162,7 +170,9 @@ namespace Courier.API
                 return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, subscriptionClientName, retryCount);
             });
 
-            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>(); 
+            services.AddTransient<DeliveryCreatedIntegrationEventHandler>();
+
             return services;
         }
 

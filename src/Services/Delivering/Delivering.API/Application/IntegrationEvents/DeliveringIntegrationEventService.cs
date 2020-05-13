@@ -55,11 +55,11 @@ namespace Delivering.API.Application.IntegrationEvents
             }
         }
 
-        public async Task AddAndSaveEventAsync(IntegrationEvent evt)
+        public async Task AddAndSaveEventAsync(IntegrationEvent integrationEvent)
         {
-            _logger.LogInformation("----- Enqueuing integration event {IntegrationEventId} to repository ({@IntegrationEvent})", evt.Id, evt);
+            _logger.LogInformation("----- Enqueuing integration event {IntegrationEventId} to repository ({@IntegrationEvent})", integrationEvent.Id, integrationEvent);
 
-            await _eventLogService.SaveEventAsync(evt, _deliveringContext.GetCurrentTransaction());
+            await _eventLogService.SaveEventAsync(integrationEvent, _deliveringContext.GetCurrentTransaction());
         }
     }
 }

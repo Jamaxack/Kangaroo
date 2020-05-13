@@ -14,7 +14,7 @@ namespace Delivering.API.Infrastructure
 {
     public class DeliveringContextSeed
     {
-        public async Task SeedAsync(DeliveringContext context, IWebHostEnvironment env)
+        public async Task SeedAsync(DeliveringContext context, IWebHostEnvironment webHostEnvironment)
         {
             var policy = CreatePolicy(nameof(DeliveringContextSeed));
             await policy.ExecuteAsync(async () =>
@@ -34,22 +34,6 @@ namespace Delivering.API.Infrastructure
                         var client = new Client(identityGuid, "ClientFirstName", "ClientLastName", "+123456789");
                         context.Clients.Add(client);
                         await context.SaveChangesAsync();
-                    }
-
-                    if (!context.Deliveries.Any())
-                    {
-                        var client = context.Clients.Single();
-                        var order = new Delivery(client.Id, 1, 2, "Just note");
-                        context.Deliveries.Add(order);
-
-                        var contactPersonPickup = new ContactPerson("PickupPerson", "+111111111");
-                        var contactPersonDropoff = new ContactPerson("DropoffPerson", "+222222222");
-                        var deliveryLocationPickUp = new DeliveryLocation("31, Amid", "0", "0", "0", "0", 0, 0, "RC cola", DateTime.Now, DateTime.Now.AddMinutes(30), null, contactPersonPickup);
-                        var deliveryLocationDropOff = new DeliveryLocation("31, Yagondka street", "17", "2", "4", "24", 0, 0, "Note", DateTime.Now.AddHours(1), DateTime.Now.AddHours(2), null, contactPersonDropoff);
-
-                        order.SetPickUpLocation(deliveryLocationPickUp);
-                        order.SetDropOffLocation(deliveryLocationDropOff);
-                        await context.SaveEntitiesAsync();
                     }
                     await context.SaveEntitiesAsync();
                 };

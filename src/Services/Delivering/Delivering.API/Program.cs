@@ -1,5 +1,9 @@
+using Delivering.API.Infrastructure;
+using Delivering.Infrastructure;
+using Kangaroo.BuildingBlocks.IntegrationEventLogEF;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
@@ -18,16 +22,26 @@ namespace Delivering.API
             try
             {
                 logger.Debug("Init Delivering service");
-                WebHost.CreateDefaultBuilder(args)
-                  .UseStartup<Startup>()
-                  .ConfigureLogging(logging =>
-                  {
-                      logging.ClearProviders();
-                      logging.SetMinimumLevel(LogLevel.Trace);
-                  })
-                  .UseNLog()  // NLog: Setup NLog for Dependency injection
-                  .Build()
-                  .Run();
+                var host = WebHost.CreateDefaultBuilder(args)
+                   .UseStartup<Startup>()
+                   .ConfigureLogging(logging =>
+                   {
+                       logging.ClearProviders();
+                       logging.SetMinimumLevel(LogLevel.Trace);
+                   })
+                   .UseNLog()  // NLog: Setup NLog for Dependency injection
+                   .Build();
+
+                host.MigrateDbContext<DeliveringContext>((context, services) =>
+                {
+                    var webHostEnvironment = services.GetService<IWebHostEnvironment>();
+                    new DeliveringContextSeed()
+                        .SeedAsync(context, webHostEnvironment)
+                        .Wait();
+                })
+               .MigrateDbContext<IntegrationEventLogContext>((_, __) => { });
+               
+                host.Run();
             }
             catch (Exception exception)
             {

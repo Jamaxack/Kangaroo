@@ -3,7 +3,6 @@ using Autofac.Extensions.DependencyInjection;
 using Delivering.API.Application.IntegrationEvents;
 using Delivering.API.Application.IntegrationEvents.EventHandling;
 using Delivering.API.Application.IntegrationEvents.Events;
-using Delivering.API.Infrastructure;
 using Delivering.API.Infrastructure.AutofacModules;
 using Delivering.API.Infrastructure.Filters;
 using Delivering.Infrastructure;
@@ -11,6 +10,7 @@ using HealthChecks.UI.Client;
 using Kangaroo.BuildingBlocks.EventBus;
 using Kangaroo.BuildingBlocks.EventBus.Abstractions;
 using Kangaroo.BuildingBlocks.EventBusRabbitMQ;
+using Kangaroo.BuildingBlocks.IntegrationEventLogEF;
 using Kangaroo.BuildingBlocks.IntegrationEventLogEF.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -75,10 +75,6 @@ namespace Delivering.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
-                var context = serviceScope.ServiceProvider.GetRequiredService<DeliveringContext>();
-                context.Database.EnsureCreated();
-                new DeliveringContextSeed().SeedAsync(context, env).Wait();
             }
             app.UseHttpsRedirection();
             app.UseRouting();
@@ -175,6 +171,18 @@ namespace Delivering.API
                 },
                     ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
                 );
+
+            services.AddDbContext<IntegrationEventLogContext>(options =>
+            {
+                options.UseSqlServer(configuration["ConnectionString"],
+                                     sqlServerOptionsAction: sqlOptions =>
+                                     {
+                                         sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                                         //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
+                                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                                     });
+            });
+
             return services;
         }
 

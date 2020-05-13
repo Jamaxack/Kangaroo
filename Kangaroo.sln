@@ -49,6 +49,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBusServiceBus", "src\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationEventLogEF", "src\Services\BuildingBlocks\EventBus\IntegrationEventLogEF\IntegrationEventLogEF.csproj", "{BB36FC05-41E1-4F08-915E-B1A032506C9B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebHost", "WebHost", "{36038989-AB54-48C4-BD2E-7432C4D84A22}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHost.Customization", "src\Services\BuildingBlocks\WebHostCustomization\WebHost.Customization\WebHost.Customization.csproj", "{C88A0115-6D55-48FF-BA16-DE4D61EFAFF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +107,10 @@ Global
 		{BB36FC05-41E1-4F08-915E-B1A032506C9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB36FC05-41E1-4F08-915E-B1A032506C9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB36FC05-41E1-4F08-915E-B1A032506C9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C88A0115-6D55-48FF-BA16-DE4D61EFAFF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C88A0115-6D55-48FF-BA16-DE4D61EFAFF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C88A0115-6D55-48FF-BA16-DE4D61EFAFF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C88A0115-6D55-48FF-BA16-DE4D61EFAFF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +138,8 @@ Global
 		{70C6308C-A720-4A93-B7AA-03A30D21A084} = {495F0995-7867-44C6-8BFC-4181028736DA}
 		{78037BD5-AC63-4A92-9BC4-6FAA8BDBECB2} = {495F0995-7867-44C6-8BFC-4181028736DA}
 		{BB36FC05-41E1-4F08-915E-B1A032506C9B} = {495F0995-7867-44C6-8BFC-4181028736DA}
+		{36038989-AB54-48C4-BD2E-7432C4D84A22} = {4F920626-9936-4C34-9E4B-3260488EE4E7}
+		{C88A0115-6D55-48FF-BA16-DE4D61EFAFF3} = {36038989-AB54-48C4-BD2E-7432C4D84A22}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {162D44E4-5354-48E3-85D9-62CB2985F33B}
