@@ -1,8 +1,5 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Courier.API.Model
 {
@@ -22,6 +19,6 @@ namespace Courier.API.Model
 
         public Guid CourierId { get; set; }
         public Guid ClientId { get; set; }
-        public Guid DeliveryId { get; set; } //Reference to original Delivery from Delivering service
+        public Guid DeliveryId { get; set; } //Reference to original Delivery from Delivery service
     }
 }
