@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 using System;
-using System.Net;
 
 namespace Courier.API
 {
@@ -22,19 +20,6 @@ namespace Courier.API
                 logger.Debug("Init Courier service");
                 WebHost.CreateDefaultBuilder(args)
                   .UseStartup<Startup>()
-                    .ConfigureKestrel(options =>
-                    {
-                        options.Listen(IPAddress.Any, 5002, listenOptions =>
-                        {
-                            listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
-                        });
-
-                        options.Listen(IPAddress.Any, 5003, listenOptions =>
-                        {
-                            listenOptions.Protocols = HttpProtocols.Http2;
-                        });
-
-                    })
                   .ConfigureLogging(logging =>
                   {
                       logging.ClearProviders();

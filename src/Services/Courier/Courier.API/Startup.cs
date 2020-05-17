@@ -1,8 +1,10 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using Courier.API.Configurations;
 using Courier.API.Infrastructure;
 using Courier.API.Infrastructure.Filters;
+using Courier.API.Infrastructure.GrpcServices;
 using Courier.API.Infrastructure.Repositories;
 using Courier.API.Infrastructure.Services;
 using Courier.API.IntegrationEvents.EventHandling;
@@ -10,7 +12,6 @@ using Courier.API.IntegrationEvents.Events;
 using Courier.API.Mapping;
 using Courier.API.Validators;
 using FluentValidation.AspNetCore;
-using GrpcCourier;
 using HealthChecks.UI.Client;
 using Kangaroo.BuildingBlocks.EventBus;
 using Kangaroo.BuildingBlocks.EventBus.Abstractions;
@@ -41,13 +42,15 @@ namespace Courier.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public virtual IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddGrpc();
+            services.AddHttpClient<IClientGrpcService, ClientGrpcService>();
             services.AddControllers(options => options.Filters.Add(typeof(HttpGlobalExceptionFilter)))
             .AddNewtonsoftJson()
             .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<IFluentValidator>())
             .Services
             .AddHealthCheck(Configuration)
+            .AddOptions()
             .Configure<CourierSettings>(Configuration)
+            .Configure<UrlsConfiguration>(Configuration.GetSection("urls"))
             .RegisterEventBus(Configuration)
             .AddSwaggerGen()
             .AddCors()
@@ -73,7 +76,6 @@ namespace Courier.API
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<CourierGrpcService>();
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
                 endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
@@ -185,6 +187,7 @@ namespace Courier.API
             services.AddTransient<IDeliveryService, DeliveryService>();
             services.AddTransient<ICourierRepository, CourierRepository>();
             services.AddTransient<ICourierLocationRepository, CourierLocationRepository>();
+            services.AddTransient<IClientRepository, ClientRepository>();
             services.AddTransient<IDeliveryRepository, DeliveryRepository>();
             return services;
         }

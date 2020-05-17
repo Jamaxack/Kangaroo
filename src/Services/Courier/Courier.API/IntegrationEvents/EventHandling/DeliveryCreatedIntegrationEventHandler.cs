@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Courier.API.Infrastructure.GrpcServices;
+using Courier.API.Infrastructure.Repositories;
 using Courier.API.Infrastructure.Services;
 using Courier.API.IntegrationEvents.Events;
 using Courier.API.Model;
@@ -10,22 +12,32 @@ namespace Courier.API.IntegrationEvents.EventHandling
 {
     public class DeliveryCreatedIntegrationEventHandler : IIntegrationEventHandler<DeliveryCreatedIntegrationEvent>
     {
-        private readonly IDeliveryService _deliveryService;
-        private readonly IMapper _mapper;
-        private readonly ILogger<DeliveryCreatedIntegrationEventHandler> _logger;
+        readonly IDeliveryService _deliveryService;
+        readonly IClientGrpcService _clientGrpcService;
+        readonly IClientRepository _clientRepository;
+        readonly IMapper _mapper;
+        readonly ILogger<DeliveryCreatedIntegrationEventHandler> _logger;
 
-        public DeliveryCreatedIntegrationEventHandler(IDeliveryService deliveryService, IMapper mapper, ILogger<DeliveryCreatedIntegrationEventHandler> logger)
+        public DeliveryCreatedIntegrationEventHandler(IDeliveryService deliveryService, IClientGrpcService clientGrpcService, IClientRepository clientRepository, IMapper mapper, ILogger<DeliveryCreatedIntegrationEventHandler> logger)
         {
             _deliveryService = deliveryService;
+            _clientGrpcService = clientGrpcService;
+            _clientRepository = clientRepository;
             _mapper = mapper;
             _logger = logger;
         }
 
-        public Task Handle(DeliveryCreatedIntegrationEvent @event)
+        public async Task Handle(DeliveryCreatedIntegrationEvent @event)
         {
             _logger.LogInformation("----- Handling integration event: {IntegrationEventId} at {AppName} - ({@IntegrationEvent})", @event.Id, Program.AppName, @event);
             var delivery = _mapper.Map<Delivery>(@event);
-            return _deliveryService.InsertDeliveryAsync(delivery);
+
+            // Grpc call to Delivery service to get the Client, 
+            // client is not added to event bus, because message will be very heavy
+            var client = await _clientGrpcService.GetClientByIdAsync(delivery.ClientId.ToString());
+            await _clientRepository.InsertClientAsync(client);
+
+            await _deliveryService.InsertDeliveryAsync(delivery);
         }
     }
 }

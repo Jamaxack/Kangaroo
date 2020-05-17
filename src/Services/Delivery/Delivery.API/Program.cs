@@ -3,11 +3,13 @@ using Delivery.Infrastructure;
 using Kangaroo.BuildingBlocks.IntegrationEventLogEF;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 using System;
+using System.Net;
 
 namespace Delivery.API
 {
@@ -24,6 +26,18 @@ namespace Delivery.API
                 logger.Debug("Init Delivery service");
                 var host = WebHost.CreateDefaultBuilder(args)
                    .UseStartup<Startup>()
+                   .ConfigureKestrel(options =>
+                    {
+                        options.Listen(IPAddress.Any, 5000, listenOptions =>
+                        {
+                            listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+                        });
+                        options.Listen(IPAddress.Any, 5001, listenOptions =>
+                        {
+                            listenOptions.Protocols = HttpProtocols.Http2;
+                        });
+
+                    })
                    .ConfigureLogging(logging =>
                    {
                        logging.ClearProviders();

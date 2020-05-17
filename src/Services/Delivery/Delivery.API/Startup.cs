@@ -3,6 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using Delivery.API.Application.IntegrationEvents;
 using Delivery.API.Application.IntegrationEvents.EventHandling;
 using Delivery.API.Application.IntegrationEvents.Events;
+using Delivery.API.Grpc;
 using Delivery.API.Infrastructure.AutofacModules;
 using Delivery.API.Infrastructure.Filters;
 using Delivery.Infrastructure;
@@ -44,6 +45,7 @@ namespace Delivery.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public virtual IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddGrpc();
             services
                 .AddOptions()
                 .AddControllers(options =>
@@ -87,6 +89,7 @@ namespace Delivery.API
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<ClientGrpcService>();
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
                 // ~/hc returns full health check response with Self and SQL server database  state

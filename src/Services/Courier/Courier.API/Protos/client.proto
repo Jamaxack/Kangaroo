@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcClient";
+
+package DeliveryApi;
+
+service ClientGrpc {
+	rpc GetClientById(ClientRequest) returns (ClientResponse) {}
+}
+
+message ClientRequest {
+	string clientId = 1;
+}
+
+message ClientResponse {
+	string clientId = 1;
+	string phone = 2;
+	string fullName = 3; 
+}

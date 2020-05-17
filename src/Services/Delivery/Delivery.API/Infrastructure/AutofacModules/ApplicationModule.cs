@@ -23,6 +23,10 @@ namespace Delivery.API.Infrastructure.AutofacModules
                 .As<IDeliveryQueries>()
                 .InstancePerLifetimeScope();
 
+            builder.Register(x => new ClientQueries(QueriesConnectionString))
+                .As<IClientQueries>()
+                .InstancePerLifetimeScope();
+
             builder.RegisterType<ClientRepository>()
                 .As<IClientRepository>()
                 .InstancePerLifetimeScope();

@@ -24,6 +24,6 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\EventBus\EventBus.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Protobuf Include="Protos\courier.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\client.proto" GrpcServices="Client" />
   </ItemGroup>
 </Project>
