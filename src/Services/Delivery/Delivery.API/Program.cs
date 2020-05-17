@@ -4,11 +4,13 @@ using Kangaroo.BuildingBlocks.IntegrationEventLogEF;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 using System;
+using System.IO;
 using System.Net;
 
 namespace Delivery.API
@@ -28,11 +30,12 @@ namespace Delivery.API
                    .UseStartup<Startup>()
                    .ConfigureKestrel(options =>
                     {
-                        options.Listen(IPAddress.Any, 5000, listenOptions =>
+                        var ports = GetDefinedPorts();
+                        options.Listen(IPAddress.Any, ports.httpPort, listenOptions =>
                         {
                             listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
                         });
-                        options.Listen(IPAddress.Any, 5001, listenOptions =>
+                        options.Listen(IPAddress.Any, ports.grpcPort, listenOptions =>
                         {
                             listenOptions.Protocols = HttpProtocols.Http2;
                         });
@@ -67,6 +70,18 @@ namespace Delivery.API
                 // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
                 NLog.LogManager.Shutdown();
             }
+        }
+
+        static (int httpPort, int grpcPort) GetDefinedPorts()
+        {
+            var configuration = new ConfigurationBuilder()
+              .SetBasePath(Directory.GetCurrentDirectory())
+              .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true)
+              .AddEnvironmentVariables().Build();
+
+            var grpcPort = configuration.GetValue("GRPC_PORT", 5001);
+            var port = configuration.GetValue("PORT", 5000);
+            return (port, grpcPort);
         }
     }
 }
