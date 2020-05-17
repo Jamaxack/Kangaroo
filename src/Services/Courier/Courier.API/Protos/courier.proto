@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcCourier";
+
+package CourierApi;
+
+service Courier {
+	rpc GetDeliveryById(DeliveryRequest) returns (DeliveryResponse) {}
+}
+
+message DeliveryRequest {
+	string deliveryId = 1;
+}
+
+message DeliveryResponse {
+	string deliveryId = 1;
+	int64 number = 2;
+	string status = 3;
+	string note = 4; 
+}

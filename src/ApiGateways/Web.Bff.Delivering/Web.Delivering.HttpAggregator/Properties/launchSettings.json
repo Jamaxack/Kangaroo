@@ -1,13 +1,14 @@
 ﻿{
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "Courier.API": {
+    "Web.Delivering.HttpAggregator": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "",
+      "applicationUrl": "https://localhost:5010",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:5002"
+      }
     }
   }
 }

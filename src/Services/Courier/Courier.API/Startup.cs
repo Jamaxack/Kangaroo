@@ -10,6 +10,7 @@ using Courier.API.IntegrationEvents.Events;
 using Courier.API.Mapping;
 using Courier.API.Validators;
 using FluentValidation.AspNetCore;
+using GrpcCourier;
 using HealthChecks.UI.Client;
 using Kangaroo.BuildingBlocks.EventBus;
 using Kangaroo.BuildingBlocks.EventBus.Abstractions;
@@ -40,6 +41,7 @@ namespace Courier.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public virtual IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddGrpc();
             services.AddControllers(options => options.Filters.Add(typeof(HttpGlobalExceptionFilter)))
             .AddNewtonsoftJson()
             .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<IFluentValidator>())
@@ -67,11 +69,11 @@ namespace Courier.API
             }
 
             app.UseCors("CorsPolicy");
-            app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<CourierGrpcService>();
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
                 endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
@@ -170,7 +172,7 @@ namespace Courier.API
                 return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, subscriptionClientName, retryCount);
             });
 
-            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>(); 
+            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
             services.AddTransient<DeliveryCreatedIntegrationEventHandler>();
 
             return services;

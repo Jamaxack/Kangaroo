@@ -76,7 +76,6 @@ namespace Delivery.API
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
             app.UseCors("CorsPolicy");
