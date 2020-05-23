@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2017-latest 
+
+  nosqldata:
+    image: mongo
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
+  delivery-api:
+    image: kangaroo/delivery.api    # For now images must be created first for development
+    build:
+      context: .
+      dockerfile: src/Services/Delivery/Delivery.API/Dockerfile
+    depends_on:
+      - sqldata
+      - rabbitmq
+
+  couriers-api:
+    image: kangaroo/courier.api     # For now images must be created first for development
+    build:
+      context: .
+      dockerfile: src/Services/Courier/Courier.API/Dockerfile
+    depends_on:
+      - nosqldata
+      - rabbitmq

@@ -76,7 +76,7 @@ namespace Delivery.API
         {
             var configuration = new ConfigurationBuilder()
               .SetBasePath(Directory.GetCurrentDirectory())
-              .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true)
+              .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
               .AddEnvironmentVariables().Build();
 
             var grpcPort = configuration.GetValue("GRPC_PORT", 5001);
