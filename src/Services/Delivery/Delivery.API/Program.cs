@@ -30,12 +30,12 @@ namespace Delivery.API
                    .UseStartup<Startup>()
                    .ConfigureKestrel(options =>
                     {
-                        var ports = GetDefinedPorts();
-                        options.Listen(IPAddress.Any, ports.httpPort, listenOptions =>
+                        var (httpPort, grpcPort) = GetDefinedPorts();
+                        options.Listen(IPAddress.Any, httpPort, listenOptions =>
                         {
                             listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
                         });
-                        options.Listen(IPAddress.Any, ports.grpcPort, listenOptions =>
+                        options.Listen(IPAddress.Any, grpcPort, listenOptions =>
                         {
                             listenOptions.Protocols = HttpProtocols.Http2;
                         });
