@@ -32,10 +32,14 @@ namespace Courier.API.IntegrationEvents.EventHandling
             _logger.LogInformation("----- Handling integration event: {IntegrationEventId} at {AppName} - ({@IntegrationEvent})", @event.Id, Program.AppName, @event);
             var delivery = _mapper.Map<Delivery>(@event);
 
-            // Grpc call to Delivery service to get the Client, 
-            // client is not added to event bus, because message will be very heavy
-            var client = await _clientGrpcService.GetClientByIdAsync(delivery.ClientId.ToString());
-            await _clientRepository.InsertClientAsync(client);
+            var existingClient = _clientRepository.GetClientByIdAsync(delivery.ClientId);
+            if (existingClient == null)
+            {
+                // Grpc call to Delivery service to get the Client, 
+                // client is not added to event bus, because message will be very heavy
+                var client = await _clientGrpcService.GetClientByIdAsync(delivery.ClientId.ToString());
+                await _clientRepository.InsertClientAsync(client);
+            }
 
             await _deliveryService.InsertDeliveryAsync(delivery);
         }

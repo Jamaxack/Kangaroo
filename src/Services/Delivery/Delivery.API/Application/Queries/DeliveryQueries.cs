@@ -51,7 +51,7 @@ namespace Delivery.API.Application.Queries
                   LEFT JOIN Delivery.DeliveryStatus DeliveryStatus ON DeliveryStatus.Id = Delivery.DeliveryStatusId";
         #endregion
 
-        string _connectionString = string.Empty;
+        readonly string _connectionString = string.Empty;
         public DeliveryQueries(string connectionString)
         {
             _connectionString = !string.IsNullOrWhiteSpace(connectionString) ? connectionString : throw new ArgumentNullException(nameof(connectionString));

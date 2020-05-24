@@ -39,6 +39,23 @@ namespace Delivery.API.Application.Queries
             }
         }
 
+        public async Task<List<ClientViewModel>> GetClientsAsync(int pageSize, int pageIndex)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                var offset = pageSize * pageIndex;
+                var pagedQuery = $"{SelectClientsQuery} {@"Order BY FirstName, LastName OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY"}";
+                var queryResult = await connection.QueryAsync(pagedQuery, param: new { offset, pageSize });
+
+                var clients = new List<ClientViewModel>();
+                foreach (var client in queryResult)
+                    clients.Add(MapToClientViewModel(client));
+
+                return clients;
+            }
+        }
+
         ClientViewModel MapToClientViewModel(dynamic queryResult)
         {
             return new ClientViewModel()
