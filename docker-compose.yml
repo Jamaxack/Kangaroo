@@ -1,65 +1,30 @@
 version: '3.4'
 
 services:
+
   sqldata:
-    image: mcr.microsoft.com/mssql/server:2017-latest
-    environment:
-      - SA_PASSWORD=Pass@word
-      - ACCEPT_EULA=Y
-    ports:
-      - "1433:1433"     # Important: In a production environment remove external port
-    volumes:
-      - kangaroo-sqldata:/var/opt/mssql
+    image: mcr.microsoft.com/mssql/server:2017-latest 
 
   nosqldata:
     image: mongo
-    ports:
-      - "27017:27017"   # Important: In a production environment remove external port
-    volumes:
-      - kangaroo-nosqldata:/data/db
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
-    ports:
-      - "15672:15672"   # Important: In a production environment remove external port
-      - "5672:5672"     # Important: In a production environment remove external port
 
   delivery-api:
-    image: jamaxack/deliveryapi
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionString=Server=sqldata;Database=Kangaroo.Services.Delivery;User Id=sa;Password=Pass@word
-      - EventBusConnection=rabbitmq
-      - PATH_BASE=/delivery-api
-      - PORT=80
-      - GRPC_PORT=81
-    ports:
-      - "5000:80"
-      - "5001:81"
+    image: kangaroo/delivery.api    # For now images must be created first for development
+    build:
+      context: .
+      dockerfile: src/Services/Delivery/Delivery.API/Dockerfile
     depends_on:
       - sqldata
       - rabbitmq
 
   couriers-api:
-    image: jamaxack/courierapi
+    image: kangaroo/courier.api     # For now images must be created first for development
+    build:
+      context: .
+      dockerfile: src/Services/Courier/Courier.API/Dockerfile
     depends_on:
       - nosqldata
       - rabbitmq
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - urls__delivery=http://delivery-api
-      - urls__grpcDelivery=http://delivery-api:81
-      - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionString=mongodb://nosqldata
-      - Database=CouriersDb 
-      - EventBusConnection=rabbitmq
-      - PATH_BASE=/couriers-api
-    ports:
-      - "5002:80"
-
-volumes:
-  kangaroo-sqldata:
-    external: false
-  kangaroo-nosqldata:
-    external: false
