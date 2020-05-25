@@ -1,0 +1,9 @@
+sudo: required
+services:
+  - docker
+
+before-install:
+  - docker build --target testrunner -t jamaxack/deliveryapi -f src/Services/Delivery/Delivery.API/Dockerfile .
+
+script:
+  - docker run jamaxack/deliveryapi

@@ -35,12 +35,13 @@ RUN dotnet publish "Delivery.API.csproj" -c Release -o /app/publish
 
 # this layer is used for running unit tests in Continuous Integration
 FROM build AS testrunner
-WORKDIR "/src/Services/Delivery/Delivery.UnitTests"
+WORKDIR "/source/src/Services/Delivery/Delivery.UnitTests"
+# on running this build target it will run the unit tests
 CMD ["dotnet", "test", "--logger:trx"]
 
 # run unit tests on building image
 FROM build as unittest
-WORKDIR "/src/Services/Delivery/Delivery.UnitTests"
+WORKDIR "/source/src/Services/Delivery/Delivery.UnitTests"
 RUN dotnet test --logger:trx
 
 
