@@ -21,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: src/Services/Delivery/Delivery.API/Dockerfile
-    restart: always
+    restart: on-failure
     networks:
       - backend
     depends_on:
@@ -32,7 +32,7 @@ services:
     build:
       context: .
       dockerfile: src/Services/Courier/Courier.API/Dockerfile
-    restart: always
+    restart: on-failure
     networks:
       - backend
     depends_on:
