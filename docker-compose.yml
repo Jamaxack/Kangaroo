@@ -39,7 +39,7 @@ services:
     depends_on:
       - sqldata
       - rabbitmq
-  couriers-api:
+  courier-api:
     image: jamaxack/courierapi
     restart: on-failure
     environment:
@@ -50,7 +50,7 @@ services:
       - ConnectionString=mongodb://nosqldata
       - Database=CouriersDb 
       - EventBusConnection=rabbitmq
-      - PATH_BASE=/couriers-api
+      - PATH_BASE=/courier-api
     ports:
       - "5002:80"
     networks:

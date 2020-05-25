@@ -28,9 +28,10 @@ services:
     networks:
       - backend
   delivery-api:
+    image: jamaxack/deliveryapi:dev
     build:
       context: .
-      dockerfile: src/Services/Delivery/Delivery.API/Dockerfile
+      dockerfile: src/Services/Delivery/Delivery.API/Dockerfile.development
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -48,10 +49,11 @@ services:
     depends_on:
       - sqldata
       - rabbitmq
-  couriers-api:
+  courier-api:
+    image: jamaxack/courierapi:dev
     build:
       context: .
-      dockerfile: src/Services/Courier/Courier.API/Dockerfile
+      dockerfile: src/Services/Courier/Courier.API/Dockerfile.development
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -61,7 +63,7 @@ services:
       - ConnectionString=mongodb://nosqldata
       - Database=CouriersDb 
       - EventBusConnection=rabbitmq
-      - PATH_BASE=/couriers-api
+      - PATH_BASE=/courier-api
     ports:
       - "5002:80"
     networks:
