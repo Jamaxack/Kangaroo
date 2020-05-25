@@ -26,11 +26,23 @@ COPY ["src/BuildingBlocks/WebHostCustomization/WebHost.Customization/WebHost.Cus
 RUN dotnet restore "Kangaroo.sln"
 
 COPY . .
+
 WORKDIR "/source/src/Services/Delivery/Delivery.API"
 RUN dotnet build "Delivery.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "Delivery.API.csproj" -c Release -o /app/publish
+
+# this layer is used for running unit tests in Continuous Integration
+FROM build AS testrunner
+WORKDIR "/src/Services/Delivery/Delivery.UnitTests"
+CMD ["dotnet", "test", "--logger:trx"]
+
+# run unit tests on building image
+FROM build as unittest
+WORKDIR "/src/Services/Delivery/Delivery.UnitTests"
+RUN dotnet test --logger:trx
+
 
 FROM base AS final
 WORKDIR /app
