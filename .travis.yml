@@ -2,8 +2,17 @@ sudo: required
 services:
   - docker
 
-before-install:
-  - docker build --target testrunner -t jamaxack/deliveryapi -f src/Services/Delivery/Delivery.API/Dockerfile .
+before_install:
+  - docker build --target testrunner -t jamaxack/deliveryapitest -f src/Services/Delivery/Delivery.API/Dockerfile .
 
 script:
-  - docker run jamaxack/deliveryapi
+  - docker run jamaxack/deliveryapitest
+
+after_success:
+  - docker build -t jamaxack/deliveryapi -f src/Services/Delivery/Delivery.API/Dockerfile .
+  - docker build -t jamaxack/courierapi -f src/Services/Courier/Courier.API/Dockerfile .
+  # Log in to the Docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Push images to docker hub
+  - docker push jamaxack/deliveryapi
+  - docker push jamaxack/courierapi
