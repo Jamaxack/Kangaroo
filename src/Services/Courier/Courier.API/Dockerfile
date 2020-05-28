@@ -32,6 +32,17 @@ RUN dotnet build "Courier.API.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "Courier.API.csproj" -c Release -o /app/publish
 
+# this layer is used for running unit tests in Continuous Integration
+FROM build AS testrunner
+WORKDIR "/source/src/Services/Courier/Courier.UnitTests"
+# on running this build target it will run the unit tests
+CMD ["dotnet", "test", "--logger:trx"]
+
+# run unit tests on building image
+FROM build as unittest
+WORKDIR "/source/src/Services/Courier/Courier.UnitTests"
+RUN dotnet test --logger:trx
+
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
