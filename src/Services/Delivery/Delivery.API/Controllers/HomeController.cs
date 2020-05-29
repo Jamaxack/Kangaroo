@@ -1,13 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Delivery.API.Controllers
 {
     public class HomeController : Controller
     {
+
+        readonly IConfiguration _configuration;
+
+        public HomeController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return new RedirectResult("~/swagger");
+            var pathBase = _configuration["PATH_BASE"];
+            return new RedirectResult($"~{pathBase}/swagger");
         }
     }
 }

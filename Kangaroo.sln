@@ -57,8 +57,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		.travis.yml = .travis.yml
-		docker-compose.development.yml = docker-compose.development.yml
+		docker-compose.hosting.yml = docker-compose.hosting.yml
 		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{66652870-4308-4807-B25C-A4F4361FC5D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nginx", "Nginx", "{089BFDFA-5D59-47A6-9B29-43D3E8C3C040}"
+	ProjectSection(SolutionItems) = preProject
+		src\ApiGateways\Nginx\Dockerfile = src\ApiGateways\Nginx\Dockerfile
+		src\ApiGateways\Nginx\nginx.conf = src\ApiGateways\Nginx\nginx.conf
 	EndProjectSection
 EndProject
 Global
@@ -148,6 +156,8 @@ Global
 		{BB36FC05-41E1-4F08-915E-B1A032506C9B} = {495F0995-7867-44C6-8BFC-4181028736DA}
 		{36038989-AB54-48C4-BD2E-7432C4D84A22} = {4F920626-9936-4C34-9E4B-3260488EE4E7}
 		{C88A0115-6D55-48FF-BA16-DE4D61EFAFF3} = {36038989-AB54-48C4-BD2E-7432C4D84A22}
+		{66652870-4308-4807-B25C-A4F4361FC5D6} = {EABD112F-1A4D-4CBC-BDE9-9B2F509819C6}
+		{089BFDFA-5D59-47A6-9B29-43D3E8C3C040} = {66652870-4308-4807-B25C-A4F4361FC5D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {162D44E4-5354-48E3-85D9-62CB2985F33B}

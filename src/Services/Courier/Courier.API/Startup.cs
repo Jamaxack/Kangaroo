@@ -27,12 +27,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RabbitMQ.Client;
 using System;
+using System.Collections.Generic;
 
 namespace Courier.API
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
         {
@@ -89,13 +90,23 @@ namespace Courier.API
                 });
             });
 
-            app.UseSwagger()
-            .UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Couriers.API V1");
-                c.OAuthClientId("couriersswaggerui");
-                c.OAuthAppName("Couriers Swagger UI");
-            });
+            var pathBase = Configuration["PATH_BASE"];
+            app.UseSwagger(c =>
+                {
+                    if (!string.IsNullOrWhiteSpace(pathBase))
+                    {
+                        c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+                        {
+                            swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{pathBase}" } };
+                        });
+                    }
+                })
+                .UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint($"{pathBase}/swagger/v1/swagger.json", "Couriers.API V1");
+                    c.OAuthClientId("couriersswaggerui");
+                    c.OAuthAppName("Couriers Swagger UI");
+                });
 
             CourierContextSeed.SeedAsync(app, loggerFactory).Wait();
             ConfigureEventBus(app);

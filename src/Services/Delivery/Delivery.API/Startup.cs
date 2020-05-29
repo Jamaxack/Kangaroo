@@ -26,6 +26,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RabbitMQ.Client;
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Reflection;
 
@@ -33,14 +34,13 @@ namespace Delivery.API
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-        public IContainer Container { get; private set; }
+        IConfiguration Configuration { get; }
+        IContainer Container { get; set; }
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public virtual IServiceProvider ConfigureServices(IServiceCollection services)
@@ -81,10 +81,21 @@ namespace Delivery.API
             app.UseRouting();
             app.UseAuthorization();
             app.UseCors("CorsPolicy");
-            app.UseSwagger()
+
+            var pathBase = Configuration["PATH_BASE"];
+            app.UseSwagger(c =>
+                {
+                    if (!string.IsNullOrWhiteSpace(pathBase))
+                    {
+                        c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+                        {
+                            swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{pathBase}" } };
+                        });
+                    }
+                })
             .UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint($"/swagger/v1/swagger.json", "Delivery.API V1");
+                c.SwaggerEndpoint($"{pathBase}/swagger/v1/swagger.json", "Delivery.API V1");
             });
 
             app.UseEndpoints(endpoints =>

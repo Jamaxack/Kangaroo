@@ -6,34 +6,54 @@ services:
     environment:
       - SA_PASSWORD=Pass@word
       - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"     # Important: In a production environment remove external port
     volumes:
       - kangaroo-sqldata:/var/opt/mssql
     networks:
       - backend
   nosqldata:
     image: mongo
+    ports:
+      - "27017:27017"   # Important: In a production environment remove external port
     volumes:
       - kangaroo-nosqldata:/data/db
     networks:
       - backend
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    ports:
+      - "15672:15672"   # Important: In a production environment remove external port
+      - "5672:5672"     # Important: In a production environment remove external port
     networks:
       - backend
+  nginx-apigateway:
+    image: jamaxack/nginx
+    build:
+      context: ./src/ApiGateways/Nginx
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - backend
+    ports:
+      - '3050:80'
+    depends_on:
+      - delivery-api
+      - courier-api
   delivery-api:
     image: jamaxack/deliveryapi
+    build:
+      context: .
+      dockerfile: src/Services/Delivery/Delivery.API/Dockerfile
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - ConnectionString=Server=sqldata;Database=Kangaroo.Services.Delivery;User Id=sa;Password=Pass@word
       - EventBusConnection=rabbitmq
-      - PATH_BASE=/delivery-api
+      - PATH_BASE=/delivery
       - PORT=80
       - GRPC_PORT=81
-    ports:
-      - "5000:80"
-      - "5001:81"
     networks:
       - backend
     depends_on:
@@ -41,6 +61,9 @@ services:
       - rabbitmq
   courier-api:
     image: jamaxack/courierapi
+    build:
+      context: .
+      dockerfile: src/Services/Courier/Courier.API/Dockerfile
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -50,9 +73,7 @@ services:
       - ConnectionString=mongodb://nosqldata
       - Database=CouriersDb 
       - EventBusConnection=rabbitmq
-      - PATH_BASE=/courier-api
-    ports:
-      - "5002:80"
+      - PATH_BASE=/courier
     networks:
       - backend
     depends_on:
