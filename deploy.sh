@@ -7,7 +7,7 @@ docker push jamaxack/deliveryapi
 docker push jamaxack/courierapi
 docker push jamaxack/nginx
 
-kubectl apply -f src/k8s
+kubectl apply -f src/K8s
 
 kubectl set image deployments/delivery-deployment deliveryapi=jamaxack/deliveryapi
 kubectl set image deployments/courier-deployment courierapi=jamaxack/courierapi
