@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: rabbitmq
+  ports:
+    - port: 15672 #Other pods can access this pod with this port
+      targetPort: 15672 #RabbitMQ deployment port
+      name: defaultport1
+    - port: 5672 #Other pods can access this pod with this port
+      targetPort: 5672 #RabbitMQ deployment port
+      name: defaultport2
