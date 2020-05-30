@@ -6,11 +6,11 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      component: courier-api
+      component: courierapi
   template:
     metadata:
       labels:
-        component: courier-api
+        component: courierapi
     spec:
       containers:
         - name: courierapi

@@ -1,8 +1,19 @@
 sudo: required
 services:
   - docker
-
+env:
+  global:
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
+  - openssl aes-256-cbc -K $encrypted_0f361fdb1767_key -iv $encrypted_0f361fdb1767_iv -in google-service-account.json.enc -out google-service-account.json -d
+  - curl https://sdk.cloud.google.com | bash > /dev/null;
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  - gcloud components update kubectl
+  - gcloud auth activate-service-account --key-file google-service-account.json
+  - gcloud config set project kangaroo-278818
+  - gcloud config set compute/zone us-central1-c
+  - gcloud container clusters get-credentials kangaroocluster
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   - docker build --target testrunner -t jamaxack/deliveryapitest -f src/Services/Delivery/Delivery.API/Dockerfile .
   - docker build --target testrunner -t jamaxack/courierapitest -f src/Services/Courier/Courier.API/Dockerfile .
 
@@ -10,13 +21,8 @@ script:
   - docker run jamaxack/deliveryapitest
   - docker run jamaxack/courierapitest
 
-after_success:
-  - docker build -t jamaxack/deliveryapi -f src/Services/Delivery/Delivery.API/Dockerfile .
-  - docker build -t jamaxack/courierapi -f src/Services/Courier/Courier.API/Dockerfile .
-  - docker build -t jamaxack/nginx ./src/ApiGateways/Nginx
-  # Log in to the Docker CLI
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  # Push images to docker hub
-  - docker push jamaxack/deliveryapi
-  - docker push jamaxack/courierapi
-  - docker push jamaxack/nginx
+deploy:
+  provider: script
+  script: bash ./deploy.sh
+  on:
+    branch: master
