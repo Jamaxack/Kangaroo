@@ -26,6 +26,6 @@ spec:
               mountPath: /var/opt/mssql
           env:
             - name: SA_PASSWORD
-              value: Pass@word #TODO Create secret for password
+              value: 'Pass@word' #TODO Create secret for password
             - name: ACCEPT_EULA
               value: 'Y'
