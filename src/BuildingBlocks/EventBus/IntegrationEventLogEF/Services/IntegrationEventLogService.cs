@@ -1,12 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Kangaroo.BuildingBlocks.EventBus.Events;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Kangaroo.BuildingBlocks.EventBus;
-using Kangaroo.BuildingBlocks.EventBus.Events;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -42,11 +37,12 @@ namespace Kangaroo.BuildingBlocks.IntegrationEventLogEF.Services
             var result = await _integrationEventLogContext.IntegrationEventLogs
                 .Where(e => e.TransactionId == tid && e.State == EventStateEnum.NotPublished).ToListAsync();
 
-            if(result != null && result.Any()){
+            if (result != null && result.Any())
+            {
                 return result.OrderBy(o => o.CreationTime)
-                    .Select(e => e.DeserializeJsonContent(_eventTypes.Find(t=> t.Name == e.EventTypeShortName)));
+                    .Select(e => e.DeserializeJsonContent(_eventTypes.Find(t => t.Name == e.EventTypeShortName)));
             }
-            
+
             return new List<IntegrationEventLogEntry>();
         }
 
@@ -82,7 +78,7 @@ namespace Kangaroo.BuildingBlocks.IntegrationEventLogEF.Services
             var eventLogEntry = _integrationEventLogContext.IntegrationEventLogs.Single(ie => ie.EventId == eventId);
             eventLogEntry.State = status;
 
-            if(status == EventStateEnum.InProgress)
+            if (status == EventStateEnum.InProgress)
                 eventLogEntry.TimesSent++;
 
             _integrationEventLogContext.IntegrationEventLogs.Update(eventLogEntry);

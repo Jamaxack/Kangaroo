@@ -1,10 +1,6 @@
-﻿using MediatR;
+﻿using Delivery.Infrastructure.Idempotency;
+using MediatR;
 using Microsoft.Extensions.Logging;
-using Delivery.Infrastructure.Idempotency;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Delivery.API.Application.Commands
 {

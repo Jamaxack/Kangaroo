@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using Delivery.API.Application.Commands;
+﻿using Delivery.API.Application.Commands;
+using FluentValidation;
 
 namespace Delivery.API.Application.Validations
 {

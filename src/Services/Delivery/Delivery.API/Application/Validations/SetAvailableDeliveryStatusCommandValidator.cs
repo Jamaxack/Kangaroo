@@ -1,9 +1,5 @@
-﻿using FluentValidation;
-using Delivery.API.Application.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Delivery.API.Application.Commands;
+using FluentValidation;
 
 namespace Delivery.API.Application.Validations
 {

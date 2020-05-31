@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Kangaroo.BuildingBlocks.EventBus.Events;
 using Newtonsoft.Json;
-using Kangaroo.BuildingBlocks.EventBus.Events;
-using System.Linq;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection;
-using Microsoft.Extensions.Logging;
-using Kangaroo.BuildingBlocks.IntegrationEventLogEF.Services;
+using System.Linq;
 
 namespace Kangaroo.BuildingBlocks.IntegrationEventLogEF
 {
@@ -16,7 +11,7 @@ namespace Kangaroo.BuildingBlocks.IntegrationEventLogEF
         private IntegrationEventLogEntry() { }
         public IntegrationEventLogEntry(IntegrationEvent @event, Guid transactionId)
         {
-            EventId = @event.Id;            
+            EventId = @event.Id;
             CreationTime = @event.CreationDate;
             EventTypeName = @event.GetType().FullName;
             Content = JsonConvert.SerializeObject(@event);

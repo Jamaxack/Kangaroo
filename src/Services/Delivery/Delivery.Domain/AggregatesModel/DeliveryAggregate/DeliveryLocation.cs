@@ -1,5 +1,4 @@
-﻿using Delivery.Domain.AggregatesModel.ClientAggregate;
-using Delivery.Domain.Common;
+﻿using Delivery.Domain.Common;
 using System;
 using System.Collections.Generic;
 

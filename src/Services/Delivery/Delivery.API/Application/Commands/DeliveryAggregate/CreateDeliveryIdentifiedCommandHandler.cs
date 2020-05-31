@@ -1,6 +1,6 @@
-﻿using MediatR;
+﻿using Delivery.Infrastructure.Idempotency;
+using MediatR;
 using Microsoft.Extensions.Logging;
-using Delivery.Infrastructure.Idempotency;
 
 namespace Delivery.API.Application.Commands
 {

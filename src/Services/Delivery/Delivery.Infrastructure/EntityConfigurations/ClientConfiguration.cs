@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Delivery.Domain.AggregatesModel.ClientAggregate;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Delivery.Domain.AggregatesModel.ClientAggregate;
 
 namespace Delivery.Infrastructure.EntityConfigurations
 {

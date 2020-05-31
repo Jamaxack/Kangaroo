@@ -122,7 +122,7 @@ namespace Delivery.API.Controllers
         }
 
         //POST ~/api/v1/[controller]/3fa85f64-5717-4562-b3fc-2c963f66afa6/SetStatusToAvailable
-        [Route("{DeliveryId:Guid}/SetStatusToAvailable")] 
+        [Route("{DeliveryId:Guid}/SetStatusToAvailable")]
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]

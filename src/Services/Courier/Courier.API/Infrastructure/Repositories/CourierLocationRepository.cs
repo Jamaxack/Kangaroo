@@ -1,8 +1,5 @@
 ﻿using Courier.API.Model;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Courier.API.Infrastructure.Repositories

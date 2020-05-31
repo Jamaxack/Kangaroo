@@ -14,7 +14,7 @@
         public CourierRepository(IOptions<CourierSettings> settings)
         {
             _courierContext = new CourierContext(settings);
-        }       
+        }
 
         public Task InsertCourierAsync(Courier courier)
         {
@@ -28,7 +28,7 @@
                 courier,
                 new ReplaceOptions { IsUpsert = true });
         }
-      
+
         public Task<Courier> GetCourierByIdAsync(Guid courierId)
         {
             var filter = Builders<Courier>.Filter.Eq("_id", courierId);
@@ -48,7 +48,7 @@
             var filter = Builders<CourierLocation>.Filter.Eq("CourierId", courierId);
             return _courierContext.CourierLocations
                 .Find(filter)
-                .SortByDescending(x=>x.DateTime)
+                .SortByDescending(x => x.DateTime)
                 .FirstOrDefaultAsync();
         }
 

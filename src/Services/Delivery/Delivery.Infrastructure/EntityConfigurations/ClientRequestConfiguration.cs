@@ -1,9 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Delivery.Infrastructure.Idempotency;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Delivery.Infrastructure.Idempotency;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Delivery.Infrastructure.EntityConfigurations
 {

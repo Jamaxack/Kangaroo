@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Kangaroo.BuildingBlocks.EventBus.Abstractions;
+using Kangaroo.BuildingBlocks.EventBus.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Kangaroo.BuildingBlocks.EventBus.Abstractions;
-using Kangaroo.BuildingBlocks.EventBus.Events;
 
 namespace Kangaroo.BuildingBlocks.EventBus
 {

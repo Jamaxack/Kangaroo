@@ -30,7 +30,7 @@ namespace Courier.API.Infrastructure.Filters
                 var json = new JsonErrorResponse
                 {
                     Messages = new[] { context.Exception.Message }
-                }; 
+                };
 
                 context.Result = new BadRequestObjectResult(json);
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -46,7 +46,7 @@ namespace Courier.API.Infrastructure.Filters
                 {
                     json.DeveloperMessage = context.Exception;
                 }
-                 
+
                 context.Result = new InternalServerErrorObjectResult(json);
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }

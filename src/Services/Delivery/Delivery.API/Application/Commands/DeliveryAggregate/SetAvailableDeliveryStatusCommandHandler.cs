@@ -1,6 +1,6 @@
-﻿using MediatR;
+﻿using Delivery.Domain.AggregatesModel.DeliveryAggregate;
+using MediatR;
 using Microsoft.Extensions.Logging;
-using Delivery.Domain.AggregatesModel.DeliveryAggregate;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

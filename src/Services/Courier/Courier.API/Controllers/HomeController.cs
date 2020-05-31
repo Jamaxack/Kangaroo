@@ -15,7 +15,7 @@ namespace Courier.API.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            var pathBase = _configuration["PATH_BASE"]; 
+            var pathBase = _configuration["PATH_BASE"];
             return new RedirectResult($"~{pathBase}/swagger");
         }
     }

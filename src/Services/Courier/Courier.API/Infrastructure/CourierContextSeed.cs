@@ -33,7 +33,7 @@ namespace Courier.API.Infrastructure
                     Latitude = 0.1223,
                     Longitude = 1.2111
                 };
-                await context.CourierLocations.InsertOneAsync(courierLocation); 
+                await context.CourierLocations.InsertOneAsync(courierLocation);
             }
         }
     }

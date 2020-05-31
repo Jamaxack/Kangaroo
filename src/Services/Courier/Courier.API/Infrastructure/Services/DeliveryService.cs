@@ -74,7 +74,7 @@ namespace Courier.API.Infrastructure.Services
                 throw new CourierDomainException("Delivery Id is not specified");
 
             await _deliveryRepository.SetDeliveryStatusAsync(deliveryId, DeliveryStatus.CourierAssigned);
-            
+
             var deliveryStatusChangedEvent = new CourierAssignedToDeliveryIntegrationEvent(deliveryId, courierId);
             PublishIntegrationEvent(deliveryStatusChangedEvent);
         }

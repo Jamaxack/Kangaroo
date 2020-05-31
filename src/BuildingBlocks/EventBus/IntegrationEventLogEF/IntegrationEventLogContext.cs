@@ -1,13 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kangaroo.BuildingBlocks.IntegrationEventLogEF
 {
     public class IntegrationEventLogContext : DbContext
-    {       
+    {
         public IntegrationEventLogContext(DbContextOptions<IntegrationEventLogContext> options) : base(options)
         {
         }
@@ -15,7 +12,7 @@ namespace Kangaroo.BuildingBlocks.IntegrationEventLogEF
         public DbSet<IntegrationEventLogEntry> IntegrationEventLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
-        {          
+        {
             builder.Entity<IntegrationEventLogEntry>(ConfigureIntegrationEventLogEntry);
         }
 

@@ -1,9 +1,6 @@
-﻿using MediatR;
-using Delivery.Domain.Common;
-using System;
-using System.Collections.Generic;
+﻿using Delivery.Domain.Common;
+using MediatR;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Delivery.Infrastructure

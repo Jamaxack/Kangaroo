@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Delivery.Domain.AggregatesModel.ClientAggregate;
+﻿using Delivery.Domain.AggregatesModel.ClientAggregate;
 using Delivery.Domain.Common;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 

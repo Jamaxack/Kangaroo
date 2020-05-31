@@ -1,8 +1,8 @@
 ﻿namespace Delivery.Domain.Events
 {
+    using AggregatesModel.DeliveryAggregate;
     using MediatR;
     using System;
-    using AggregatesModel.DeliveryAggregate;
 
     public class DeliveryCreatedDomainEvent : INotification
     {

@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Delivery.Domain.Events;
+﻿using Delivery.Domain.Events;
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 

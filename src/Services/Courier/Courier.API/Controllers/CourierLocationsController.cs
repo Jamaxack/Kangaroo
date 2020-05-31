@@ -1,9 +1,7 @@
 ﻿using Courier.API.DataTransferableObjects;
 using Courier.API.Infrastructure.Services;
-using Courier.API.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -29,6 +27,6 @@ namespace Courier.API.Controllers
         {
             await _courierLocationService.InsertCourierLocationAsync(courierLocation);
             return Accepted();
-        } 
+        }
     }
 }

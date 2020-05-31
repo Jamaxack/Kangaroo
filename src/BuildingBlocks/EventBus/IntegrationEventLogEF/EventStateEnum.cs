@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kangaroo.BuildingBlocks.IntegrationEventLogEF
+﻿namespace Kangaroo.BuildingBlocks.IntegrationEventLogEF
 {
     public enum EventStateEnum
     {

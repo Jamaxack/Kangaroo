@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
-using Kangaroo.BuildingBlocks.EventBus.Events;
+﻿using Kangaroo.BuildingBlocks.EventBus.Events;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Kangaroo.BuildingBlocks.IntegrationEventLogEF.Services

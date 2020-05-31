@@ -14,6 +14,6 @@ namespace Courier.API.Model
         public string Note { get; set; } // Navigation instruction, etc.
         public ContactPerson ContactPerson { get; set; }//Sender or Recipient 
         public DateTime? ArrivalStartDateTime { get; set; }
-        public DateTime? ArrivalFinishDateTime { get; set; } 
+        public DateTime? ArrivalFinishDateTime { get; set; }
     }
 }

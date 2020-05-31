@@ -1,7 +1,5 @@
 ﻿using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace Delivery.API.Application.Commands
 {

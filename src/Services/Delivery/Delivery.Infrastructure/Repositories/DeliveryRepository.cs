@@ -1,10 +1,9 @@
 ﻿namespace Delivery.Infrastructure.Repositories
 {
-    using Microsoft.EntityFrameworkCore;
     using Delivery.Domain.AggregatesModel.DeliveryAggregate;
     using Delivery.Domain.Common;
+    using Microsoft.EntityFrameworkCore;
     using System;
-    using System.Linq;
     using System.Threading.Tasks;
 
     public class DeliveryRepository : IDeliveryRepository

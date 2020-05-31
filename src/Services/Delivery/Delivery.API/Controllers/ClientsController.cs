@@ -1,7 +1,5 @@
 ﻿using Delivery.API.Application.Queries;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Net;
