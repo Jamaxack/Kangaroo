@@ -20,6 +20,14 @@ services:
       - kangaroo-nosqldata:/data/db
     networks:
       - backend
+  pricingdata:
+    image: redis:alpine
+    ports:
+      - "6379:6379"   # Important: In a production environment remove external port
+    volumes:
+      - kangaroo-pricingdata:/data
+    networks:
+      - backend
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
@@ -79,6 +87,21 @@ services:
     depends_on:
       - nosqldata
       - rabbitmq
+  pricing-api:
+    image: jamaxack/pricingapi
+    build:
+      context: .
+      dockerfile: src/Services/Pricing/Pricing.API/Dockerfile
+    restart: on-failure
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ConnectionString=pricingdata
+      - PATH_BASE=/pricing
+    networks:
+      - backend
+    depends_on:
+      - pricingdata
 
 networks:
   backend:
@@ -87,4 +110,6 @@ volumes:
   kangaroo-sqldata:
     external: false
   kangaroo-nosqldata:
+    external: false
+  kangaroo-pricingdata:
     external: false

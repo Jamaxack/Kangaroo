@@ -17,6 +17,9 @@ COPY ["src/Services/Delivery/Delivery.Domain/Delivery.Domain.csproj", "src/Servi
 COPY ["src/Services/Delivery/Delivery.UnitTests/Delivery.UnitTests.csproj", "src/Services/Delivery/Delivery.UnitTests/"]
 COPY ["src/Services/Delivery/Delivery.FunctionalTests/Delivery.FunctionalTests.csproj", "src/Services/Delivery/Delivery.FunctionalTests/"]
 
+COPY ["src/Services/Pricing/Pricing.API/Pricing.API.csproj", "src/Services/Pricing/Pricing.API/"]
+COPY ["src/Services/Pricing/Pricing.UnitTests/Pricing.UnitTests.csproj", "src/Services/Pricing/Pricing.UnitTests/"]
+
 COPY ["src/BuildingBlocks/EventBus/IntegrationEventLogEF/IntegrationEventLogEF.csproj", "src/BuildingBlocks/EventBus/IntegrationEventLogEF/"]
 COPY ["src/BuildingBlocks/EventBus/EventBus/EventBus.csproj", "src/BuildingBlocks/EventBus/EventBus/"]
 COPY ["src/BuildingBlocks/EventBus/EventBusServiceBus/EventBusServiceBus.csproj", "src/BuildingBlocks/EventBus/EventBusServiceBus/"]
@@ -26,6 +29,7 @@ COPY ["src/BuildingBlocks/WebHostCustomization/WebHost.Customization/WebHost.Cus
 RUN dotnet restore "Kangaroo.sln"
 
 COPY . .
+
 WORKDIR "/source/src/Services/Courier/Courier.API"
 RUN dotnet build "Courier.API.csproj" -c Release -o /app/build
 

@@ -84,15 +84,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8s", "K8s", "{D7423E67-DE9
 		src\K8s\mssql-cluster-ip-service.yaml = src\K8s\mssql-cluster-ip-service.yaml
 		src\K8s\mssql-deployment.yaml = src\K8s\mssql-deployment.yaml
 		src\K8s\mssql-persistent-volume-claim.yaml = src\K8s\mssql-persistent-volume-claim.yaml
+		src\K8s\pricing-cluster-ip-service.yaml = src\K8s\pricing-cluster-ip-service.yaml
+		src\K8s\pricing-deployment.yaml = src\K8s\pricing-deployment.yaml
 		src\K8s\rabbitmq-cluster-ip-service.yaml = src\K8s\rabbitmq-cluster-ip-service.yaml
 		src\K8s\rabbitmq-deployment.yaml = src\K8s\rabbitmq-deployment.yaml
+		src\K8s\redis-cluster-ip-service.yaml = src\K8s\redis-cluster-ip-service.yaml
+		src\K8s\redis-deployment.yaml = src\K8s\redis-deployment.yaml
+		src\K8s\redis-persistent-volume-claim.yaml = src\K8s\redis-persistent-volume-claim.yaml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pricing.API", "src\Services\Pricing\Pricing.API\Pricing.API.csproj", "{85D4062F-D12F-458F-B4D3-FA633B29AF45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pricing.API", "src\Services\Pricing\Pricing.API\Pricing.API.csproj", "{85D4062F-D12F-458F-B4D3-FA633B29AF45}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DCE5BECB-EE7C-4026-A7BE-474B0E051B5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pricing.UnitTests", "src\Services\Pricing\Pricing.UnitTests\Pricing.UnitTests.csproj", "{2A945412-D172-4FA5-BBF9-960F3B35F708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pricing.UnitTests", "src\Services\Pricing\Pricing.UnitTests\Pricing.UnitTests.csproj", "{2A945412-D172-4FA5-BBF9-960F3B35F708}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

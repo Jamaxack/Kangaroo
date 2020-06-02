@@ -16,6 +16,12 @@ services:
       - kangaroo-nosqldata:/data/db
     networks:
       - backend
+  pricingdata:
+    image: redis:alpine
+    volumes:
+      - kangaroo-pricingdata:/data
+    networks:
+      - backend
   rabbitmq:
     image: rabbitmq:3-management-alpine
     networks:
@@ -63,6 +69,18 @@ services:
     depends_on:
       - nosqldata
       - rabbitmq
+  pricing-api:
+    image: jamaxack/pricingapi
+    restart: on-failure
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ConnectionString=pricingdata
+      - PATH_BASE=/pricing
+    networks:
+      - backend
+    depends_on:
+      - pricingdata
 
 networks:
   backend:
@@ -71,4 +89,6 @@ volumes:
   kangaroo-sqldata:
     external: false
   kangaroo-nosqldata:
+    external: false
+  kangaroo-pricingdata:
     external: false

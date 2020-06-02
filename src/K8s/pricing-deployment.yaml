@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pricing-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: pricingapi
+  template:
+    metadata:
+      labels:
+        component: pricingapi
+    spec:
+      containers:
+        - name: pricingapi
+          image: jamaxack/pricingapi
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ConnectionString
+              value: redis-cluster-ip-service
+            - name: PATH_BASE
+              value: /pricing

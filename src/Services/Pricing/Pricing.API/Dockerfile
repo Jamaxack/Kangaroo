@@ -30,25 +30,24 @@ RUN dotnet restore "Kangaroo.sln"
 
 COPY . .
 
-WORKDIR "/source/src/Services/Delivery/Delivery.API"
-RUN dotnet build "Delivery.API.csproj" -c Release -o /app/build
+WORKDIR "/source/src/Services/Pricing/Pricing.API"
+RUN dotnet build "Pricing.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Delivery.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "Pricing.API.csproj" -c Release -o /app/publish
 
 # this layer is used for running unit tests in Continuous Integration
 FROM build AS testrunner
-WORKDIR "/source/src/Services/Delivery/Delivery.UnitTests"
+WORKDIR "/source/src/Services/Pricing/Pricing.UnitTests"
 # on running this build target it will run the unit tests
 CMD ["dotnet", "test", "--logger:trx"]
 
 # run unit tests on building image
 FROM build as unittest
-WORKDIR "/source/src/Services/Delivery/Delivery.UnitTests"
+WORKDIR "/source/src/Services/Pricing/Pricing.UnitTests"
 RUN dotnet test --logger:trx
-
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Delivery.API.dll"]
+ENTRYPOINT ["dotnet", "Pricing.API.dll"]
