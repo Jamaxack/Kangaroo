@@ -14,7 +14,7 @@ namespace Pricing.API.Controllers
         readonly IPricingService _pricingService;
 
         public PricingController(IPricingService pricingService)
-        { 
+        {
             _pricingService = pricingService ?? throw new ArgumentNullException(nameof(pricingService));
         }
 
