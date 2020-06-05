@@ -26,6 +26,26 @@ services:
     image: rabbitmq:3-management-alpine
     networks:
       - backend
+  elasticsearch:
+    image: elasticsearch:7.7.1
+    volumes:
+      - kangaroo-elasticsearchdata:/usr/share/elasticsearch/data
+    environment:
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    networks:
+      - backend
+  kibana:
+    image: kibana:7.7.1
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - SERVER_BASEPATH=/kibana
+    depends_on:
+      - elasticsearch
+    networks:
+      - backend
   nginx-apigateway:
     image: jamaxack/nginx
     restart: always
@@ -47,6 +67,7 @@ services:
       - PATH_BASE=/delivery
       - PORT=80
       - GRPC_PORT=81
+      - ElasticUri=http://elasticsearch:9200
     networks:
       - backend
     depends_on:
@@ -64,6 +85,7 @@ services:
       - Database=CouriersDb 
       - EventBusConnection=rabbitmq
       - PATH_BASE=/courier
+      - ElasticUri=http://elasticsearch:9200
     networks:
       - backend
     depends_on:
@@ -77,6 +99,7 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - ConnectionString=pricingdata
       - PATH_BASE=/pricing
+      - ElasticUri=http://elasticsearch:9200
     networks:
       - backend
     depends_on:
@@ -91,4 +114,6 @@ volumes:
   kangaroo-nosqldata:
     external: false
   kangaroo-pricingdata:
+    external: false
+  kangaroo-elasticsearchdata:
     external: false

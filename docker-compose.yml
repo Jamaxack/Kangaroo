@@ -35,6 +35,30 @@ services:
       - "5672:5672"     # Important: In a production environment remove external port
     networks:
       - backend
+  elasticsearch:
+    image: elasticsearch:7.7.1
+    volumes:
+      - kangaroo-elasticsearchdata:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"    # Important: In a production environment remove external port
+    environment:
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    networks:
+      - backend
+  kibana:
+    image: kibana:7.7.1
+    ports:
+      - "5601:5601"    # Important: In a production environment remove external port
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - SERVER_BASEPATH=/kibana
+    depends_on:
+      - elasticsearch
+    networks:
+      - backend
   nginx-apigateway:
     image: jamaxack/nginx
     build:
@@ -62,6 +86,7 @@ services:
       - PATH_BASE=/delivery
       - PORT=80
       - GRPC_PORT=81
+      - ElasticUri=http://elasticsearch:9200
     networks:
       - backend
     depends_on:
@@ -82,6 +107,7 @@ services:
       - Database=CouriersDb 
       - EventBusConnection=rabbitmq
       - PATH_BASE=/courier
+      - ElasticUri=http://elasticsearch:9200
     networks:
       - backend
     depends_on:
@@ -98,6 +124,7 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - ConnectionString=pricingdata
       - PATH_BASE=/pricing
+      - ElasticUri=http://elasticsearch:9200
     networks:
       - backend
     depends_on:
@@ -112,4 +139,6 @@ volumes:
   kangaroo-nosqldata:
     external: false
   kangaroo-pricingdata:
+    external: false
+  kangaroo-elasticsearchdata:
     external: false
