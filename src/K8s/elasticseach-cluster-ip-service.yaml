@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: elasticsearch
+  ports:
+    - port: 9200 #Other pods can access this pod with this port
+      targetPort: 9200 #Elasticsearch deployment port

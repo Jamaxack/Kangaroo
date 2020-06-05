@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: pricing-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       component: pricingapi
@@ -24,3 +24,5 @@ spec:
               value: redis-cluster-ip-service
             - name: PATH_BASE
               value: /pricing
+            - name: ElasticUri
+              value: elasticsearch-cluster-ip-service:9200

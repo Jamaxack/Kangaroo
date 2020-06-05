@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: elasticsearch
+  template:
+    metadata:
+      labels:
+        component: elasticsearch
+    spec:
+      volumes:
+        - name: elasticsearch-storage
+          persistentVolumeClaim:
+            claimName: elasticsearch-persistent-volume-claim
+      containers:
+        - name: elasticsearch
+          image: elasticsearch:7.7.1
+          ports:
+            - containerPort: 9200
+          volumeMounts:
+            - name: elasticsearch-storage
+              mountPath: /usr/share/elasticsearch/data
+          env:
+            - name: "xpack.monitoring.enabled"
+              value: "true"
+            - name: "xpack.watcher.enabled"
+              value: "false"
+            - name: "ES_JAVA_OPTS"
+              value: "-Xms512m -Xmx512m"
+            - name: "discovery.type"
+              value: "single-node"

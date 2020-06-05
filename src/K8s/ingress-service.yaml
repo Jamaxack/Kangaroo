@@ -21,3 +21,7 @@ spec:
             backend:
               serviceName: pricing-cluster-ip-service
               servicePort: 80
+          - path: /kibana/(.*)
+            backend:
+              serviceName: kibana-cluster-ip-service
+              servicePort: 5601
