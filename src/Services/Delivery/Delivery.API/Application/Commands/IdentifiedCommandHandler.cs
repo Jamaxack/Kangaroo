@@ -22,9 +22,9 @@ namespace Delivery.API.Application.Commands
 
         public IdentifiedCommandHandler(IMediator mediator, IRequestManager requestManager, ILogger<IdentifiedCommandHandler<TRequest, TResponse>> logger)
         {
-            _mediator = mediator ?? throw new System.ArgumentNullException(nameof(mediator)); ;
-            _requestManager = requestManager ?? throw new System.ArgumentNullException(nameof(requestManager)); ;
-            _logger = logger ?? throw new System.ArgumentNullException(nameof(logger)); ;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator)); ;
+            _requestManager = requestManager ?? throw new ArgumentNullException(nameof(requestManager)); ;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger)); ;
         }
 
         /// <summary>
@@ -68,8 +68,6 @@ namespace Delivery.API.Application.Commands
                         case DeleteDeliveryCommand deleteDeliveryCommand:
                             idProperty = nameof(deleteDeliveryCommand.DeliveryId);
                             commandId = deleteDeliveryCommand.DeliveryId;
-                            break;
-                        default:
                             break;
                     }
 

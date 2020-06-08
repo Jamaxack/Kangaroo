@@ -12,9 +12,9 @@ namespace Kangaroo.BuildingBlocks.IntegrationEventLogEF.Services
 {
     public class IntegrationEventLogService : IIntegrationEventLogService
     {
-        private readonly IntegrationEventLogContext _integrationEventLogContext;
-        private readonly DbConnection _dbConnection;
-        private readonly List<Type> _eventTypes;
+        readonly IntegrationEventLogContext _integrationEventLogContext;
+        readonly DbConnection _dbConnection;
+        readonly List<Type> _eventTypes;
 
         public IntegrationEventLogService(DbConnection dbConnection)
         {

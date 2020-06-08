@@ -1,8 +1,8 @@
 ﻿namespace Courier.API.Infrastructure.Services
 {
-    using Courier.API.Infrastructure.Exceptions;
-    using Courier.API.Infrastructure.Repositories;
-    using Courier.API.Model;
+    using Exceptions;
+    using Repositories;
+    using Model;
     using Kangaroo.BuildingBlocks.EventBus.Abstractions;
     using Microsoft.Extensions.Logging;
     using System;

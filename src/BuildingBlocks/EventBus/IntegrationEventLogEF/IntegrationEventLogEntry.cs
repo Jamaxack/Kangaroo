@@ -8,7 +8,7 @@ namespace Kangaroo.BuildingBlocks.IntegrationEventLogEF
 {
     public class IntegrationEventLogEntry
     {
-        private IntegrationEventLogEntry() { }
+        IntegrationEventLogEntry() { }
         public IntegrationEventLogEntry(IntegrationEvent @event, Guid transactionId)
         {
             EventId = @event.Id;

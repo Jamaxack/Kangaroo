@@ -1,6 +1,6 @@
 ﻿namespace Courier.API.Infrastructure.Services
 {
-    using Courier.API.Model;
+    using Model;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
