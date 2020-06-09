@@ -74,19 +74,27 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8s", "K8s", "{D7423E67-DE93-4E41-81B1-9043B82B275B}"
 	ProjectSection(SolutionItems) = preProject
 		src\K8s\courier-cluster-ip-service.yaml = src\K8s\courier-cluster-ip-service.yaml
+		src\K8s\courier-deployment.yaml = src\K8s\courier-deployment.yaml
 		src\K8s\delivery-cluster-ip-service.yaml = src\K8s\delivery-cluster-ip-service.yaml
-		src\K8s\deployments.yaml = src\K8s\deployments.yaml
+		src\K8s\delivery-deployment.yaml = src\K8s\delivery-deployment.yaml
 		src\K8s\elasticseach-cluster-ip-service.yaml = src\K8s\elasticseach-cluster-ip-service.yaml
+		src\K8s\elasticsearch-deployment.yaml = src\K8s\elasticsearch-deployment.yaml
 		src\K8s\elasticsearch-persistent-volume-claim.yaml = src\K8s\elasticsearch-persistent-volume-claim.yaml
 		src\K8s\ingress-service.yaml = src\K8s\ingress-service.yaml
 		src\K8s\kibana-cluster-ip-service.yaml = src\K8s\kibana-cluster-ip-service.yaml
+		src\K8s\kibana-deployment.yaml = src\K8s\kibana-deployment.yaml
 		src\K8s\mongo-cluster-ip-service.yaml = src\K8s\mongo-cluster-ip-service.yaml
+		src\K8s\mongo-deployment.yaml = src\K8s\mongo-deployment.yaml
 		src\K8s\mongo-persistent-volume-claim.yaml = src\K8s\mongo-persistent-volume-claim.yaml
 		src\K8s\mssql-cluster-ip-service.yaml = src\K8s\mssql-cluster-ip-service.yaml
+		src\K8s\mssql-deployment.yaml = src\K8s\mssql-deployment.yaml
 		src\K8s\mssql-persistent-volume-claim.yaml = src\K8s\mssql-persistent-volume-claim.yaml
 		src\K8s\pricing-cluster-ip-service.yaml = src\K8s\pricing-cluster-ip-service.yaml
+		src\K8s\pricing-deployment.yaml = src\K8s\pricing-deployment.yaml
 		src\K8s\rabbitmq-cluster-ip-service.yaml = src\K8s\rabbitmq-cluster-ip-service.yaml
+		src\K8s\rabbitmq-deployment.yaml = src\K8s\rabbitmq-deployment.yaml
 		src\K8s\redis-cluster-ip-service.yaml = src\K8s\redis-cluster-ip-service.yaml
+		src\K8s\redis-deployment.yaml = src\K8s\redis-deployment.yaml
 		src\K8s\redis-persistent-volume-claim.yaml = src\K8s\redis-persistent-volume-claim.yaml
 	EndProjectSection
 EndProject
