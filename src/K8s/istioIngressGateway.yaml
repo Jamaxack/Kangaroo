@@ -1,0 +1,66 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: kangaroo-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kangaroo-vs
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - kangaroo-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /delivery
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: delivery-cluster-ip-service
+        port:
+          number: 80 
+  - match:
+    - uri:
+        prefix: /courier
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: courier-cluster-ip-service
+        port:
+          number: 80
+  - match:
+    - uri:
+        prefix: /pricing
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: pricing-cluster-ip-service
+        port:
+          number: 80
+  - match:
+    - uri:
+        prefix: /kibana
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: kibana-cluster-ip-service
+        port:
+          number: 5601

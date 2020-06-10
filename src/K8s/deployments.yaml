@@ -40,7 +40,7 @@ kind: Deployment
 metadata:
   name: delivery-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       component: deliveryapi

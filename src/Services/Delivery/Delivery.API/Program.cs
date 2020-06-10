@@ -41,7 +41,6 @@ namespace Delivery.API
                        {
                            listenOptions.Protocols = HttpProtocols.Http2;
                        });
-
                    })
                    .UseSerilog()
                    .Build();
