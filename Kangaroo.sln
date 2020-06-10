@@ -73,27 +73,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nginx", "Nginx", "{089BFDFA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8s", "K8s", "{D7423E67-DE93-4E41-81B1-9043B82B275B}"
 	ProjectSection(SolutionItems) = preProject
-		src\K8s\courier-cluster-ip-service.yaml = src\K8s\courier-cluster-ip-service.yaml
-		src\K8s\delivery-cluster-ip-service.yaml = src\K8s\delivery-cluster-ip-service.yaml
 		src\K8s\deployments.yaml = src\K8s\deployments.yaml
-		src\K8s\elasticseach-cluster-ip-service.yaml = src\K8s\elasticseach-cluster-ip-service.yaml
-		src\K8s\elasticsearch-deployment.yaml = src\K8s\elasticsearch-deployment.yaml
-		src\K8s\elasticsearch-persistent-volume-claim.yaml = src\K8s\elasticsearch-persistent-volume-claim.yaml
+		src\K8s\elasticsearch.yaml = src\K8s\elasticsearch.yaml
 		src\K8s\ingress-service.yaml = src\K8s\ingress-service.yaml
-		src\K8s\kibana-cluster-ip-service.yaml = src\K8s\kibana-cluster-ip-service.yaml
-		src\K8s\kibana-deployment.yaml = src\K8s\kibana-deployment.yaml
-		src\K8s\mongo-cluster-ip-service.yaml = src\K8s\mongo-cluster-ip-service.yaml
-		src\K8s\mongo-deployment.yaml = src\K8s\mongo-deployment.yaml
-		src\K8s\mongo-persistent-volume-claim.yaml = src\K8s\mongo-persistent-volume-claim.yaml
-		src\K8s\mssql-cluster-ip-service.yaml = src\K8s\mssql-cluster-ip-service.yaml
-		src\K8s\mssql-deployment.yaml = src\K8s\mssql-deployment.yaml
-		src\K8s\mssql-persistent-volume-claim.yaml = src\K8s\mssql-persistent-volume-claim.yaml
-		src\K8s\pricing-cluster-ip-service.yaml = src\K8s\pricing-cluster-ip-service.yaml
-		src\K8s\rabbitmq-cluster-ip-service.yaml = src\K8s\rabbitmq-cluster-ip-service.yaml
-		src\K8s\rabbitmq-deployment.yaml = src\K8s\rabbitmq-deployment.yaml
-		src\K8s\redis-cluster-ip-service.yaml = src\K8s\redis-cluster-ip-service.yaml
-		src\K8s\redis-deployment.yaml = src\K8s\redis-deployment.yaml
-		src\K8s\redis-persistent-volume-claim.yaml = src\K8s\redis-persistent-volume-claim.yaml
+		src\K8s\kibana.yaml = src\K8s\kibana.yaml
+		src\K8s\mongo.yaml = src\K8s\mongo.yaml
+		src\K8s\mssql.yaml = src\K8s\mssql.yaml
+		src\K8s\rabbitmq.yaml = src\K8s\rabbitmq.yaml
+		src\K8s\redis.yaml = src\K8s\redis.yaml
+		src\K8s\services.yaml = src\K8s\services.yaml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pricing.API", "src\Services\Pricing\Pricing.API\Pricing.API.csproj", "{85D4062F-D12F-458F-B4D3-FA633B29AF45}"
@@ -101,6 +89,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DCE5BECB-EE7C-4026-A7BE-474B0E051B5E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pricing.UnitTests", "src\Services\Pricing\Pricing.UnitTests\Pricing.UnitTests.csproj", "{2A945412-D172-4FA5-BBF9-960F3B35F708}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Istio", "Istio", "{1FC5466E-248F-411E-B60F-2A71A607C9A8}"
+	ProjectSection(SolutionItems) = preProject
+		src\K8s\Istio\IstioInject.sh = src\K8s\Istio\IstioInject.sh
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -203,6 +196,7 @@ Global
 		{85D4062F-D12F-458F-B4D3-FA633B29AF45} = {142D7D27-31E4-4CD5-BEB7-BBAE870E91D2}
 		{DCE5BECB-EE7C-4026-A7BE-474B0E051B5E} = {142D7D27-31E4-4CD5-BEB7-BBAE870E91D2}
 		{2A945412-D172-4FA5-BBF9-960F3B35F708} = {DCE5BECB-EE7C-4026-A7BE-474B0E051B5E}
+		{1FC5466E-248F-411E-B60F-2A71A607C9A8} = {D7423E67-DE93-4E41-81B1-9043B82B275B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {162D44E4-5354-48E3-85D9-62CB2985F33B}

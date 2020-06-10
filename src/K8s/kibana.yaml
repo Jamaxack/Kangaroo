@@ -22,3 +22,15 @@ spec:
               value: elasticsearch-cluster-ip-service:9200
             - name: SERVER_BASEPATH
               value: /kibana
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: kibana
+  ports:
+    - port: 5601 #Other pods can access this pod with this port
+      targetPort: 5601 #Kibana deployment port
