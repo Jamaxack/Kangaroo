@@ -26,6 +26,8 @@ COPY ["src/BuildingBlocks/EventBus/EventBusServiceBus/EventBusServiceBus.csproj"
 COPY ["src/BuildingBlocks/EventBus/EventBusRabbitMQ/EventBusRabbitMQ.csproj", "src/BuildingBlocks/EventBus/EventBusRabbitMQ/"]
 COPY ["src/BuildingBlocks/WebHostCustomization/WebHost.Customization/WebHost.Customization.csproj", "src/BuildingBlocks/WebHostCustomization/WebHost.Customization/"]
 
+COPY ["src/Common/Kangaroo.Common/Kangaroo.Common.csproj", "src/Common/Kangaroo.Common/"]
+
 RUN dotnet restore "Kangaroo.sln"
 
 COPY . .
