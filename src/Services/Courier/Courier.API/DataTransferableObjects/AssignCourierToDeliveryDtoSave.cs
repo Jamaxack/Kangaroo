@@ -2,9 +2,9 @@
 
 namespace Courier.API.DataTransferableObjects
 {
-    public class AssignCourierToDeliveryDTO
+    public class AssignCourierToDeliveryDtoSave
     {
         public Guid CourierId { get; set; }
-        public Guid DelivertId { get; set; }
+        public Guid DeliveryId { get; set; }
     }
 }

@@ -9,20 +9,21 @@ namespace Courier.API.Infrastructure.Services
 {
     public class CourierLocationService : ICourierLocationService
     {
-        readonly ICourierLocationRepository _courierLocationRepository;
-        readonly IMapper _mapper;
-        readonly IDateTimeFacade _dateTimeFacade;
+        private readonly ICourierLocationRepository _courierLocationRepository;
+        private readonly IMapper _mapper;
+        private readonly IDateTimeFacade _dateTimeFacade;
 
-        public CourierLocationService(ICourierLocationRepository courierLocationRepository, IMapper mapper, IDateTimeFacade dateTimeFacade)
+        public CourierLocationService(ICourierLocationRepository courierLocationRepository, IMapper mapper,
+            IDateTimeFacade dateTimeFacade)
         {
             _courierLocationRepository = courierLocationRepository;
             _mapper = mapper;
             _dateTimeFacade = dateTimeFacade;
         }
 
-        public Task InsertCourierLocationAsync(CourierLocationDTO courierLocationDTO)
+        public Task InsertCourierLocationAsync(CourierLocationDtoSave courierLocationDtoSave)
         {
-            var courierLocation = _mapper.Map<CourierLocation>(courierLocationDTO);
+            var courierLocation = _mapper.Map<CourierLocation>(courierLocationDtoSave);
             courierLocation.DateTime = _dateTimeFacade.UtcNow;
             return _courierLocationRepository.InsertCourierLocationAsync(courierLocation);
         }

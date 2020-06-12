@@ -1,4 +1,6 @@
-﻿namespace Courier.API.Infrastructure.Services
+﻿using Courier.API.DataTransferableObjects;
+
+namespace Courier.API.Infrastructure.Services
 {
     using Model;
     using System;
@@ -7,11 +9,11 @@
 
     public interface ICourierService
     {
-        Task InsertCourierAsync(Courier courier);
-        Task UpdateCourierAsync(Courier courier);
-        Task<Courier> GetCourierByIdAsync(Guid courierId);
-        Task<List<Courier>> GetCouriersAsync();
-        Task<List<Delivery>> GetDeliveriesByCourierIdAsync(Guid courierId);
-        Task<CourierLocation> GetCurrentCourierLocationByCourierIdAsync(Guid courierId);
+        Task InsertCourierAsync(CourierDtoSave courier);
+        Task UpdateCourierAsync(CourierDtoSave courierDtoSave);
+        Task<CourierDto> GetCourierByIdAsync(Guid courierId);
+        Task<List<CourierDto>> GetCouriersAsync();
+        Task<List<DeliveryDto>> GetDeliveriesByCourierIdAsync(Guid courierId);
+        Task<CourierLocationDto> GetCurrentCourierLocationByCourierIdAsync(Guid courierId);
     }
 }

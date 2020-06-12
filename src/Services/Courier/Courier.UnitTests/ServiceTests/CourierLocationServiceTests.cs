@@ -33,17 +33,17 @@ namespace Courier.UnitTests.ServiceTests
         {
             //Arrange
             var utcNow = DateTime.UtcNow;
-            var courierLocationDTO = A.New<CourierLocationDTO>();
+            var courierLocationDtoSave = A.New<CourierLocationDtoSave>();
             var courierLocation = A.New<CourierLocation>();
 
-            _mapper.Setup(x => x.Map<CourierLocation>(courierLocationDTO)).Returns(courierLocation);
+            _mapper.Setup(x => x.Map<CourierLocation>(courierLocationDtoSave)).Returns(courierLocation);
             _dateTimeFacade.Setup(x => x.UtcNow).Returns(utcNow);
 
             //Act
-            await _service.InsertCourierLocationAsync(courierLocationDTO);
+            await _service.InsertCourierLocationAsync(courierLocationDtoSave);
 
             //Assert
-            _mapper.Verify(x => x.Map<CourierLocation>(courierLocationDTO), Times.Once);
+            _mapper.Verify(x => x.Map<CourierLocation>(courierLocationDtoSave), Times.Once);
             _dateTimeFacade.Verify(x => x.UtcNow, Times.Once);
             courierLocation.DateTime.Should().Be(utcNow);
             _repository.Verify(x => x.InsertCourierLocationAsync(courierLocation), Times.Once);

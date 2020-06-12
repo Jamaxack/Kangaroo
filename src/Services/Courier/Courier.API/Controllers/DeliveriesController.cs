@@ -1,8 +1,6 @@
 ﻿using Courier.API.DataTransferableObjects;
 using Courier.API.Infrastructure.Services;
-using Courier.API.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -14,25 +12,23 @@ namespace Courier.API.Controllers
     [ApiController]
     public class DeliveriesController : ControllerBase
     {
-        readonly IDeliveryService _deliveryService;
-        readonly ILogger<DeliveriesController> _logger;
+        private readonly IDeliveryService _deliveryService; 
 
-        public DeliveriesController(IDeliveryService deliveryService, ILogger<DeliveriesController> logger)
+        public DeliveriesController(IDeliveryService deliveryService)
         {
-            _deliveryService = deliveryService;
-            _logger = logger;
+            _deliveryService = deliveryService; 
         }
 
         [Route("Available")]
         [HttpGet]
-        [ProducesResponseType(typeof(List<Delivery>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<DeliveryDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAvailableDeliveriesAsync()
             => Ok(await _deliveryService.GetAvailableDeliveriesAsync());
 
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        public async Task<IActionResult> CreateDeliveryAsync(Delivery delivery)
+        public async Task<IActionResult> CreateDeliveryAsync(DeliveryDtoSave delivery)
         {
             await _deliveryService.InsertDeliveryAsync(delivery);
             return Accepted();
@@ -42,7 +38,7 @@ namespace Courier.API.Controllers
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        public async Task<IActionResult> AssignCourierToDeliveryAsync(AssignCourierToDeliveryDTO assignCourierToDelivery)
+        public async Task<IActionResult> AssignCourierToDeliveryAsync(AssignCourierToDeliveryDtoSave assignCourierToDelivery)
         {
             await _deliveryService.AssignCourierToDeliveryAsync(assignCourierToDelivery);
             return Accepted();
@@ -52,7 +48,7 @@ namespace Courier.API.Controllers
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(Delivery), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(DeliveryDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetDeliveryByIdAsync(Guid deliveryId)
             => Ok(await _deliveryService.GetDeliveryByIdAsync(deliveryId));
 

@@ -7,6 +7,7 @@ using Courier.API.Model;
 using Kangaroo.BuildingBlocks.EventBus.Abstractions;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Courier.API.DataTransferableObjects;
 
 namespace Courier.API.IntegrationEvents.EventHandling
 {
@@ -18,7 +19,9 @@ namespace Courier.API.IntegrationEvents.EventHandling
         readonly IMapper _mapper;
         readonly ILogger<DeliveryCreatedIntegrationEventHandler> _logger;
 
-        public DeliveryCreatedIntegrationEventHandler(IDeliveryService deliveryService, IClientGrpcService clientGrpcService, IClientRepository clientRepository, IMapper mapper, ILogger<DeliveryCreatedIntegrationEventHandler> logger)
+        public DeliveryCreatedIntegrationEventHandler(IDeliveryService deliveryService,
+            IClientGrpcService clientGrpcService, IClientRepository clientRepository, IMapper mapper,
+            ILogger<DeliveryCreatedIntegrationEventHandler> logger)
         {
             _deliveryService = deliveryService;
             _clientGrpcService = clientGrpcService;
@@ -29,7 +32,9 @@ namespace Courier.API.IntegrationEvents.EventHandling
 
         public async Task Handle(DeliveryCreatedIntegrationEvent @event)
         {
-            _logger.LogInformation("----- Handling integration event: {IntegrationEventId} at {AppName} - ({@IntegrationEvent})", @event.Id, Program.AppName, @event);
+            _logger.LogInformation(
+                "----- Handling integration event: {IntegrationEventId} at {AppName} - ({@IntegrationEvent})",
+                @event.Id, Program.AppName, @event);
             var delivery = _mapper.Map<Delivery>(@event);
 
             var existingClient = _clientRepository.GetClientByIdAsync(delivery.ClientId);
@@ -41,7 +46,8 @@ namespace Courier.API.IntegrationEvents.EventHandling
                 await _clientRepository.InsertClientAsync(client);
             }
 
-            await _deliveryService.InsertDeliveryAsync(delivery);
+            var deliveryDtoSave = _mapper.Map<DeliveryDtoSave>(delivery);
+            await _deliveryService.InsertDeliveryAsync(deliveryDtoSave);
         }
     }
 }

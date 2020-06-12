@@ -5,6 +5,6 @@ namespace Courier.API.Infrastructure.Services
 {
     public interface ICourierLocationService
     {
-        Task InsertCourierLocationAsync(CourierLocationDTO courierLocation);
+        Task InsertCourierLocationAsync(CourierLocationDtoSave courierLocation);
     }
 }

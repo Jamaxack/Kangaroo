@@ -9,28 +9,35 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Courier.API.Infrastructure.Services
 {
     public class DeliveryService : IDeliveryService
     {
-        readonly IDeliveryRepository _deliveryRepository;
-        readonly IEventBus _eventBus;
-        readonly ILogger<DeliveryService> _logger;
+        private readonly IDeliveryRepository _deliveryRepository;
+        private readonly IEventBus _eventBus;
+        private readonly ILogger<DeliveryService> _logger;
+        private readonly IMapper _mapper;
 
-        public DeliveryService(IDeliveryRepository deliveryRepository, IEventBus eventBus, ILogger<DeliveryService> logger)
+        public DeliveryService(IDeliveryRepository deliveryRepository, IEventBus eventBus, IMapper mapper,
+            ILogger<DeliveryService> logger)
         {
+            _mapper = mapper;
             _deliveryRepository = deliveryRepository;
             _eventBus = eventBus;
             _logger = logger;
         }
 
-        public Task<List<Delivery>> GetAvailableDeliveriesAsync()
-            => _deliveryRepository.GetAvailableDeliveriesAsync();
-
-        public async Task AssignCourierToDeliveryAsync(AssignCourierToDeliveryDTO assignCourierToDelivery)
+        public async Task<List<DeliveryDto>> GetAvailableDeliveriesAsync()
         {
-            var deliveryId = assignCourierToDelivery.DelivertId;
+            var deliveries = await _deliveryRepository.GetAvailableDeliveriesAsync();
+            return _mapper.Map<List<DeliveryDto>>(deliveries);
+        }
+
+        public async Task AssignCourierToDeliveryAsync(AssignCourierToDeliveryDtoSave assignCourierToDelivery)
+        {
+            var deliveryId = assignCourierToDelivery.DeliveryId;
             var courierId = assignCourierToDelivery.CourierId;
 
             var delivery = await _deliveryRepository.GetDeliveryByIdAsync(deliveryId);
@@ -41,22 +48,23 @@ namespace Courier.API.Infrastructure.Services
             await DeliveryStatusChangedToCourierAssignedAsync(deliveryId, courierId);
         }
 
-        public Task<Delivery> GetDeliveryByIdAsync(Guid deliveryId)
+        public async Task<DeliveryDto> GetDeliveryByIdAsync(Guid deliveryId)
         {
             if (deliveryId == Guid.Empty)
                 throw new CourierDomainException("Delivery Id is not specified");
 
-            var delivery = _deliveryRepository.GetDeliveryByIdAsync(deliveryId);
+            var delivery = await _deliveryRepository.GetDeliveryByIdAsync(deliveryId);
             if (delivery == null)
                 throw new KeyNotFoundException();
-            return delivery;
+            return _mapper.Map<DeliveryDto>(delivery);
         }
 
-        public Task InsertDeliveryAsync(Delivery delivery)
+        public Task InsertDeliveryAsync(DeliveryDtoSave deliveryDtoSave)
         {
-            if (delivery == null)
+            if (deliveryDtoSave == null)
                 throw new CourierDomainException("Delivery is null");
 
+            var delivery = _mapper.Map<Delivery>(deliveryDtoSave);
             return _deliveryRepository.InsertDeliveryAsync(delivery);
         }
 
@@ -89,9 +97,11 @@ namespace Courier.API.Infrastructure.Services
             PublishIntegrationEvent(deliveryStatusChangedEvent);
         }
 
-        void PublishIntegrationEvent(IntegrationEvent integrationEvent)
+        private void PublishIntegrationEvent(IntegrationEvent integrationEvent)
         {
-            _logger.LogInformation("----- Publishing integration event: {IntegrationEventId} from {AppName} - ({@IntegrationEvent})", integrationEvent.Id, Program.AppName, integrationEvent);
+            _logger.LogInformation(
+                "----- Publishing integration event: {IntegrationEventId} from {AppName} - ({@IntegrationEvent})",
+                integrationEvent.Id, Program.AppName, integrationEvent);
             _eventBus.Publish(integrationEvent);
         }
     }

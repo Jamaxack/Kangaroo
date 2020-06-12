@@ -11,19 +11,17 @@ namespace Courier.API.Controllers
     [ApiController]
     public class CourierLocationsController : ControllerBase
     {
-        readonly ICourierLocationService _courierLocationService;
-        readonly ILogger<CourierLocationsController> _logger;
+        private readonly ICourierLocationService _courierLocationService;
 
-        public CourierLocationsController(ICourierLocationService courierLocationService, ILogger<CourierLocationsController> logger)
+        public CourierLocationsController(ICourierLocationService courierLocationService)
         {
             _courierLocationService = courierLocationService;
-            _logger = logger;
         }
 
         [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        public async Task<IActionResult> CreateAsync(CourierLocationDTO courierLocation)
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int) HttpStatusCode.Accepted)]
+        public async Task<IActionResult> CreateAsync(CourierLocationDtoSave courierLocation)
         {
             await _courierLocationService.InsertCourierLocationAsync(courierLocation);
             return Accepted();

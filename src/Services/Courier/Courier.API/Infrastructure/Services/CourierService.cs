@@ -1,28 +1,27 @@
-﻿namespace Courier.API.Infrastructure.Services
+﻿using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Courier.API.Infrastructure.Services
 {
+    using DataTransferableObjects;
     using Exceptions;
     using Repositories;
     using Model;
-    using Kangaroo.BuildingBlocks.EventBus.Abstractions;
-    using Microsoft.Extensions.Logging;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     public class CourierService : ICourierService
     {
-        readonly ICourierRepository _courierRepository;
-        readonly IEventBus _eventBus;
-        readonly ILogger<CourierService> _logger;
+        private readonly ICourierRepository _courierRepository;
+        private readonly IMapper _mapper;
 
-        public CourierService(ICourierRepository courierRepository, IEventBus eventBus, ILogger<CourierService> logger)
+        public CourierService(ICourierRepository courierRepository, IMapper mapper)
         {
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _courierRepository = courierRepository ?? throw new ArgumentNullException(nameof(courierRepository));
-            _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<Courier> GetCourierByIdAsync(Guid courierId)
+        public async Task<CourierDto> GetCourierByIdAsync(Guid courierId)
         {
             if (courierId == Guid.Empty)
                 throw new CourierDomainException("Courier Id is not specified");
@@ -31,41 +30,49 @@
             if (courier == null)
                 throw new KeyNotFoundException($"Courier not found with specified Id: {courierId}");
 
-            return courier;
+            return _mapper.Map<CourierDto>(courier);
         }
 
-        public Task<List<Courier>> GetCouriersAsync() => _courierRepository.GetCouriersAsync();
+        public async Task<List<CourierDto>> GetCouriersAsync()
+        {
+            var couriers = await _courierRepository.GetCouriersAsync();
+            return _mapper.Map<List<CourierDto>>(couriers);
+        }
 
-        public Task<List<Delivery>> GetDeliveriesByCourierIdAsync(Guid courierId)
+        public async Task<List<DeliveryDto>> GetDeliveriesByCourierIdAsync(Guid courierId)
         {
             if (courierId == Guid.Empty)
                 throw new CourierDomainException("Courier Id is not specified");
 
-            return _courierRepository.GetDeliveriesByCourierIdAsync(courierId);
+            var deliveries = await _courierRepository.GetDeliveriesByCourierIdAsync(courierId);
+            return _mapper.Map<List<DeliveryDto>>(deliveries);
         }
 
-        public Task InsertCourierAsync(Courier courier)
+        public Task InsertCourierAsync(CourierDtoSave courierDtoSave)
         {
-            if (courier == null)
+            if (courierDtoSave == null)
                 throw new CourierDomainException("Courier is null");
 
+            var courier = _mapper.Map<Courier>(courierDtoSave);
             return _courierRepository.InsertCourierAsync(courier);
         }
 
-        public Task UpdateCourierAsync(Courier courier)
+        public Task UpdateCourierAsync(CourierDtoSave courierDtoSave)
         {
-            if (courier == null)
+            if (courierDtoSave == null)
                 throw new CourierDomainException("Courier is null");
 
+            var courier = _mapper.Map<Courier>(courierDtoSave);
             return _courierRepository.UpdateCourierAsync(courier);
         }
 
-        public Task<CourierLocation> GetCurrentCourierLocationByCourierIdAsync(Guid courierId)
+        public async Task<CourierLocationDto> GetCurrentCourierLocationByCourierIdAsync(Guid courierId)
         {
             if (courierId == Guid.Empty)
                 throw new CourierDomainException("Courier Id is not specified");
 
-            return _courierRepository.GetCurrentCourierLocationByCourierIdAsync(courierId);
+            var courierLocation = await _courierRepository.GetCurrentCourierLocationByCourierIdAsync(courierId);
+            return _mapper.Map<CourierLocationDto>(courierLocation);
         }
     }
 }
