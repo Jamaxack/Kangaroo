@@ -16,6 +16,7 @@ using HealthChecks.UI.Client;
 using Kangaroo.BuildingBlocks.EventBus;
 using Kangaroo.BuildingBlocks.EventBus.Abstractions;
 using Kangaroo.BuildingBlocks.EventBusRabbitMQ;
+using Kangaroo.Common.Facades;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -200,6 +201,7 @@ namespace Courier.API
             services.AddTransient<ICourierLocationRepository, CourierLocationRepository>();
             services.AddTransient<IClientRepository, ClientRepository>();
             services.AddTransient<IDeliveryRepository, DeliveryRepository>();
+            services.AddTransient<IDateTimeFacade, DateTimeFacade>();
             return services;
         }
 

@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\EventBus\EventBus.csproj" />
+    <ProjectReference Include="..\..\..\Common\Kangaroo.Common\Kangaroo.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Protobuf Include="Protos\client.proto" GrpcServices="Client" />

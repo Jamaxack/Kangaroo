@@ -13,6 +13,7 @@ using Kangaroo.BuildingBlocks.EventBus.Abstractions;
 using Kangaroo.BuildingBlocks.EventBusRabbitMQ;
 using Kangaroo.BuildingBlocks.IntegrationEventLogEF;
 using Kangaroo.BuildingBlocks.IntegrationEventLogEF.Services;
+using Kangaroo.Common.Facades;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -64,6 +65,7 @@ namespace Delivery.API
             //configure autofac
             var container = new ContainerBuilder();
             container.Populate(services);
+            container.RegisterType<DateTimeFacade>().As<IDateTimeFacade>();
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
             Container = container.Build();

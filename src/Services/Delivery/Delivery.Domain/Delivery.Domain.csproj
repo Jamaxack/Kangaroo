@@ -9,4 +9,8 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Kangaroo.Common\Kangaroo.Common.csproj" />
+  </ItemGroup>
+
 </Project>

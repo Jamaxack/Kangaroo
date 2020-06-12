@@ -26,16 +26,16 @@ namespace Delivery.Domain.AggregatesModel.DeliveryAggregate
 
         public Delivery()
         {
-            CreatedDateTime = DateTime.UtcNow;
             _deliveryStatusId = DeliveryStatus.New.Id;
         }
 
-        public Delivery(Guid clientId, decimal price, short weight, string note) : this()
+        public Delivery(Guid clientId, decimal price, short weight, string note, DateTime createdDateTime) : this()
         {
             _clientId = clientId;
             Price = price;
             Weight = weight;
             Note = note;
+            CreatedDateTime = createdDateTime;
 
             AddDomainEvent(new DeliveryCreatedDomainEvent(this, clientId));
         }

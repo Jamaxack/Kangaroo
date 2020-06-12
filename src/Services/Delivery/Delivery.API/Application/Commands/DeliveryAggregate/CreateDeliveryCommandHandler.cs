@@ -1,6 +1,7 @@
 ﻿namespace Delivery.API.Application.Commands
 {
     using Delivery.Domain.AggregatesModel.DeliveryAggregate;
+    using Kangaroo.Common.Facades;
     using MediatR;
     using Microsoft.Extensions.Logging;
     using System;
@@ -9,18 +10,20 @@
 
     public class CreateDeliveryCommandHandler : IRequestHandler<CreateDeliveryCommand, bool>
     {
-        private readonly IDeliveryRepository _deliveryRepository;
-        private readonly ILogger<CreateDeliveryCommandHandler> _logger;
+        readonly IDeliveryRepository _deliveryRepository;
+        readonly ILogger<CreateDeliveryCommandHandler> _logger;
+        readonly IDateTimeFacade _dateTimeFacade;
 
-        public CreateDeliveryCommandHandler(IDeliveryRepository deliveryRepository, ILogger<CreateDeliveryCommandHandler> logger)
+        public CreateDeliveryCommandHandler(IDeliveryRepository deliveryRepository, ILogger<CreateDeliveryCommandHandler> logger, IDateTimeFacade dateTimeFacade)
         {
             _deliveryRepository = deliveryRepository ?? throw new ArgumentNullException(nameof(deliveryRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _dateTimeFacade = dateTimeFacade;
         }
 
         public async Task<bool> Handle(CreateDeliveryCommand message, CancellationToken cancellationToken)
         {
-            var delivery = new Delivery(message.ClientId, message.Price, message.Weight, message.Note);
+            var delivery = new Delivery(message.ClientId, message.Price, message.Weight, message.Note, _dateTimeFacade.UtcNow);
             delivery.SetPickUpLocation(message.PickUpLocation.GetDeliveryLocation());
             delivery.SetDropOffLocation(message.DropOffLocation.GetDeliveryLocation());
 
