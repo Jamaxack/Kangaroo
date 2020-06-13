@@ -1,13 +1,13 @@
-﻿namespace Delivery.API.Application.Commands
-{
-    using Delivery.Domain.AggregatesModel.DeliveryAggregate;
-    using Kangaroo.Common.Facades;
-    using MediatR;
-    using Microsoft.Extensions.Logging;
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Delivery.Domain.AggregatesModel.DeliveryAggregate;
+using Kangaroo.Common.Facades;
+using MediatR;
+using Microsoft.Extensions.Logging;
 
+namespace Delivery.API.Application.Commands.DeliveryAggregate
+{
     public class CreateDeliveryCommandHandler : IRequestHandler<CreateDeliveryCommand, bool>
     {
         readonly IDeliveryRepository _deliveryRepository;
@@ -23,7 +23,7 @@
 
         public async Task<bool> Handle(CreateDeliveryCommand message, CancellationToken cancellationToken)
         {
-            var delivery = new Delivery(message.ClientId, message.Price, message.Weight, message.Note, _dateTimeFacade.UtcNow);
+            var delivery = new Domain.AggregatesModel.DeliveryAggregate.Delivery(message.ClientId, message.Price, message.Weight, message.Note, _dateTimeFacade.UtcNow);
             delivery.SetPickUpLocation(message.PickUpLocation.GetDeliveryLocation());
             delivery.SetDropOffLocation(message.DropOffLocation.GetDeliveryLocation());
 

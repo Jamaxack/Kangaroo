@@ -1,9 +1,9 @@
-﻿using Delivery.Domain.Events;
-using MediatR;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using Delivery.Domain.Events;
+using MediatR;
 
-namespace Delivery.API.Application.DomainEventHandlers
+namespace Delivery.API.Application.DomainEventHandlers.DeliveryCreatedEvent
 {
     public class SendEmailToClientWhenDeliveryCreatedDomainEventHandler : INotificationHandler<DeliveryCreatedDomainEvent>
     {

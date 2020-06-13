@@ -1,8 +1,8 @@
-﻿namespace Delivery.API.Application.Commands
-{
-    using Delivery.Domain.AggregatesModel.DeliveryAggregate;
-    using System;
+﻿using System;
+using Delivery.Domain.AggregatesModel.DeliveryAggregate;
 
+namespace Delivery.API.Application.Commands.DataTransferableObjects
+{
     public class DeliveryDto
     {
         public long Number { get; set; }
@@ -18,7 +18,7 @@
         public DeliveryLocationDto DropOffLocation { get; set; }
 
 
-        public static DeliveryDto FromDelivery(Delivery delivery)
+        public static DeliveryDto FromDelivery(Domain.AggregatesModel.DeliveryAggregate.Delivery delivery)
         {
             return new DeliveryDto()
             {

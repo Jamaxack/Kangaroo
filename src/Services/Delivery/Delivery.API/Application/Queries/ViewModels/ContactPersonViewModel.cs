@@ -1,4 +1,4 @@
-﻿namespace Delivery.API.Application.Queries
+﻿namespace Delivery.API.Application.Queries.ViewModels
 {
     public class ContactPersonViewModel
     {

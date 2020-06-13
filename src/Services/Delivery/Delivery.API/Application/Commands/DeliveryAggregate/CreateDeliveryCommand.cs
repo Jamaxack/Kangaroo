@@ -1,7 +1,8 @@
-﻿using MediatR;
-using System;
+﻿using System;
+using Delivery.API.Application.Commands.DataTransferableObjects;
+using MediatR;
 
-namespace Delivery.API.Application.Commands
+namespace Delivery.API.Application.Commands.DeliveryAggregate
 {
     public class CreateDeliveryCommand : IRequest<bool>
     {

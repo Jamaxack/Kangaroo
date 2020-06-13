@@ -1,4 +1,4 @@
-﻿using Delivery.API.Application.Commands;
+﻿using Delivery.API.Application.Commands.DeliveryAggregate;
 using FluentValidation;
 
 namespace Delivery.API.Application.Validations

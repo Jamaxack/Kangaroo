@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Delivery.API.Application.Commands
+namespace Delivery.API.Application.Commands.DeliveryAggregate
 {
     // Use for Idempotency in Command process
     public class DeleteDeliveryIdentifiedCommandHandler : IdentifiedCommandHandler<DeleteDeliveryCommand, bool>

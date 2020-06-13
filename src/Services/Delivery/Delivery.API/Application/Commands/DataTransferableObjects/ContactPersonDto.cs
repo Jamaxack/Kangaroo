@@ -1,6 +1,6 @@
 ﻿using Delivery.Domain.AggregatesModel.DeliveryAggregate;
 
-namespace Delivery.API.Application.Commands
+namespace Delivery.API.Application.Commands.DataTransferableObjects
 {
     public class ContactPersonDto
     {

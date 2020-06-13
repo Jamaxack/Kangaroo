@@ -3,12 +3,13 @@ using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Delivery.API.Application.Queries.ViewModels;
 
 namespace Delivery.API.Application.Queries
 {
     public class ClientQueries : IClientQueries
     {
-        readonly string _connectionString = string.Empty;
+        private readonly string _connectionString = string.Empty;
 
         #region SelectClientsQuery
         const string SelectClientsQuery =

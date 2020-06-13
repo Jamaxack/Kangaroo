@@ -4,6 +4,7 @@ using GrpcClient;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using Delivery.API.Application.Queries.ViewModels;
 
 namespace Delivery.API.Grpc
 {

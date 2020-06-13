@@ -1,11 +1,11 @@
-﻿using Delivery.Domain.AggregatesModel.DeliveryAggregate;
-using MediatR;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Delivery.Domain.AggregatesModel.DeliveryAggregate;
+using MediatR;
+using Microsoft.Extensions.Logging;
 
-namespace Delivery.API.Application.Commands
+namespace Delivery.API.Application.Commands.DeliveryAggregate
 {
 
     public class DeleteDeliveryCommandHandler : IRequestHandler<DeleteDeliveryCommand, bool>

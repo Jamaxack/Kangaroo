@@ -1,11 +1,11 @@
-﻿using Delivery.Domain.AggregatesModel.DeliveryAggregate;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Delivery.Domain.AggregatesModel.DeliveryAggregate;
 using Delivery.Domain.Events;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Delivery.API.Application.DomainEventHandlers
+namespace Delivery.API.Application.DomainEventHandlers.DeliveryStatusChangedToAvailableEvent
 {
     public class DeliveryStatusChangedToAvailableDomainEventHandler : INotificationHandler<DeliveryStatusChangedToAvailableDomainEvent>
     {

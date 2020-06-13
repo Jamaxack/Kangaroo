@@ -1,7 +1,7 @@
-﻿using MediatR;
-using System;
+﻿using System;
+using MediatR;
 
-namespace Delivery.API.Application.Commands
+namespace Delivery.API.Application.Commands.DeliveryAggregate
 {
     public class DeleteDeliveryCommand : IRequest<bool>
     {

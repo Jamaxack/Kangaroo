@@ -1,8 +1,8 @@
-﻿using Delivery.API.Application.Commands;
-using Delivery.API.Application.Validations;
+﻿using Delivery.API.Application.Validations;
 using FluentValidation.TestHelper;
 using GenFu;
 using System;
+using Delivery.API.Application.Commands.DataTransferableObjects;
 using Xunit;
 
 namespace Delivery.UnitTests.ValidatorTests

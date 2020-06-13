@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Delivery.API.Application.Commands.DeliveryAggregate;
 
 namespace Delivery.API.Application.Commands
 {

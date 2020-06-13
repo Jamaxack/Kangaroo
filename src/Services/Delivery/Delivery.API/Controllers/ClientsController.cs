@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using Delivery.API.Application.Queries.ViewModels;
 
 namespace Delivery.API.Controllers
 {
