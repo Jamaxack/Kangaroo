@@ -40,7 +40,7 @@ namespace Pricing.API.Infrastucture.Services
                     var responseString = await response.Content.ReadAsStringAsync();
                     var metrix = JsonConvert.DeserializeObject<DistanceMetrixDto>(responseString);
                     if (metrix.Status.ToUpper() != HttpStatusCode.OK.ToString())
-                        throw new PricingDomainException(metrix.Error_Message);
+                        throw new PricingDomainException(metrix.ErrorMessage);
 
                     var row = metrix.Rows.FirstOrDefault();
                     if (row == null)

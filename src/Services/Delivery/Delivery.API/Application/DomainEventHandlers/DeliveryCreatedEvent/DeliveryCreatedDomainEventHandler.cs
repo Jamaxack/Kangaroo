@@ -12,17 +12,11 @@ namespace Delivery.API.Application.DomainEventHandlers.DeliveryCreatedEvent
 {
     public class DeliveryCreatedDomainEventHandler : INotificationHandler<DeliveryCreatedDomainEvent>
     {
-        private readonly IDeliveryIntegrationEventService _deliveryIntegrationEventService;
-        private readonly IEventBus _eventBus;
-        private readonly ILogger<DeliveryCreatedDomainEventHandler> _logger;
+        private readonly IDeliveryIntegrationEventService _deliveryIntegrationEventService; 
 
-        public DeliveryCreatedDomainEventHandler(IEventBus eventBus,
-            IDeliveryIntegrationEventService deliveryIntegrationEventService,
-            ILogger<DeliveryCreatedDomainEventHandler> logger)
-        {
-            _eventBus = eventBus;
-            _deliveryIntegrationEventService = deliveryIntegrationEventService;
-            _logger = logger;
+        public DeliveryCreatedDomainEventHandler(IDeliveryIntegrationEventService deliveryIntegrationEventService)
+        { 
+            _deliveryIntegrationEventService = deliveryIntegrationEventService; 
         }
 
         public async Task Handle(DeliveryCreatedDomainEvent notification, CancellationToken cancellationToken)

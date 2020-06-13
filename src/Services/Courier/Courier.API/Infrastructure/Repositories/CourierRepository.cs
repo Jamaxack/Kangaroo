@@ -41,7 +41,6 @@ namespace Courier.API.Infrastructure.Repositories
         public Task<List<Model.Courier>> GetCouriersAsync()
         {
             return _courierContext.Couriers.Find(new BsonDocument()).ToListAsync();
-            ;
         }
 
         public Task<CourierLocation> GetCurrentCourierLocationByCourierIdAsync(Guid courierId)

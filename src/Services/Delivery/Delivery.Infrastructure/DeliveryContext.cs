@@ -15,7 +15,7 @@ namespace Delivery.Infrastructure
 {
     public class DeliveryContext : DbContext, IUnitOfWork
     {
-        public const string DEFAULT_SCHEMA = "Delivery";
+        public const string DefaultSchema = "Delivery";
 
         private readonly IMediator _mediator;
         private IDbContextTransaction _currentTransaction;
@@ -48,8 +48,7 @@ namespace Delivery.Infrastructure
 
             // After executing this line all the changes (from the Command Handler and Domain Event Handlers) 
             // performed through the DbContext will be committed
-            var result = await base.SaveChangesAsync(cancellationToken);
-
+            await base.SaveChangesAsync(cancellationToken);
             return true;
         }
 

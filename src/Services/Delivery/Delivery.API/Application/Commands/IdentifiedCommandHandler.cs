@@ -40,15 +40,13 @@ namespace Delivery.API.Application.Commands
         ///     just enqueues the original inner command.
         /// </summary>
         /// <param name="message">IdentifiedCommand which contains both original command & request ID</param>
+        /// <param name="cancellationToken"></param>
         /// <returns>Return value of inner command or default value if request same ID was found</returns>
         public async Task<TResponse> Handle(IdentifiedCommand<TRequest, TResponse> message,
             CancellationToken cancellationToken)
         {
             var alreadyExists = await _requestManager.ExistAsync(message.Id);
-            if (alreadyExists)
-            {
-                return CreateResultForDuplicateRequest();
-            }
+            if (alreadyExists) return CreateResultForDuplicateRequest();
 
             await _requestManager.CreateRequestForCommandAsync<TRequest>(message.Id);
             try

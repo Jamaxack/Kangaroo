@@ -8,7 +8,7 @@ namespace Delivery.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<DeliveryStatus> builder)
         {
-            builder.ToTable("DeliveryStatus", DeliveryContext.DEFAULT_SCHEMA);
+            builder.ToTable("DeliveryStatus", DeliveryContext.DefaultSchema);
 
             builder.HasKey(x => x.Id);
 

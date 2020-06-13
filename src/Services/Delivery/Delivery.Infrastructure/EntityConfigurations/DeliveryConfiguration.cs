@@ -9,7 +9,7 @@ namespace Delivery.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Domain.AggregatesModel.DeliveryAggregate.Delivery> builder)
         {
-            builder.ToTable("Deliveries", DeliveryContext.DEFAULT_SCHEMA);
+            builder.ToTable("Deliveries", DeliveryContext.DefaultSchema);
 
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();

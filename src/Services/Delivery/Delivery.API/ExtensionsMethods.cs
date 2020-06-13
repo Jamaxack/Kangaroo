@@ -96,17 +96,17 @@ namespace Delivery.API
             var subscriptionClientName = configuration["SubscriptionClientName"];
             services.AddSingleton<IEventBus, EventBusRabbitMQ>(serviceProvider =>
             {
-                var rabbitMQPersistentConnection = serviceProvider.GetRequiredService<IRabbitMQPersistentConnection>();
+                var rabbitMqPersistentConnection = serviceProvider.GetRequiredService<IRabbitMQPersistentConnection>();
                 var iLifetimeScope = serviceProvider.GetRequiredService<ILifetimeScope>();
                 var logger = serviceProvider.GetRequiredService<ILogger<EventBusRabbitMQ>>();
-                var eventBusSubcriptionsManager = serviceProvider.GetRequiredService<IEventBusSubscriptionsManager>();
+                var eventBusSubscriptionsManager = serviceProvider.GetRequiredService<IEventBusSubscriptionsManager>();
 
                 var retryCount = 5;
                 if (!string.IsNullOrEmpty(configuration["EventBusRetryCount"]))
                     retryCount = int.Parse(configuration["EventBusRetryCount"]);
 
-                return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope,
-                    eventBusSubcriptionsManager, subscriptionClientName, retryCount);
+                return new EventBusRabbitMQ(rabbitMqPersistentConnection, logger, iLifetimeScope,
+                    eventBusSubscriptionsManager, subscriptionClientName, retryCount);
             });
             services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
             return services;

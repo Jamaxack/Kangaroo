@@ -6,6 +6,6 @@ namespace Pricing.API.DataTransferableObjects
     {
         public List<Row> Rows { get; set; }
         public string Status { get; set; }
-        public string Error_Message { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

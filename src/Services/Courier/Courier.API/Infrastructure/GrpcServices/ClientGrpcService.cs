@@ -12,15 +12,13 @@ using Microsoft.Extensions.Options;
 namespace Courier.API.Infrastructure.GrpcServices
 {
     public class ClientGrpcService : IClientGrpcService
-    {
-        private readonly HttpClient _httpClient;
+    { 
         private readonly ILogger<ClientGrpcService> _logger;
         private readonly UrlsConfiguration _urls;
 
         public ClientGrpcService(HttpClient httpClient, IOptions<UrlsConfiguration> config,
             ILogger<ClientGrpcService> logger)
-        {
-            _httpClient = httpClient;
+        { 
             _urls = config.Value;
             _logger = logger;
         }

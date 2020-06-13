@@ -13,10 +13,10 @@ namespace Pricing.API
     {
         public Startup(IConfiguration configuration)
         {
-            _configuration = configuration;
+            Configuration = configuration;
         }
 
-        private IConfiguration _configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -27,8 +27,8 @@ namespace Pricing.API
                 .Services
                 .AddOptions()
                 .AddHttpClient()
-                .Configure<PricingSettings>(_configuration)
-                .AddHealthCheck(_configuration)
+                .Configure<PricingSettings>(Configuration)
+                .AddHealthCheck(Configuration)
                 .AddSwaggerGen()
                 .AddCors()
                 .AddDependencyInjections();
@@ -44,7 +44,7 @@ namespace Pricing.API
                 .UseRouting()
                 .UseAuthorization()
                 .UseEndpoints();
-            app.UseSwagger(_configuration["PATH_BASE"]);
+            app.UseSwagger(Configuration["PATH_BASE"]);
         }
     }
 }

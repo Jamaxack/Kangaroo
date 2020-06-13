@@ -38,8 +38,6 @@ namespace Delivery.API.Infrastructure
 
                     await context.SaveEntitiesAsync();
                 }
-
-                ;
             });
         }
 

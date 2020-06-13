@@ -16,7 +16,6 @@ namespace Delivery.API.Application.IntegrationEvents
         private readonly DeliveryContext _deliveryContext;
         private readonly IEventBus _eventBus;
         private readonly IIntegrationEventLogService _eventLogService;
-        private readonly Func<DbConnection, IIntegrationEventLogService> _integrationEventLogServiceFactory;
         private readonly ILogger<DeliveryIntegrationEventService> _logger;
 
         public DeliveryIntegrationEventService(IEventBus eventBus,
@@ -26,11 +25,11 @@ namespace Delivery.API.Application.IntegrationEvents
             ILogger<DeliveryIntegrationEventService> logger)
         {
             _deliveryContext = deliveryContext ?? throw new ArgumentNullException(nameof(deliveryContext));
-            _integrationEventLogServiceFactory = integrationEventLogServiceFactory ??
-                                                 throw new ArgumentNullException(
-                                                     nameof(integrationEventLogServiceFactory));
+            var integrationEventLogServiceFactory1 = integrationEventLogServiceFactory ??
+                                                     throw new ArgumentNullException(
+                                                         nameof(integrationEventLogServiceFactory));
             _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-            _eventLogService = _integrationEventLogServiceFactory(_deliveryContext.Database.GetDbConnection());
+            _eventLogService = integrationEventLogServiceFactory1(_deliveryContext.Database.GetDbConnection());
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
