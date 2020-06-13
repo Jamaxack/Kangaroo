@@ -1,6 +1,7 @@
 using Autofac;
 using Courier.API.Infrastructure.Repositories;
 using Courier.API.Infrastructure.Services;
+using Courier.API.IntegrationEvents;
 using Courier.API.IntegrationEvents.EventHandling;
 using Kangaroo.BuildingBlocks.EventBus;
 using Kangaroo.BuildingBlocks.EventBus.Abstractions;
@@ -27,7 +28,7 @@ namespace Courier.API
                 .AddMongoDb(
                     configuration["ConnectionString"],
                     name: "couriers-mongodb-check",
-                    tags: new[] {"mongodb"});
+                    tags: new[] { "mongodb" });
 
             return services;
         }
@@ -91,6 +92,7 @@ namespace Courier.API
             services.AddTransient<IClientRepository, ClientRepository>();
             services.AddTransient<IDeliveryRepository, DeliveryRepository>();
             services.AddTransient<IDateTimeFacade, DateTimeFacade>();
+            services.AddTransient<IIntegrationEventPublisher, IntegrationEventPublisher>();
             return services;
         }
 

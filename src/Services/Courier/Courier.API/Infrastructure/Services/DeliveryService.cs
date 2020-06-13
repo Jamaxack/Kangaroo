@@ -1,32 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Courier.API.DataTransferableObjects;
 using Courier.API.Infrastructure.Exceptions;
 using Courier.API.Infrastructure.Repositories;
+using Courier.API.IntegrationEvents;
 using Courier.API.IntegrationEvents.Events;
 using Courier.API.Model;
-using Kangaroo.BuildingBlocks.EventBus.Abstractions;
-using Kangaroo.BuildingBlocks.EventBus.Events;
-using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Courier.API.Infrastructure.Services
 {
     public class DeliveryService : IDeliveryService
     {
         private readonly IDeliveryRepository _deliveryRepository;
-        private readonly IEventBus _eventBus;
-        private readonly ILogger<DeliveryService> _logger;
+        private readonly ICourierRepository _courierRepository;
         private readonly IMapper _mapper;
+        private readonly IIntegrationEventPublisher _integrationEventPublisher;
 
-        public DeliveryService(IDeliveryRepository deliveryRepository, IEventBus eventBus, IMapper mapper,
-            ILogger<DeliveryService> logger)
+        public DeliveryService(IDeliveryRepository deliveryRepository, ICourierRepository courierRepository, IMapper mapper, IIntegrationEventPublisher integrationEventPublisher)
         {
             _mapper = mapper;
+            _integrationEventPublisher = integrationEventPublisher;
             _deliveryRepository = deliveryRepository;
-            _eventBus = eventBus;
-            _logger = logger;
+            _courierRepository = courierRepository;
         }
 
         public async Task<List<DeliveryDto>> GetAvailableDeliveriesAsync()
@@ -82,37 +79,28 @@ namespace Courier.API.Infrastructure.Services
             if (delivery == null)
                 throw new KeyNotFoundException($"Delivery not found with specified Id: {deliveryId}");
 
+            var courier = await _courierRepository.GetCourierByIdAsync(courierId);
+            if (courier == null)
+                throw new KeyNotFoundException($"Courier not found with specified Id: {courierId}");
+
             await _deliveryRepository.AssignCourierToDeliveryAsync(deliveryId, courierId);
-            await DeliveryStatusChangedToCourierAssignedAsync(deliveryId, courierId);
-        }
-
-        private async Task DeliveryStatusChangedToCourierAssignedAsync(Guid deliveryId, Guid courierId)
-        {
-            if (deliveryId == null)
-                throw new CourierDomainException("Delivery Id is not specified");
-
             await _deliveryRepository.SetDeliveryStatusAsync(deliveryId, DeliveryStatus.CourierAssigned);
-
             var deliveryStatusChangedEvent = new CourierAssignedToDeliveryIntegrationEvent(deliveryId, courierId);
-            PublishIntegrationEvent(deliveryStatusChangedEvent);
+            _integrationEventPublisher.Publish(deliveryStatusChangedEvent);
         }
 
         public async Task SetDeliveryStatusToCourierPickedUpAsync(Guid deliveryId)
         {
-            if (deliveryId == null)
+            if (deliveryId == Guid.Empty)
                 throw new CourierDomainException("Delivery Id is not specified");
+
+            var delivery = await _deliveryRepository.GetDeliveryByIdAsync(deliveryId);
+            if (delivery == null)
+                throw new KeyNotFoundException($"Delivery not found with specified Id: {deliveryId}");
 
             await _deliveryRepository.SetDeliveryStatusAsync(deliveryId, DeliveryStatus.CourierPickedUp);
             var deliveryStatusChangedEvent = new DeliveryStatusChangedToCourierPickedUpIntegrationEvent(deliveryId);
-            PublishIntegrationEvent(deliveryStatusChangedEvent);
-        }
-
-        private void PublishIntegrationEvent(IntegrationEvent integrationEvent)
-        {
-            _logger.LogInformation(
-                "----- Publishing integration event: {IntegrationEventId} from {AppName} - ({@IntegrationEvent})",
-                integrationEvent.Id, Program.AppName, integrationEvent);
-            _eventBus.Publish(integrationEvent);
+            _integrationEventPublisher.Publish(deliveryStatusChangedEvent);
         }
     }
 }
