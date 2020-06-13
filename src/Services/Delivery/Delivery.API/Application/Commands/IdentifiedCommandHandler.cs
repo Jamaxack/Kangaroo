@@ -27,11 +27,8 @@ namespace Delivery.API.Application.Commands
             ILogger<IdentifiedCommandHandler<TRequest, TResponse>> logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            ;
             _requestManager = requestManager ?? throw new ArgumentNullException(nameof(requestManager));
-            ;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            ;
         }
 
         /// <summary>

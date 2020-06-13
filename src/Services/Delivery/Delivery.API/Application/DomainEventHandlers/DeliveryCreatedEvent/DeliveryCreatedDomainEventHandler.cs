@@ -4,9 +4,7 @@ using Delivery.API.Application.IntegrationEvents;
 using Delivery.API.Application.IntegrationEvents.Events;
 using Delivery.API.Application.Models;
 using Delivery.Domain.Events;
-using Kangaroo.BuildingBlocks.EventBus.Abstractions;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Delivery.API.Application.DomainEventHandlers.DeliveryCreatedEvent
 {
