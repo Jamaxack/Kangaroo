@@ -3,7 +3,7 @@ using System;
 
 namespace Delivery.API.Application.Commands
 {
-    public class DeliveryLocationDTO
+    public class DeliveryLocationDto
     {
         public string Address { get; set; }
         public string BuildingNumber { get; set; }
@@ -13,14 +13,14 @@ namespace Delivery.API.Application.Commands
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public string Note { get; set; } // Navigation instruction, etc. 
-        public ContactPersonDTO ContactPerson { get; set; }//Sender or Recipient 
+        public ContactPersonDto ContactPerson { get; set; }//Sender or Recipient 
         public DateTime? ArrivalStartDateTime { get; set; }
         public DateTime? ArrivalFinishDateTime { get; set; }
         public DateTime? CourierArrivedDateTime { get; set; }
 
-        public static DeliveryLocationDTO FromLocation(DeliveryLocation location)
+        public static DeliveryLocationDto FromLocation(DeliveryLocation location)
         {
-            return new DeliveryLocationDTO()
+            return new DeliveryLocationDto()
             {
                 Address = location.Address,
                 BuildingNumber = location.BuildingNumber,
@@ -30,7 +30,7 @@ namespace Delivery.API.Application.Commands
                 Latitude = location.Latitude,
                 Longitude = location.Longitude,
                 Note = location.Note,
-                ContactPerson = ContactPersonDTO.FromContactPerson(location.ContactPerson),
+                ContactPerson = ContactPersonDto.FromContactPerson(location.ContactPerson),
                 ArrivalStartDateTime = location.ArrivalStartDateTime,
                 ArrivalFinishDateTime = location.ArrivalFinishDateTime,
                 CourierArrivedDateTime = location.CourierArrivedDateTime

@@ -19,8 +19,8 @@ namespace Pricing.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(PriceDTO), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CalculatePriceAsync(CalculatePriceDTO calculatePriceDTO)
+        [ProducesResponseType(typeof(PriceDto), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> CalculatePriceAsync(CalculatePriceDto calculatePriceDTO)
             => Ok(await _pricingService.CalculatePriceAsync(calculatePriceDTO));
     }
 }

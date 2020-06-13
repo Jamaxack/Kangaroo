@@ -3,9 +3,9 @@ using Pricing.API.DataTransferableObjects;
 
 namespace Pricing.API.Validators
 {
-    public class DeliveryLocationDTOValidator : AbstractValidator<DeliveryLocationDTO>, IFluentValidator
+    public class DeliveryLocationDtoValidator : AbstractValidator<DeliveryLocationDto>, IFluentValidator
     {
-        public DeliveryLocationDTOValidator()
+        public DeliveryLocationDtoValidator()
         {
             RuleFor(x => x.Address).NotEmpty();
         }

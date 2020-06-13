@@ -24,7 +24,7 @@ namespace Pricing.API.Infrastucture.Services
             _configuration = configuration;
         }
 
-        public async Task<PriceDTO> CalculatePriceAsync(CalculatePriceDTO calculatePrice)
+        public async Task<PriceDto> CalculatePriceAsync(CalculatePriceDto calculatePrice)
         {
             var pickUpAddress = calculatePrice.PickUpLocation.Address;
             var dropOffAddress = calculatePrice.DropOffLocation.Address;
@@ -37,7 +37,7 @@ namespace Pricing.API.Infrastucture.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var responseString = await response.Content.ReadAsStringAsync();
-                    var metrix = JsonConvert.DeserializeObject<DistanceMetrixDTO>(responseString);
+                    var metrix = JsonConvert.DeserializeObject<DistanceMetrixDto>(responseString);
                     if (metrix.Status.ToUpper() != HttpStatusCode.OK.ToString())
                         throw new PricingDomainException(metrix.Error_Message);
 
@@ -76,8 +76,8 @@ namespace Pricing.API.Infrastucture.Services
             return client.SendAsync(request);
         }
 
-        PriceDTO MapToPriceDTO(Model.Pricing pricing)
-            => new PriceDTO
+        PriceDto MapToPriceDTO(Model.Pricing pricing)
+            => new PriceDto
             {
                 Price = pricing.Price,
                 Distance = pricing.Distance,

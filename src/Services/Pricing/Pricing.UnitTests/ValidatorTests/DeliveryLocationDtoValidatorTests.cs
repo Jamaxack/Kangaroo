@@ -4,13 +4,13 @@ using Xunit;
 
 namespace Pricing.UnitTests.ValidatorTests
 {
-    public class DeliveryLocationDTOValidatorTests
+    public class DeliveryLocationDtoValidatorTests
     {
-        readonly DeliveryLocationDTOValidator _validator;
+        readonly DeliveryLocationDtoValidator _validator;
 
-        public DeliveryLocationDTOValidatorTests()
+        public DeliveryLocationDtoValidatorTests()
         {
-            _validator = new DeliveryLocationDTOValidator();
+            _validator = new DeliveryLocationDtoValidator();
         }
 
         #region Address

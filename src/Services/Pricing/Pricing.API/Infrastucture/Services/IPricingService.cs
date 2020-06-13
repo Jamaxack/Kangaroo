@@ -5,6 +5,6 @@ namespace Pricing.API.Infrastucture.Services
 {
     public interface IPricingService
     {
-        Task<PriceDTO> CalculatePriceAsync(CalculatePriceDTO calculatePriceDTO);
+        Task<PriceDto> CalculatePriceAsync(CalculatePriceDto calculatePriceDTO);
     }
 }

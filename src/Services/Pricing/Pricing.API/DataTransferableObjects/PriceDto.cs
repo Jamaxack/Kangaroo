@@ -1,6 +1,6 @@
 ﻿namespace Pricing.API.DataTransferableObjects
 {
-    public class PriceDTO
+    public class PriceDto
     {
         public decimal Price { get; set; }
         public double Distance { get; set; }

@@ -2,14 +2,14 @@
 
 namespace Delivery.API.Application.Commands
 {
-    public class ContactPersonDTO
+    public class ContactPersonDto
     {
         public string Name { get; set; }
         public string Phone { get; set; }
 
-        public static ContactPersonDTO FromContactPerson(ContactPerson contactPerson)
+        public static ContactPersonDto FromContactPerson(ContactPerson contactPerson)
         {
-            return new ContactPersonDTO() { Name = contactPerson.Name, Phone = contactPerson.Phone };
+            return new ContactPersonDto() { Name = contactPerson.Name, Phone = contactPerson.Phone };
         }
     }
 }

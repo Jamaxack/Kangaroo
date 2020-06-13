@@ -3,7 +3,7 @@
     using Delivery.Domain.AggregatesModel.DeliveryAggregate;
     using System;
 
-    public class DeliveryDTO
+    public class DeliveryDto
     {
         public long Number { get; set; }
         public short Weight { get; set; }
@@ -14,13 +14,13 @@
         public DeliveryStatus DeliveryStatus { get; set; }
         public Guid ClientId { get; set; }
         public Guid? CourierId { get; set; }
-        public DeliveryLocationDTO PickUpLocation { get; set; }
-        public DeliveryLocationDTO DropOffLocation { get; set; }
+        public DeliveryLocationDto PickUpLocation { get; set; }
+        public DeliveryLocationDto DropOffLocation { get; set; }
 
 
-        public static DeliveryDTO FromDelivery(Delivery delivery)
+        public static DeliveryDto FromDelivery(Delivery delivery)
         {
-            return new DeliveryDTO()
+            return new DeliveryDto()
             {
                 Number = delivery.Number,
                 Weight = delivery.Weight,
@@ -31,8 +31,8 @@
                 DeliveryStatus = delivery.DeliveryStatus,
                 ClientId = delivery.GetClientId,
                 CourierId = delivery.GetCourierId,
-                DropOffLocation = DeliveryLocationDTO.FromLocation(delivery.DropOffLocation),
-                PickUpLocation = DeliveryLocationDTO.FromLocation(delivery.PickUpLocation),
+                DropOffLocation = DeliveryLocationDto.FromLocation(delivery.DropOffLocation),
+                PickUpLocation = DeliveryLocationDto.FromLocation(delivery.PickUpLocation),
             };
         }
     }

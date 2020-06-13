@@ -6,13 +6,13 @@ using Xunit;
 
 namespace Pricing.UnitTests.ValidatorTests
 {
-    public class CalculatePriceDTOValidatorTests
+    public class CalculatePriceDtoValidatorTests
     {
-        private CalculatePriceDTOValidator _validator;
+        private CalculatePriceDtoValidator _validator;
 
-        public CalculatePriceDTOValidatorTests()
+        public CalculatePriceDtoValidatorTests()
         {
-            _validator = new CalculatePriceDTOValidator();
+            _validator = new CalculatePriceDtoValidator();
         }
 
         #region Weight
@@ -39,13 +39,13 @@ namespace Pricing.UnitTests.ValidatorTests
         [Fact]
         public void Should_have_error_when_PickUpLocation_is_null()
         {
-            _validator.ShouldHaveValidationErrorFor(x => x.PickUpLocation, null as DeliveryLocationDTO);
+            _validator.ShouldHaveValidationErrorFor(x => x.PickUpLocation, null as DeliveryLocationDto);
         }
 
         [Fact]
         public void Should_not_have_error_when_PickUpLocation_is_specified()
         {
-            var deliveryLocation = A.New<DeliveryLocationDTO>();
+            var deliveryLocation = A.New<DeliveryLocationDto>();
             _validator.ShouldNotHaveValidationErrorFor(x => x.PickUpLocation, deliveryLocation);
         }
         #endregion
@@ -54,13 +54,13 @@ namespace Pricing.UnitTests.ValidatorTests
         [Fact]
         public void Should_have_error_when_DropOffLocation_is_null()
         {
-            _validator.ShouldHaveValidationErrorFor(x => x.DropOffLocation, null as DeliveryLocationDTO);
+            _validator.ShouldHaveValidationErrorFor(x => x.DropOffLocation, null as DeliveryLocationDto);
         }
 
         [Fact]
         public void Should_not_have_error_when_DropOffLocation_is_specified()
         {
-            var deliveryLocation = A.New<DeliveryLocationDTO>();
+            var deliveryLocation = A.New<DeliveryLocationDto>();
             _validator.ShouldNotHaveValidationErrorFor(x => x.DropOffLocation, deliveryLocation);
         }
         #endregion

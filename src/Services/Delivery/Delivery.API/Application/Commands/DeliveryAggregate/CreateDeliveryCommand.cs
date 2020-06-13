@@ -9,8 +9,8 @@ namespace Delivery.API.Application.Commands
         public decimal Price { get; set; }
         public short Weight { get; set; }
         public string Note { get; set; }
-        public DeliveryLocationDTO PickUpLocation { get; set; }
-        public DeliveryLocationDTO DropOffLocation { get; set; }
+        public DeliveryLocationDto PickUpLocation { get; set; }
+        public DeliveryLocationDto DropOffLocation { get; set; }
 
         public CreateDeliveryCommand()
         {

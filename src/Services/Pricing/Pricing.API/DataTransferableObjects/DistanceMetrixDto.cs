@@ -2,7 +2,7 @@
 
 namespace Pricing.API.DataTransferableObjects
 {
-    public class DistanceMetrixDTO
+    public class DistanceMetrixDto
     {
         public List<Row> Rows { get; set; }
         public string Status { get; set; }
