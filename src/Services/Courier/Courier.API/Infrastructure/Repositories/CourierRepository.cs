@@ -51,14 +51,6 @@ namespace Courier.API.Infrastructure.Repositories
                 .Find(filter)
                 .SortByDescending(x => x.DateTime)
                 .FirstOrDefaultAsync();
-        }
-
-        public Task<List<Delivery>> GetDeliveriesByCourierIdAsync(Guid courierId)
-        {
-            var filter = Builders<Delivery>.Filter.Eq("CourierId", courierId);
-            return _courierContext.Deliveries
-                .Find(filter)
-                .ToListAsync();
-        }
+        } 
     }
 }

@@ -10,7 +10,6 @@ namespace Courier.API.Infrastructure.Repositories
         Task InsertCourierAsync(Model.Courier courier);
         Task UpdateCourierAsync(Model.Courier courier);
         Task<Model.Courier> GetCourierByIdAsync(Guid courierId);
-        Task<List<Delivery>> GetDeliveriesByCourierIdAsync(Guid courierId);
         Task<List<Model.Courier>> GetCouriersAsync();
         Task<CourierLocation> GetCurrentCourierLocationByCourierIdAsync(Guid courierId);
     }

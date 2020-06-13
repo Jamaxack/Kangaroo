@@ -35,17 +35,13 @@ namespace Courier.API.Infrastructure.Services
             return _mapper.Map<List<DeliveryDto>>(deliveries);
         }
 
-        public async Task AssignCourierToDeliveryAsync(AssignCourierToDeliveryDtoSave assignCourierToDelivery)
+        public async Task<List<DeliveryDto>> GetDeliveriesByCourierIdAsync(Guid courierId)
         {
-            var deliveryId = assignCourierToDelivery.DeliveryId;
-            var courierId = assignCourierToDelivery.CourierId;
+            if (courierId == Guid.Empty)
+                throw new CourierDomainException("Courier Id is not specified");
 
-            var delivery = await _deliveryRepository.GetDeliveryByIdAsync(deliveryId);
-            if (delivery == null)
-                throw new KeyNotFoundException();
-
-            await _deliveryRepository.AssignCourierToDeliveryAsync(deliveryId, courierId);
-            await DeliveryStatusChangedToCourierAssignedAsync(deliveryId, courierId);
+            var deliveries = await _deliveryRepository.GetDeliveriesByCourierIdAsync(courierId);
+            return _mapper.Map<List<DeliveryDto>>(deliveries);
         }
 
         public async Task<DeliveryDto> GetDeliveryByIdAsync(Guid deliveryId)
@@ -55,7 +51,8 @@ namespace Courier.API.Infrastructure.Services
 
             var delivery = await _deliveryRepository.GetDeliveryByIdAsync(deliveryId);
             if (delivery == null)
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Delivery not found with specified Id: {deliveryId}");
+
             return _mapper.Map<DeliveryDto>(delivery);
         }
 
@@ -70,13 +67,26 @@ namespace Courier.API.Infrastructure.Services
 
         public Task DeleteDeliveryByIdAsync(Guid deliveryId)
         {
-            if (deliveryId == null)
+            if (deliveryId == Guid.Empty)
                 throw new CourierDomainException("Delivery Id is not specified");
 
             return _deliveryRepository.DeleteDeliveryByIdAsync(deliveryId);
         }
 
-        public async Task DeliveryStatusChangedToCourierAssignedAsync(Guid deliveryId, Guid courierId)
+        public async Task AssignCourierToDeliveryAsync(AssignCourierToDeliveryDtoSave assignCourierToDelivery)
+        {
+            var deliveryId = assignCourierToDelivery.DeliveryId;
+            var courierId = assignCourierToDelivery.CourierId;
+
+            var delivery = await _deliveryRepository.GetDeliveryByIdAsync(deliveryId);
+            if (delivery == null)
+                throw new KeyNotFoundException($"Delivery not found with specified Id: {deliveryId}");
+
+            await _deliveryRepository.AssignCourierToDeliveryAsync(deliveryId, courierId);
+            await DeliveryStatusChangedToCourierAssignedAsync(deliveryId, courierId);
+        }
+
+        private async Task DeliveryStatusChangedToCourierAssignedAsync(Guid deliveryId, Guid courierId)
         {
             if (deliveryId == null)
                 throw new CourierDomainException("Delivery Id is not specified");
@@ -87,7 +97,7 @@ namespace Courier.API.Infrastructure.Services
             PublishIntegrationEvent(deliveryStatusChangedEvent);
         }
 
-        public async Task DeliveryStatusChangedToCourierPickedUpAsync(Guid deliveryId)
+        public async Task SetDeliveryStatusToCourierPickedUpAsync(Guid deliveryId)
         {
             if (deliveryId == null)
                 throw new CourierDomainException("Delivery Id is not specified");

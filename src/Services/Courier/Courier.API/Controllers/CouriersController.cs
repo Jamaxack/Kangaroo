@@ -36,15 +36,6 @@ namespace Courier.API.Controllers
             return Ok(await _courierService.GetCourierByIdAsync(courierId));
         }
 
-        [Route("{courierId}/Deliveries")]
-        [HttpGet]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(List<DeliveryDto>), (int) HttpStatusCode.OK)]
-        public async Task<IActionResult> GetDeliveriesByCourierIdAsync(Guid courierId)
-        {
-            return Ok(await _courierService.GetDeliveriesByCourierIdAsync(courierId));
-        }
-
         [HttpPost]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [ProducesResponseType((int) HttpStatusCode.Accepted)]

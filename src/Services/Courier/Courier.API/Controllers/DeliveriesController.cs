@@ -26,6 +26,15 @@ namespace Courier.API.Controllers
         {
             return Ok(await _deliveryService.GetAvailableDeliveriesAsync());
         }
+         
+        [Route("ByCourierId/{courierId:Guid}")]
+        [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(List<DeliveryDto>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetDeliveriesByCourierIdAsync(Guid courierId)
+        {
+            return Ok(await _deliveryService.GetDeliveriesByCourierIdAsync(courierId));
+        }
 
         [HttpPost]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
@@ -73,7 +82,7 @@ namespace Courier.API.Controllers
         [ProducesResponseType((int) HttpStatusCode.Accepted)]
         public async Task<IActionResult> PickedUpAsync(Guid deliveryId)
         {
-            await _deliveryService.DeliveryStatusChangedToCourierPickedUpAsync(deliveryId);
+            await _deliveryService.SetDeliveryStatusToCourierPickedUpAsync(deliveryId);
             return Accepted();
         }
     }

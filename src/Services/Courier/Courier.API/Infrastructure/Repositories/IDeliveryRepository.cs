@@ -8,6 +8,7 @@ namespace Courier.API.Infrastructure.Repositories
     public interface IDeliveryRepository
     {
         Task<List<Delivery>> GetAvailableDeliveriesAsync();
+        Task<List<Delivery>> GetDeliveriesByCourierIdAsync(Guid courierId); 
         Task InsertDeliveryAsync(Delivery delivery);
         Task<Delivery> GetDeliveryByIdAsync(Guid deliveryId);
         Task DeleteDeliveryByIdAsync(Guid deliveryId);

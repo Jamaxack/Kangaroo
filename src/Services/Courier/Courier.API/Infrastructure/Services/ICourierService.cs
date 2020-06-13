@@ -11,7 +11,6 @@ namespace Courier.API.Infrastructure.Services
         Task UpdateCourierAsync(CourierDtoSave courierDtoSave);
         Task<CourierDto> GetCourierByIdAsync(Guid courierId);
         Task<List<CourierDto>> GetCouriersAsync();
-        Task<List<DeliveryDto>> GetDeliveriesByCourierIdAsync(Guid courierId);
         Task<CourierLocationDto> GetCurrentCourierLocationByCourierIdAsync(Guid courierId);
     }
 }

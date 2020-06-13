@@ -22,6 +22,14 @@ namespace Courier.API.Infrastructure.Repositories
             return _courierContext.Deliveries.Find(filter).ToListAsync();
         }
 
+        public Task<List<Delivery>> GetDeliveriesByCourierIdAsync(Guid courierId)
+        {
+            var filter = Builders<Delivery>.Filter.Eq("CourierId", courierId);
+            return _courierContext.Deliveries
+                .Find(filter)
+                .ToListAsync();
+        }
+
         public Task AssignCourierToDeliveryAsync(Guid deliveryId, Guid courierId)
         {
             var filter = Builders<Delivery>.Filter.Eq("DeliveryId", deliveryId);

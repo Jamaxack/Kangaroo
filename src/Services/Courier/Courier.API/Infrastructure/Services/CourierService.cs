@@ -37,15 +37,15 @@ namespace Courier.API.Infrastructure.Services
             return _mapper.Map<List<CourierDto>>(couriers);
         }
 
-        public async Task<List<DeliveryDto>> GetDeliveriesByCourierIdAsync(Guid courierId)
+        public async Task<CourierLocationDto> GetCurrentCourierLocationByCourierIdAsync(Guid courierId)
         {
             if (courierId == Guid.Empty)
                 throw new CourierDomainException("Courier Id is not specified");
-
-            var deliveries = await _courierRepository.GetDeliveriesByCourierIdAsync(courierId);
-            return _mapper.Map<List<DeliveryDto>>(deliveries);
+             
+            var courierLocation = await _courierRepository.GetCurrentCourierLocationByCourierIdAsync(courierId);
+            return _mapper.Map<CourierLocationDto>(courierLocation);
         }
-
+         
         public Task InsertCourierAsync(CourierDtoSave courierDtoSave)
         {
             if (courierDtoSave == null)
@@ -62,15 +62,6 @@ namespace Courier.API.Infrastructure.Services
 
             var courier = _mapper.Map<Model.Courier>(courierDtoSave);
             return _courierRepository.UpdateCourierAsync(courier);
-        }
-
-        public async Task<CourierLocationDto> GetCurrentCourierLocationByCourierIdAsync(Guid courierId)
-        {
-            if (courierId == Guid.Empty)
-                throw new CourierDomainException("Courier Id is not specified");
-
-            var courierLocation = await _courierRepository.GetCurrentCourierLocationByCourierIdAsync(courierId);
-            return _mapper.Map<CourierLocationDto>(courierLocation);
         }
     }
 }
