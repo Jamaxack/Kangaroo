@@ -1,14 +1,13 @@
-﻿namespace Delivery.Infrastructure.EntityConfigurations
-{
-    using Delivery.Domain.AggregatesModel.ClientAggregate;
-    using Delivery.Domain.AggregatesModel.DeliveryAggregate;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    using System;
+﻿using System;
+using Delivery.Domain.AggregatesModel.ClientAggregate;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    class DeliveryConfiguration : IEntityTypeConfiguration<Delivery>
+namespace Delivery.Infrastructure.EntityConfigurations
+{
+    internal class DeliveryConfiguration : IEntityTypeConfiguration<Domain.AggregatesModel.DeliveryAggregate.Delivery>
     {
-        public void Configure(EntityTypeBuilder<Delivery> builder)
+        public void Configure(EntityTypeBuilder<Domain.AggregatesModel.DeliveryAggregate.Delivery> builder)
         {
             builder.ToTable("Deliveries", DeliveryContext.DEFAULT_SCHEMA);
 
@@ -47,20 +46,16 @@
             {
                 pickUpLocationSettings.WithOwner();
                 //ContactPerson value object persisted as owned entity type
-                pickUpLocationSettings.OwnsOne(x => x.ContactPerson, contactPersonSettings =>
-                {
-                    contactPersonSettings.WithOwner();
-                });
+                pickUpLocationSettings.OwnsOne(x => x.ContactPerson,
+                    contactPersonSettings => { contactPersonSettings.WithOwner(); });
             });
 
             builder.OwnsOne(x => x.DropOffLocation, dropOffLocationSettings =>
             {
                 dropOffLocationSettings.WithOwner();
                 //ContactPerson value object persisted as owned entity type
-                dropOffLocationSettings.OwnsOne(x => x.ContactPerson, contactPersonSettings =>
-                {
-                    contactPersonSettings.WithOwner();
-                });
+                dropOffLocationSettings.OwnsOne(x => x.ContactPerson,
+                    contactPersonSettings => { contactPersonSettings.WithOwner(); });
             });
 
             builder.HasOne<Client>()

@@ -1,4 +1,8 @@
-﻿using Courier.API.DataTransferableObjects;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
+using Courier.API.DataTransferableObjects;
 using Courier.API.Infrastructure.Exceptions;
 using Courier.API.Infrastructure.Repositories;
 using Courier.API.IntegrationEvents.Events;
@@ -6,10 +10,6 @@ using Courier.API.Model;
 using Kangaroo.BuildingBlocks.EventBus.Abstractions;
 using Kangaroo.BuildingBlocks.EventBus.Events;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
 
 namespace Courier.API.Infrastructure.Services
 {

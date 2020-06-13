@@ -1,14 +1,14 @@
-﻿using Delivery.Domain.AggregatesModel.ClientAggregate;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Delivery.Domain.AggregatesModel.ClientAggregate;
 using Delivery.Domain.AggregatesModel.DeliveryAggregate;
 using Delivery.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.SqlClient;
 using Polly;
 using Polly.Retry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Delivery.API.Infrastructure
 {
@@ -35,14 +35,17 @@ namespace Delivery.API.Infrastructure
                         context.Clients.Add(client);
                         await context.SaveChangesAsync();
                     }
+
                     await context.SaveEntitiesAsync();
-                };
+                }
+
+                ;
             });
         }
 
-        IEnumerable<DeliveryStatus> GetPredefinedDeliveryStatus()
+        private IEnumerable<DeliveryStatus> GetPredefinedDeliveryStatus()
         {
-            return new List<DeliveryStatus>()
+            return new List<DeliveryStatus>
             {
                 DeliveryStatus.New,
                 DeliveryStatus.Available,
@@ -58,18 +61,17 @@ namespace Delivery.API.Infrastructure
             };
         }
 
-        AsyncRetryPolicy CreatePolicy(string prefix, int retries = 3)
+        private AsyncRetryPolicy CreatePolicy(string prefix, int retries = 3)
         {
-            return Policy.Handle<SqlException>().
-                WaitAndRetryAsync(
-                    retryCount: retries,
-                    sleepDurationProvider: retry => TimeSpan.FromSeconds(5),
-                    onRetry: (exception, timeSpan, retry, ctx) =>
-                    {
-                        //TODO: Write warning to logger
-                        Console.WriteLine(exception);
-                    }
-                );
+            return Policy.Handle<SqlException>().WaitAndRetryAsync(
+                retries,
+                retry => TimeSpan.FromSeconds(5),
+                (exception, timeSpan, retry, ctx) =>
+                {
+                    //TODO: Write warning to logger
+                    Console.WriteLine(exception);
+                }
+            );
         }
     }
 }

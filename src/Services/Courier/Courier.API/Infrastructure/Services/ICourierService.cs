@@ -1,12 +1,10 @@
-﻿using Courier.API.DataTransferableObjects;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Courier.API.DataTransferableObjects;
 
 namespace Courier.API.Infrastructure.Services
 {
-    using Model;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
     public interface ICourierService
     {
         Task InsertCourierAsync(CourierDtoSave courier);

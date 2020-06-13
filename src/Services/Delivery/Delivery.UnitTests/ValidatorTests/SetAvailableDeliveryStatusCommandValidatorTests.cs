@@ -1,20 +1,19 @@
-﻿using Delivery.API.Application.Validations;
+﻿using System;
+using Delivery.API.Application.Validations;
 using FluentValidation.TestHelper;
-using System;
 using Xunit;
 
 namespace Delivery.UnitTests.ValidatorTests
 {
     public class SetAvailableDeliveryStatusCommandValidatorTests
     {
-        readonly SetAvailableDeliveryStatusCommandValidator _validator;
-
         public SetAvailableDeliveryStatusCommandValidatorTests()
         {
             _validator = new SetAvailableDeliveryStatusCommandValidator();
         }
 
-        #region DeliveryId
+        private readonly SetAvailableDeliveryStatusCommandValidator _validator;
+
         [Fact]
         public void Should_have_error_when_DeliveryId_is_empty()
         {
@@ -26,6 +25,5 @@ namespace Delivery.UnitTests.ValidatorTests
         {
             _validator.ShouldNotHaveValidationErrorFor(x => x.DeliveryId, Guid.NewGuid());
         }
-        #endregion
     }
 }

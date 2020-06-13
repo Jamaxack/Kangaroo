@@ -1,17 +1,17 @@
-﻿using Delivery.API.Application.Queries;
+﻿using System;
+using System.Threading.Tasks;
+using Delivery.API.Application.Queries;
+using Delivery.API.Application.Queries.ViewModels;
 using Grpc.Core;
 using GrpcClient;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
-using Delivery.API.Application.Queries.ViewModels;
 
 namespace Delivery.API.Grpc
 {
     public class ClientGrpcService : ClientGrpc.ClientGrpcBase
     {
-        readonly IClientQueries _clientQueries;
-        readonly ILogger<ClientGrpcService> _logger;
+        private readonly IClientQueries _clientQueries;
+        private readonly ILogger<ClientGrpcService> _logger;
 
         public ClientGrpcService(IClientQueries clientQueries, ILogger<ClientGrpcService> logger)
         {
@@ -19,11 +19,12 @@ namespace Delivery.API.Grpc
             _logger = logger;
         }
 
-        public async override Task<ClientResponse> GetClientById(ClientRequest request, ServerCallContext context)
+        public override async Task<ClientResponse> GetClientById(ClientRequest request, ServerCallContext context)
         {
-            _logger.LogInformation("Begin grpc call from method {Method} for client id {Id}", context.Method, request.ClientId);
+            _logger.LogInformation("Begin grpc call from method {Method} for client id {Id}", context.Method,
+                request.ClientId);
 
-            if (Guid.TryParse(request.ClientId, out Guid clientId))
+            if (Guid.TryParse(request.ClientId, out var clientId))
             {
                 var client = await _clientQueries.GetClientByIdAsync(clientId);
                 if (client == null)
@@ -37,17 +38,22 @@ namespace Delivery.API.Grpc
                 }
             }
             else
-                context.Status = new Status(StatusCode.InvalidArgument, $"{nameof(request.ClientId)} must be Guid. Not able to parse '{request.ClientId}' to Guid");
+            {
+                context.Status = new Status(StatusCode.InvalidArgument,
+                    $"{nameof(request.ClientId)} must be Guid. Not able to parse '{request.ClientId}' to Guid");
+            }
 
             return new ClientResponse();
         }
 
-        ClientResponse MapToClientResponse(ClientViewModel client)
-            => new ClientResponse
+        private ClientResponse MapToClientResponse(ClientViewModel client)
+        {
+            return new ClientResponse
             {
                 ClientId = client.Id.ToString(),
                 Phone = client.Phone,
                 FullName = $"{client.FirstName} {client.LastName}"
             };
+        }
     }
 }

@@ -1,10 +1,10 @@
-﻿using Delivery.API.Application.Queries;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using Delivery.API.Application.Queries;
 using Delivery.API.Application.Queries.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Delivery.API.Controllers
 {
@@ -12,7 +12,7 @@ namespace Delivery.API.Controllers
     [ApiController]
     public class ClientsController : ControllerBase
     {
-        readonly IClientQueries _clientQueries;
+        private readonly IClientQueries _clientQueries;
 
         public ClientsController(IClientQueries clientQueries)
         {
@@ -21,8 +21,10 @@ namespace Delivery.API.Controllers
 
         //GET ~/api/v1/[controller]/[?pageSize=12&pageIndex=7]
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ClientViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<ClientViewModel>), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> Get([FromQuery] int pageSize = 10, [FromQuery] int pageIndex = 0)
-            => Ok(await _clientQueries.GetClientsAsync(pageSize, pageIndex));
+        {
+            return Ok(await _clientQueries.GetClientsAsync(pageSize, pageIndex));
+        }
     }
 }

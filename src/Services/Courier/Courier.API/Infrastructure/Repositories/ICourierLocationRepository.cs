@@ -1,5 +1,5 @@
-﻿using Courier.API.Model;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Courier.API.Model;
 
 namespace Courier.API.Infrastructure.Repositories
 {

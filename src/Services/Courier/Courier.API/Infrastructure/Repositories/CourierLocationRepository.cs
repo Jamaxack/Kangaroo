@@ -1,12 +1,12 @@
-﻿using Courier.API.Model;
+﻿using System.Threading.Tasks;
+using Courier.API.Model;
 using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
 
 namespace Courier.API.Infrastructure.Repositories
 {
     public class CourierLocationRepository : ICourierLocationRepository
     {
-        readonly CourierContext _courierContext;
+        private readonly CourierContext _courierContext;
 
         public CourierLocationRepository(IOptions<CourierSettings> settings)
         {

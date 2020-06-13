@@ -1,36 +1,18 @@
-﻿using Courier.API.Validators;
+﻿using System;
+using Courier.API.Validators;
 using FluentValidation.TestHelper;
-using System;
 using Xunit;
 
 namespace Courier.UnitTests.ValidatorTests
 {
     public class CourierLocationDtoSaveValidatorTests
     {
-        private readonly CourierLocationDtoSaveValidator _validator;
-
         public CourierLocationDtoSaveValidatorTests()
         {
             _validator = new CourierLocationDtoSaveValidator();
         }
 
-        #region CourierId
-
-        [Fact]
-        public void Should_have_error_when_CourierId_is_empty()
-        {
-            _validator.ShouldHaveValidationErrorFor(x => x.CourierId, Guid.Empty);
-        }
-
-        [Fact]
-        public void Should_not_have_error_when_CourierId_is_specified()
-        {
-            _validator.ShouldNotHaveValidationErrorFor(x => x.CourierId, Guid.NewGuid());
-        }
-
-        #endregion
-
-        #region Latitude
+        private readonly CourierLocationDtoSaveValidator _validator;
 
         [Theory]
         [InlineData(-120)]
@@ -53,10 +35,6 @@ namespace Courier.UnitTests.ValidatorTests
             _validator.ShouldNotHaveValidationErrorFor(x => x.Latitude, latitude);
         }
 
-        #endregion
-
-        #region Longitude
-
         [Theory]
         [InlineData(-218)]
         [InlineData(-181)]
@@ -78,6 +56,16 @@ namespace Courier.UnitTests.ValidatorTests
             _validator.ShouldNotHaveValidationErrorFor(x => x.Longitude, longitude);
         }
 
-        #endregion
+        [Fact]
+        public void Should_have_error_when_CourierId_is_empty()
+        {
+            _validator.ShouldHaveValidationErrorFor(x => x.CourierId, Guid.Empty);
+        }
+
+        [Fact]
+        public void Should_not_have_error_when_CourierId_is_specified()
+        {
+            _validator.ShouldNotHaveValidationErrorFor(x => x.CourierId, Guid.NewGuid());
+        }
     }
 }

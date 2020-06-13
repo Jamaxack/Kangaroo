@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Delivery.Infrastructure.EntityConfigurations
 {
-    class ClientRequestEntityTypeConfiguration
-       : IEntityTypeConfiguration<ClientRequest>
+    internal class ClientRequestEntityTypeConfiguration
+        : IEntityTypeConfiguration<ClientRequest>
     {
         public void Configure(EntityTypeBuilder<ClientRequest> requestConfiguration)
         {

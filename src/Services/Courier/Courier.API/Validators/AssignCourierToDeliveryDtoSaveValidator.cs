@@ -3,7 +3,8 @@ using FluentValidation;
 
 namespace Courier.API.Validators
 {
-    public class AssignCourierToDeliveryDtoSaveValidator : AbstractValidator<AssignCourierToDeliveryDtoSave>, IFluentValidator
+    public class AssignCourierToDeliveryDtoSaveValidator : AbstractValidator<AssignCourierToDeliveryDtoSave>,
+        IFluentValidator
     {
         public AssignCourierToDeliveryDtoSaveValidator()
         {

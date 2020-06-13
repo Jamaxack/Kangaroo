@@ -1,12 +1,12 @@
-﻿using Courier.API.Model;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Courier.API.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Courier.API.Infrastructure
 {
@@ -18,7 +18,7 @@ namespace Courier.API.Infrastructure
             var context = new CourierContext(config);
             if (!context.Couriers.Database.GetCollection<Model.Courier>("Couriers").AsQueryable().Any())
             {
-                var courier = new Model.Courier()
+                var courier = new Model.Courier
                 {
                     FirstName = "John",
                     LastName = "Doe",
@@ -26,7 +26,7 @@ namespace Courier.API.Infrastructure
                 };
                 await context.Couriers.InsertOneAsync(courier);
 
-                var courierLocation = new CourierLocation()
+                var courierLocation = new CourierLocation
                 {
                     CourierId = courier.Id,
                     DateTime = DateTime.UtcNow,

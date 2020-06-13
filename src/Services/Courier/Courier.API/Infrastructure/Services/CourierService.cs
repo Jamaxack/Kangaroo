@@ -1,15 +1,13 @@
-﻿using AutoMapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using Courier.API.DataTransferableObjects;
+using Courier.API.Infrastructure.Exceptions;
+using Courier.API.Infrastructure.Repositories;
 
 namespace Courier.API.Infrastructure.Services
 {
-    using DataTransferableObjects;
-    using Exceptions;
-    using Repositories;
-    using Model;
-
     public class CourierService : ICourierService
     {
         private readonly ICourierRepository _courierRepository;
@@ -53,7 +51,7 @@ namespace Courier.API.Infrastructure.Services
             if (courierDtoSave == null)
                 throw new CourierDomainException("Courier is null");
 
-            var courier = _mapper.Map<Courier>(courierDtoSave);
+            var courier = _mapper.Map<Model.Courier>(courierDtoSave);
             return _courierRepository.InsertCourierAsync(courier);
         }
 
@@ -62,7 +60,7 @@ namespace Courier.API.Infrastructure.Services
             if (courierDtoSave == null)
                 throw new CourierDomainException("Courier is null");
 
-            var courier = _mapper.Map<Courier>(courierDtoSave);
+            var courier = _mapper.Map<Model.Courier>(courierDtoSave);
             return _courierRepository.UpdateCourierAsync(courier);
         }
 

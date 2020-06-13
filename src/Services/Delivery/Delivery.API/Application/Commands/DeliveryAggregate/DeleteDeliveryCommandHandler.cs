@@ -7,14 +7,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Delivery.API.Application.Commands.DeliveryAggregate
 {
-
     public class DeleteDeliveryCommandHandler : IRequestHandler<DeleteDeliveryCommand, bool>
     {
         private readonly IDeliveryRepository _deliveryRepository;
         private readonly ILogger<DeleteDeliveryCommand> _logger;
 
 
-        public DeleteDeliveryCommandHandler(IDeliveryRepository deliveryRepository, ILogger<DeleteDeliveryCommand> logger)
+        public DeleteDeliveryCommandHandler(IDeliveryRepository deliveryRepository,
+            ILogger<DeleteDeliveryCommand> logger)
         {
             _deliveryRepository = deliveryRepository ?? throw new ArgumentNullException(nameof(deliveryRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

@@ -12,7 +12,8 @@ namespace Delivery.API.Application.Commands.DeliveryAggregate
         private readonly IDeliveryRepository _deliveryRepository;
         private readonly ILogger<SetAvailableDeliveryStatusCommand> _logger;
 
-        public SetAvailableDeliveryStatusCommandHandler(IDeliveryRepository DeliveryRepository, ILogger<SetAvailableDeliveryStatusCommand> logger)
+        public SetAvailableDeliveryStatusCommandHandler(IDeliveryRepository DeliveryRepository,
+            ILogger<SetAvailableDeliveryStatusCommand> logger)
         {
             _deliveryRepository = DeliveryRepository ?? throw new ArgumentNullException(nameof(DeliveryRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

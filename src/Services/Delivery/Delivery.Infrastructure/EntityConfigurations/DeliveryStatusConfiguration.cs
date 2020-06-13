@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Delivery.Infrastructure.EntityConfigurations
 {
-    class DeliveryStatusConfiguration : IEntityTypeConfiguration<DeliveryStatus>
+    internal class DeliveryStatusConfiguration : IEntityTypeConfiguration<DeliveryStatus>
     {
         public void Configure(EntityTypeBuilder<DeliveryStatus> builder)
         {

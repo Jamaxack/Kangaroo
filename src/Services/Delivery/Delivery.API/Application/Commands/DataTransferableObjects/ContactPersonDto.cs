@@ -9,7 +9,7 @@ namespace Delivery.API.Application.Commands.DataTransferableObjects
 
         public static ContactPersonDto FromContactPerson(ContactPerson contactPerson)
         {
-            return new ContactPersonDto() { Name = contactPerson.Name, Phone = contactPerson.Phone };
+            return new ContactPersonDto {Name = contactPerson.Name, Phone = contactPerson.Phone};
         }
     }
 }

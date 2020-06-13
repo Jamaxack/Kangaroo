@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using Courier.API.DataTransferableObjects;
+using Courier.API.Infrastructure.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Courier.API.Controllers
 {
-    using Infrastructure.Services;
-    using DataTransferableObjects;
-
     [Route("api/v1/[controller]")]
     [ApiController]
     public class CouriersController : ControllerBase
@@ -23,7 +22,9 @@ namespace Courier.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(List<CourierDto>), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> GetAsync()
-            => Ok(await _courierService.GetCouriersAsync());
+        {
+            return Ok(await _courierService.GetCouriersAsync());
+        }
 
         [Route("{courierId}")]
         [HttpGet]
@@ -31,14 +32,18 @@ namespace Courier.API.Controllers
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(CourierDto), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> GetByIdAsync(Guid courierId)
-            => Ok(await _courierService.GetCourierByIdAsync(courierId));
+        {
+            return Ok(await _courierService.GetCourierByIdAsync(courierId));
+        }
 
         [Route("{courierId}/Deliveries")]
         [HttpGet]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(List<DeliveryDto>), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> GetDeliveriesByCourierIdAsync(Guid courierId)
-            => Ok(await _courierService.GetDeliveriesByCourierIdAsync(courierId));
+        {
+            return Ok(await _courierService.GetDeliveriesByCourierIdAsync(courierId));
+        }
 
         [HttpPost]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]

@@ -12,7 +12,7 @@ namespace Courier.API.Model
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public string Note { get; set; } // Navigation instruction, etc.
-        public ContactPerson ContactPerson { get; set; }//Sender or Recipient 
+        public ContactPerson ContactPerson { get; set; } //Sender or Recipient 
         public DateTime? ArrivalStartDateTime { get; set; }
         public DateTime? ArrivalFinishDateTime { get; set; }
     }

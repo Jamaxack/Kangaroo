@@ -1,5 +1,5 @@
-﻿using Courier.API.DataTransferableObjects;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Courier.API.DataTransferableObjects;
 
 namespace Courier.API.Infrastructure.Services
 {

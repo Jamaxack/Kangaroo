@@ -1,19 +1,20 @@
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using Serilog.Sinks.Elasticsearch;
 using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
 
 namespace Pricing.API
 {
     public class Program
     {
         public static readonly string Namespace = typeof(Program).Namespace;
-        public static readonly string AppName = Namespace.Substring(Namespace.LastIndexOf('.', Namespace.LastIndexOf('.') - 1) + 1);
+
+        public static readonly string AppName =
+            Namespace.Substring(Namespace.LastIndexOf('.', Namespace.LastIndexOf('.') - 1) + 1);
 
         public static int Main(string[] args)
         {
@@ -41,14 +42,14 @@ namespace Pricing.API
             }
         }
 
-        static void ConfigureLogging()
+        private static void ConfigureLogging()
         {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var configuration = new ConfigurationBuilder()
-              .SetBasePath(Directory.GetCurrentDirectory())
-              .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-              .AddEnvironmentVariables()
-              .Build();
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", false, true)
+                .AddEnvironmentVariables()
+                .Build();
 
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
@@ -62,11 +63,15 @@ namespace Pricing.API
                 .CreateLogger();
         }
 
-        static ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration, string environment)
-            => new ElasticsearchSinkOptions(new Uri(configuration.GetValue("ElasticUri", "http://localhost:9200")))
+        private static ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration,
+            string environment)
+        {
+            return new ElasticsearchSinkOptions(new Uri(configuration.GetValue("ElasticUri", "http://localhost:9200")))
             {
                 AutoRegisterTemplate = true,
-                IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
+                IndexFormat =
+                    $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
             };
+        }
     }
 }

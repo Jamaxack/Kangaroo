@@ -1,6 +1,6 @@
-﻿using Delivery.API.Application.Models;
+﻿using System;
+using Delivery.API.Application.Models;
 using Kangaroo.BuildingBlocks.EventBus.Events;
-using System;
 
 namespace Delivery.API.Application.IntegrationEvents.Events
 {

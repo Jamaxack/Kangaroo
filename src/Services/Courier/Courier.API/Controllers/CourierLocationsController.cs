@@ -1,9 +1,8 @@
-﻿using Courier.API.DataTransferableObjects;
+﻿using System.Net;
+using System.Threading.Tasks;
+using Courier.API.DataTransferableObjects;
 using Courier.API.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace Courier.API.Controllers
 {

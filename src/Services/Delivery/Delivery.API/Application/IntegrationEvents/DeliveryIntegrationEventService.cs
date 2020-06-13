@@ -1,22 +1,22 @@
-﻿using Delivery.Infrastructure;
+﻿using System;
+using System.Data.Common;
+using System.Threading.Tasks;
+using Delivery.Infrastructure;
 using Kangaroo.BuildingBlocks.EventBus.Abstractions;
 using Kangaroo.BuildingBlocks.EventBus.Events;
 using Kangaroo.BuildingBlocks.IntegrationEventLogEF;
 using Kangaroo.BuildingBlocks.IntegrationEventLogEF.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Data.Common;
-using System.Threading.Tasks;
 
 namespace Delivery.API.Application.IntegrationEvents
 {
     public class DeliveryIntegrationEventService : IDeliveryIntegrationEventService
     {
-        private readonly Func<DbConnection, IIntegrationEventLogService> _integrationEventLogServiceFactory;
-        private readonly IEventBus _eventBus;
         private readonly DeliveryContext _deliveryContext;
+        private readonly IEventBus _eventBus;
         private readonly IIntegrationEventLogService _eventLogService;
+        private readonly Func<DbConnection, IIntegrationEventLogService> _integrationEventLogServiceFactory;
         private readonly ILogger<DeliveryIntegrationEventService> _logger;
 
         public DeliveryIntegrationEventService(IEventBus eventBus,
@@ -26,7 +26,9 @@ namespace Delivery.API.Application.IntegrationEvents
             ILogger<DeliveryIntegrationEventService> logger)
         {
             _deliveryContext = deliveryContext ?? throw new ArgumentNullException(nameof(deliveryContext));
-            _integrationEventLogServiceFactory = integrationEventLogServiceFactory ?? throw new ArgumentNullException(nameof(integrationEventLogServiceFactory));
+            _integrationEventLogServiceFactory = integrationEventLogServiceFactory ??
+                                                 throw new ArgumentNullException(
+                                                     nameof(integrationEventLogServiceFactory));
             _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
             _eventLogService = _integrationEventLogServiceFactory(_deliveryContext.Database.GetDbConnection());
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -38,7 +40,9 @@ namespace Delivery.API.Application.IntegrationEvents
 
             foreach (var logEvt in pendingLogEvents)
             {
-                _logger.LogInformation("----- Publishing integration event: {IntegrationEventId} from {AppName} - ({@IntegrationEvent})", logEvt.EventId, Program.AppName, logEvt.IntegrationEvent);
+                _logger.LogInformation(
+                    "----- Publishing integration event: {IntegrationEventId} from {AppName} - ({@IntegrationEvent})",
+                    logEvt.EventId, Program.AppName, logEvt.IntegrationEvent);
 
                 try
                 {
@@ -48,7 +52,8 @@ namespace Delivery.API.Application.IntegrationEvents
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "ERROR publishing integration event: {IntegrationEventId} from {AppName}", logEvt.EventId, Program.AppName);
+                    _logger.LogError(ex, "ERROR publishing integration event: {IntegrationEventId} from {AppName}",
+                        logEvt.EventId, Program.AppName);
 
                     await _eventLogService.MarkEventAsFailedAsync(logEvt.EventId);
                 }
@@ -57,7 +62,9 @@ namespace Delivery.API.Application.IntegrationEvents
 
         public async Task AddAndSaveEventAsync(IntegrationEvent integrationEvent)
         {
-            _logger.LogInformation("----- Enqueuing integration event {IntegrationEventId} to repository ({@IntegrationEvent})", integrationEvent.Id, integrationEvent);
+            _logger.LogInformation(
+                "----- Enqueuing integration event {IntegrationEventId} to repository ({@IntegrationEvent})",
+                integrationEvent.Id, integrationEvent);
 
             await _eventLogService.SaveEventAsync(integrationEvent, _deliveryContext.GetCurrentTransaction());
         }

@@ -5,8 +5,7 @@ namespace Delivery.API.Controllers
 {
     public class HomeController : Controller
     {
-
-        readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
         public HomeController(IConfiguration configuration)
         {

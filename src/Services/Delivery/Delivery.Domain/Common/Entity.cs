@@ -1,26 +1,25 @@
-﻿using MediatR;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using MediatR;
 
 namespace Delivery.Domain.Common
 {
     public abstract class Entity
     {
-        int? _requestedHashCode;
-        Guid _id;
-        public virtual Guid Id
-        {
-            get => _id;
-            protected set => _id = value;
-        }
+        private List<INotification> _domainEvents;
+        private int? _requestedHashCode;
+
+        public virtual Guid Id { get; protected set; }
+
+        public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();
 
         /// <summary>
-        /// Checks if this entity is transient (not persisted to database and it has not an Id)
+        ///     Checks if this entity is transient (not persisted to database and it has not an Id)
         /// </summary>
-        public bool IsTransient() => this.Id == default(Guid);
-
-        private List<INotification> _domainEvents;
-        public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();
+        public bool IsTransient()
+        {
+            return Id == default;
+        }
 
         public void AddDomainEvent(INotification eventItem)
         {
@@ -44,34 +43,28 @@ namespace Delivery.Domain.Common
             if (obj == null || !(obj is Entity))
                 return false;
 
-            if (Object.ReferenceEquals(this, obj))
+            if (ReferenceEquals(this, obj))
                 return true;
 
-            if (this.GetType() != obj.GetType())
+            if (GetType() != obj.GetType())
                 return false;
 
-            Entity item = (Entity)obj;
+            var item = (Entity) obj;
 
-            if (item.IsTransient() || this.IsTransient())
+            if (item.IsTransient() || IsTransient())
                 return false;
-            else
-                return item.Id == this.Id;
+            return item.Id == Id;
         }
 
         public override int GetHashCode()
         {
-            if (IsTransient())
-            {
-                return base.GetHashCode();
-            }
-            else
-            {
-                if (_requestedHashCode.HasValue)
-                    return _requestedHashCode.Value;
+            if (IsTransient()) return base.GetHashCode();
 
-                _requestedHashCode = this.Id.GetHashCode() ^ 31; // XOR for random distribution
+            if (_requestedHashCode.HasValue)
                 return _requestedHashCode.Value;
-            }
+
+            _requestedHashCode = Id.GetHashCode() ^ 31; // XOR for random distribution
+            return _requestedHashCode.Value;
         }
     }
 }

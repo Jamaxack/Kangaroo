@@ -1,12 +1,11 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
+﻿using System;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Courier.API.Model
 {
     public class Delivery
     {
-        [BsonId]
-        public Guid Id { get; set; }
+        [BsonId] public Guid Id { get; set; }
 
         public long Number { get; set; }
         public decimal Price { get; set; }

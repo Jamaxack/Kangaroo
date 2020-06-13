@@ -4,7 +4,7 @@ using Courier.API.Model;
 namespace Courier.API.DataTransferableObjects
 {
     public class DeliveryDtoSave
-    { 
+    {
         public long Number { get; set; }
         public decimal Price { get; set; }
         public short Weight { get; set; }

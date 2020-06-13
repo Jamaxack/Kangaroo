@@ -1,7 +1,7 @@
 ﻿namespace Delivery.API.Application.Models
 {
     /// <summary>
-    /// Sender or Recipient person
+    ///     Sender or Recipient person
     /// </summary>
     public class ContactPerson
     {

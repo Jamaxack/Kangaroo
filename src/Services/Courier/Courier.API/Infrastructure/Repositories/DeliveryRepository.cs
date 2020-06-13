@@ -1,15 +1,15 @@
-﻿using Courier.API.Model;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Courier.API.Model;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 
 namespace Courier.API.Infrastructure.Repositories
 {
     public class DeliveryRepository : IDeliveryRepository
     {
-        readonly CourierContext _courierContext;
+        private readonly CourierContext _courierContext;
 
         public DeliveryRepository(IOptions<CourierSettings> settings)
         {

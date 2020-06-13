@@ -12,7 +12,8 @@ namespace Delivery.API.Application.Commands.DeliveryAggregate
             IRequestManager requestManager,
             ILogger<IdentifiedCommandHandler<CreateDeliveryCommand, bool>> logger)
             : base(mediator, requestManager, logger)
-        { }
+        {
+        }
 
         protected override bool CreateResultForDuplicateRequest()
         {

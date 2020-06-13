@@ -1,11 +1,11 @@
-﻿using Delivery.Domain.Exceptions;
+﻿using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Delivery.Domain.Exceptions;
 using FluentValidation;
 using Kangaroo.BuildingBlocks.EventBus.Extensions;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Delivery.API.Application.Behaviors
 {
@@ -14,13 +14,15 @@ namespace Delivery.API.Application.Behaviors
         private readonly ILogger<ValidatorBehavior<TRequest, TResponse>> _logger;
         private readonly IValidator<TRequest>[] _validators;
 
-        public ValidatorBehavior(IValidator<TRequest>[] validators, ILogger<ValidatorBehavior<TRequest, TResponse>> logger)
+        public ValidatorBehavior(IValidator<TRequest>[] validators,
+            ILogger<ValidatorBehavior<TRequest, TResponse>> logger)
         {
             _validators = validators;
             _logger = logger;
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
+            RequestHandlerDelegate<TResponse> next)
         {
             var typeName = request.GetGenericTypeName();
 
@@ -34,10 +36,13 @@ namespace Delivery.API.Application.Behaviors
 
             if (failures.Any())
             {
-                _logger.LogWarning("Validation errors - {CommandType} - Command: {@Command} - Errors: {@ValidationErrors}", typeName, request, failures);
+                _logger.LogWarning(
+                    "Validation errors - {CommandType} - Command: {@Command} - Errors: {@ValidationErrors}", typeName,
+                    request, failures);
 
                 throw new DeliveryDomainException(
-                    $"Command Validation Errors for type {typeof(TRequest).Name}", new ValidationException("Validation exception", failures));
+                    $"Command Validation Errors for type {typeof(TRequest).Name}",
+                    new ValidationException("Validation exception", failures));
             }
 
             return await next();

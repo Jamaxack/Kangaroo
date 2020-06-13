@@ -1,4 +1,4 @@
-using System; 
+using System;
 
 namespace Courier.API.DataTransferableObjects
 {
@@ -12,7 +12,7 @@ namespace Courier.API.DataTransferableObjects
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public string Note { get; set; } // Navigation instruction, etc.
-        public ContactPersonDto ContactPerson { get; set; }//Sender or Recipient 
+        public ContactPersonDto ContactPerson { get; set; } //Sender or Recipient 
         public DateTime? ArrivalStartDateTime { get; set; }
         public DateTime? ArrivalFinishDateTime { get; set; }
     }

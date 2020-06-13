@@ -5,7 +5,8 @@ using MediatR;
 
 namespace Delivery.API.Application.DomainEventHandlers.DeliveryCreatedEvent
 {
-    public class SendEmailToClientWhenDeliveryCreatedDomainEventHandler : INotificationHandler<DeliveryCreatedDomainEvent>
+    public class
+        SendEmailToClientWhenDeliveryCreatedDomainEventHandler : INotificationHandler<DeliveryCreatedDomainEvent>
     {
         public Task Handle(DeliveryCreatedDomainEvent notification, CancellationToken cancellationToken)
         {

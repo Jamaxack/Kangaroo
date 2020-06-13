@@ -1,17 +1,17 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using Courier.API.DataTransferableObjects;
 using Courier.API.Infrastructure.Repositories;
 using Courier.API.Model;
 using Kangaroo.Common.Facades;
-using System.Threading.Tasks;
 
 namespace Courier.API.Infrastructure.Services
 {
     public class CourierLocationService : ICourierLocationService
     {
         private readonly ICourierLocationRepository _courierLocationRepository;
-        private readonly IMapper _mapper;
         private readonly IDateTimeFacade _dateTimeFacade;
+        private readonly IMapper _mapper;
 
         public CourierLocationService(ICourierLocationRepository courierLocationRepository, IMapper mapper,
             IDateTimeFacade dateTimeFacade)

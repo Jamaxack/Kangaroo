@@ -1,17 +1,17 @@
-﻿namespace Courier.API.Infrastructure.Repositories
-{
-    using Courier.API.Model;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Courier.API.Model;
 
+namespace Courier.API.Infrastructure.Repositories
+{
     public interface ICourierRepository
     {
-        Task InsertCourierAsync(Courier courier);
-        Task UpdateCourierAsync(Courier courier);
-        Task<Courier> GetCourierByIdAsync(Guid courierId);
+        Task InsertCourierAsync(Model.Courier courier);
+        Task UpdateCourierAsync(Model.Courier courier);
+        Task<Model.Courier> GetCourierByIdAsync(Guid courierId);
         Task<List<Delivery>> GetDeliveriesByCourierIdAsync(Guid courierId);
-        Task<List<Courier>> GetCouriersAsync();
+        Task<List<Model.Courier>> GetCouriersAsync();
         Task<CourierLocation> GetCurrentCourierLocationByCourierIdAsync(Guid courierId);
     }
 }

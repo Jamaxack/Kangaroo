@@ -1,32 +1,29 @@
-﻿using Delivery.Domain.AggregatesModel.ClientAggregate;
+﻿using System;
+using System.Threading.Tasks;
+using Delivery.Domain.AggregatesModel.ClientAggregate;
 using Delivery.Domain.Common;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading.Tasks;
 
 namespace Delivery.Infrastructure.Repositories
 {
     public class ClientRepository : IClientRepository
     {
-        readonly DeliveryContext _context;
-        public IUnitOfWork UnitOfWork => _context;
+        private readonly DeliveryContext _context;
+
         public ClientRepository(DeliveryContext context)
         {
             _context = context ?? throw new ArgumentException(nameof(context));
         }
 
+        public IUnitOfWork UnitOfWork => _context;
+
         public Client Add(Client client)
         {
             if (client.IsTransient())
-            {
                 return _context.Clients
                     .Add(client)
                     .Entity;
-            }
-            else
-            {
-                return client;
-            }
+            return client;
         }
 
         public Client Update(Client client)

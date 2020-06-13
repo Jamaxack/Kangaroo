@@ -1,4 +1,6 @@
 ﻿namespace Courier.API.Validators
 {
-    public interface IFluentValidator { }
+    public interface IFluentValidator
+    {
+    }
 }

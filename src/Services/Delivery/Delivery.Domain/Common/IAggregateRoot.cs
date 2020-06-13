@@ -1,4 +1,6 @@
 ﻿namespace Delivery.Domain.Common
 {
-    public interface IAggregateRoot { }
+    public interface IAggregateRoot
+    {
+    }
 }

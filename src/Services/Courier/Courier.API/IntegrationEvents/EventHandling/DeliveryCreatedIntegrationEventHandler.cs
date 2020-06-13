@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
+using Courier.API.DataTransferableObjects;
 using Courier.API.Infrastructure.GrpcServices;
 using Courier.API.Infrastructure.Repositories;
 using Courier.API.Infrastructure.Services;
@@ -6,18 +8,16 @@ using Courier.API.IntegrationEvents.Events;
 using Courier.API.Model;
 using Kangaroo.BuildingBlocks.EventBus.Abstractions;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using Courier.API.DataTransferableObjects;
 
 namespace Courier.API.IntegrationEvents.EventHandling
 {
     public class DeliveryCreatedIntegrationEventHandler : IIntegrationEventHandler<DeliveryCreatedIntegrationEvent>
     {
-        readonly IDeliveryService _deliveryService;
-        readonly IClientGrpcService _clientGrpcService;
-        readonly IClientRepository _clientRepository;
-        readonly IMapper _mapper;
-        readonly ILogger<DeliveryCreatedIntegrationEventHandler> _logger;
+        private readonly IClientGrpcService _clientGrpcService;
+        private readonly IClientRepository _clientRepository;
+        private readonly IDeliveryService _deliveryService;
+        private readonly ILogger<DeliveryCreatedIntegrationEventHandler> _logger;
+        private readonly IMapper _mapper;
 
         public DeliveryCreatedIntegrationEventHandler(IDeliveryService deliveryService,
             IClientGrpcService clientGrpcService, IClientRepository clientRepository, IMapper mapper,

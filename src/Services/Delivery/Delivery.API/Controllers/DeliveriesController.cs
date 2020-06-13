@@ -1,15 +1,15 @@
-﻿using Delivery.API.Application.Commands;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
+using Delivery.API.Application.Commands;
+using Delivery.API.Application.Commands.DeliveryAggregate;
 using Delivery.API.Application.Queries;
+using Delivery.API.Application.Queries.ViewModels;
 using Kangaroo.BuildingBlocks.EventBus.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-using Delivery.API.Application.Commands.DeliveryAggregate;
-using Delivery.API.Application.Queries.ViewModels;
 
 namespace Delivery.API.Controllers
 {
@@ -17,9 +17,9 @@ namespace Delivery.API.Controllers
     [ApiController]
     public class DeliveriesController : ControllerBase
     {
-        readonly IMediator _mediator;
-        readonly ILogger<DeliveriesController> _logger;
-        readonly IDeliveryQueries _deliveryQueries;
+        private readonly IDeliveryQueries _deliveryQueries;
+        private readonly ILogger<DeliveriesController> _logger;
+        private readonly IMediator _mediator;
 
         public DeliveriesController(
             IMediator mediator,
@@ -34,8 +34,8 @@ namespace Delivery.API.Controllers
         //GET ~/api/v1/[controller]/3fa85f64-5717-4562-b3fc-2c963f66afa6 
         [Route("{DeliveryId:Guid}")]
         [HttpGet]
-        [ProducesResponseType(typeof(DeliveryViewModel), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(DeliveryViewModel), (int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<IActionResult> ByDeliveryIdAsync(Guid deliveryId)
         {
             try
@@ -52,8 +52,8 @@ namespace Delivery.API.Controllers
         //GET ~/api/v1/[controller]/ByClientId/3fa85f64-5717-4562-b3fc-2c963f66afa6 
         [Route("ByClientId/{clientId:Guid}")]
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<DeliveryViewModel>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(IEnumerable<DeliveryViewModel>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<IActionResult> ByClientIdAsync(Guid clientId)
         {
             try
@@ -70,8 +70,8 @@ namespace Delivery.API.Controllers
         //GET ~/api/v1/[controller]/ByCourierId/3fa85f64-5717-4562-b3fc-2c963f66afa6 
         [Route("ByCourierId/{courierId:Guid}")]
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<DeliveryViewModel>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(IEnumerable<DeliveryViewModel>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<IActionResult> ByCourierIdAsync(Guid courierId)
         {
             try
@@ -87,7 +87,7 @@ namespace Delivery.API.Controllers
 
         //GET ~/api/v1/[controller]/[?pageSize=12&pageIndex=7]
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<DeliveryViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<DeliveryViewModel>), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> GetAsync([FromQuery] int pageSize = 10, [FromQuery] int pageIndex = 0)
         {
             var deliveries = await _deliveryQueries.GetDeliverysAsync(pageSize, pageIndex);
@@ -96,14 +96,16 @@ namespace Delivery.API.Controllers
 
         //POST ~/api/v1/[controller]
         [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CreateAsync(CreateDeliveryCommand createDeliveryCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> CreateAsync(CreateDeliveryCommand createDeliveryCommand,
+            [FromHeader(Name = "x-requestid")] Guid requestId)
         {
-            bool commandResult = false;
+            var commandResult = false;
             if (requestId != Guid.Empty)
             {
-                var requestCreateDelivery = new IdentifiedCommand<CreateDeliveryCommand, bool>(createDeliveryCommand, requestId);
+                var requestCreateDelivery =
+                    new IdentifiedCommand<CreateDeliveryCommand, bool>(createDeliveryCommand, requestId);
 
                 _logger.LogInformation(
                     "----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
@@ -115,10 +117,7 @@ namespace Delivery.API.Controllers
                 commandResult = await _mediator.Send(requestCreateDelivery);
             }
 
-            if (!commandResult)
-            {
-                return BadRequest();
-            }
+            if (!commandResult) return BadRequest();
 
             return Ok();
         }
@@ -126,14 +125,18 @@ namespace Delivery.API.Controllers
         //POST ~/api/v1/[controller]/3fa85f64-5717-4562-b3fc-2c963f66afa6/SetStatusToAvailable
         [Route("{DeliveryId:Guid}/SetStatusToAvailable")]
         [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> SetStatusToAvailableAsync([FromRoute]SetAvailableDeliveryStatusCommand setAvailableDeliveryStatusCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> SetStatusToAvailableAsync(
+            [FromRoute] SetAvailableDeliveryStatusCommand setAvailableDeliveryStatusCommand,
+            [FromHeader(Name = "x-requestid")] Guid requestId)
         {
-            bool commandResult = false;
+            var commandResult = false;
             if (requestId != Guid.Empty)
             {
-                var requestSetAvailableDeliveryStatusCommand = new IdentifiedCommand<SetAvailableDeliveryStatusCommand, bool>(setAvailableDeliveryStatusCommand, requestId);
+                var requestSetAvailableDeliveryStatusCommand =
+                    new IdentifiedCommand<SetAvailableDeliveryStatusCommand, bool>(setAvailableDeliveryStatusCommand,
+                        requestId);
 
                 _logger.LogInformation(
                     "----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
@@ -145,10 +148,7 @@ namespace Delivery.API.Controllers
                 commandResult = await _mediator.Send(requestSetAvailableDeliveryStatusCommand);
             }
 
-            if (!commandResult)
-            {
-                return BadRequest();
-            }
+            if (!commandResult) return BadRequest();
 
             return Ok();
         }
@@ -156,13 +156,15 @@ namespace Delivery.API.Controllers
         //POST ~/api/v1/[controller]/3fa85f64-5717-4562-b3fc-2c963f66afa6
         [Route("{DeliveryId:Guid}")]
         [HttpDelete]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> DeleteAsync([FromRoute]DeleteDeliveryCommand deleteDeliveryCommand, [FromHeader(Name = "x-requestid")] Guid requestId)
+        [ProducesResponseType((int) HttpStatusCode.NoContent)]
+        public async Task<IActionResult> DeleteAsync([FromRoute] DeleteDeliveryCommand deleteDeliveryCommand,
+            [FromHeader(Name = "x-requestid")] Guid requestId)
         {
-            bool commandResult = false;
+            var commandResult = false;
             if (requestId != Guid.Empty)
             {
-                var requestDeleteDelivery = new IdentifiedCommand<DeleteDeliveryCommand, bool>(deleteDeliveryCommand, requestId);
+                var requestDeleteDelivery =
+                    new IdentifiedCommand<DeleteDeliveryCommand, bool>(deleteDeliveryCommand, requestId);
 
                 _logger.LogInformation(
                     "----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
@@ -174,10 +176,7 @@ namespace Delivery.API.Controllers
                 commandResult = await _mediator.Send(requestDeleteDelivery);
             }
 
-            if (!commandResult)
-            {
-                return BadRequest();
-            }
+            if (!commandResult) return BadRequest();
 
             return NoContent();
         }

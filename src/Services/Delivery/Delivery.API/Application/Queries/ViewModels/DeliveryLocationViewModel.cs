@@ -12,7 +12,7 @@ namespace Delivery.API.Application.Queries.ViewModels
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public string Note { get; set; } // Navigation instruction, etc.  
-        public ContactPersonViewModel ContactPerson { get; set; }//Sender or Recipient 
+        public ContactPersonViewModel ContactPerson { get; set; } //Sender or Recipient 
         public DateTime? ArrivalStartDateTime { get; set; }
         public DateTime? ArrivalFinishDateTime { get; set; }
         public DateTime? CourierArrivedDateTime { get; set; }

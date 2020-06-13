@@ -1,17 +1,19 @@
-﻿using Courier.API.Model;
+﻿using System;
+using System.Threading.Tasks;
+using Courier.API.Model;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using System;
-using System.Threading.Tasks;
 
 namespace Courier.API.Infrastructure.Repositories
 {
     public class ClientRepository : IClientRepository
     {
-        readonly CourierContext _courierContext;
+        private readonly CourierContext _courierContext;
 
         public ClientRepository(IOptions<CourierSettings> settings)
-            => _courierContext = new CourierContext(settings);
+        {
+            _courierContext = new CourierContext(settings);
+        }
 
         public Task<Client> GetClientByIdAsync(Guid clientId)
         {
@@ -22,6 +24,8 @@ namespace Courier.API.Infrastructure.Repositories
         }
 
         public Task InsertClientAsync(Client client)
-            => _courierContext.Clients.InsertOneAsync(client);
+        {
+            return _courierContext.Clients.InsertOneAsync(client);
+        }
     }
 }

@@ -1,6 +1,6 @@
-﻿using Courier.API.Model;
+﻿using System;
+using Courier.API.Model;
 using Kangaroo.BuildingBlocks.EventBus.Events;
-using System;
 
 namespace Courier.API.IntegrationEvents.Events
 {

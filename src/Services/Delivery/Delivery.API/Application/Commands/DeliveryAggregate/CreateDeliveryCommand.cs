@@ -12,10 +12,5 @@ namespace Delivery.API.Application.Commands.DeliveryAggregate
         public string Note { get; set; }
         public DeliveryLocationDto PickUpLocation { get; set; }
         public DeliveryLocationDto DropOffLocation { get; set; }
-
-        public CreateDeliveryCommand()
-        {
-
-        }
     }
 }

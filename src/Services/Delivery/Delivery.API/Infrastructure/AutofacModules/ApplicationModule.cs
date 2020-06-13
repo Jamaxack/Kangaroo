@@ -1,21 +1,22 @@
-﻿using Autofac;
+﻿using System.Reflection;
+using Autofac;
 using Delivery.API.Application.Queries;
 using Delivery.Domain.AggregatesModel.ClientAggregate;
 using Delivery.Domain.AggregatesModel.DeliveryAggregate;
 using Delivery.Infrastructure.Repositories;
 using Kangaroo.BuildingBlocks.EventBus.Abstractions;
-using System.Reflection;
+using Module = Autofac.Module;
 
 namespace Delivery.API.Infrastructure.AutofacModules
 {
-    public class ApplicationModule : Autofac.Module
+    public class ApplicationModule : Module
     {
-        public string QueriesConnectionString { get; }
-
         public ApplicationModule(string queriesConnectionString)
         {
             QueriesConnectionString = queriesConnectionString;
         }
+
+        public string QueriesConnectionString { get; }
 
         protected override void Load(ContainerBuilder builder)
         {
@@ -36,7 +37,7 @@ namespace Delivery.API.Infrastructure.AutofacModules
                 .InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(typeof(Startup).GetTypeInfo().Assembly)
-               .AsClosedTypesOf(typeof(IIntegrationEventHandler<>));
+                .AsClosedTypesOf(typeof(IIntegrationEventHandler<>));
         }
     }
 }

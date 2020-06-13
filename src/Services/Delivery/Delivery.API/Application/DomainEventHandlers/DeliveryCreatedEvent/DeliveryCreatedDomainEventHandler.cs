@@ -1,22 +1,24 @@
-﻿using Delivery.API.Application.IntegrationEvents;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Delivery.API.Application.IntegrationEvents;
 using Delivery.API.Application.IntegrationEvents.Events;
-using Delivery.Domain.AggregatesModel.DeliveryAggregate;
+using Delivery.API.Application.Models;
 using Delivery.Domain.Events;
 using Kangaroo.BuildingBlocks.EventBus.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Delivery.API.Application.DomainEventHandlers.DeliveryCreatedEvent
 {
     public class DeliveryCreatedDomainEventHandler : INotificationHandler<DeliveryCreatedDomainEvent>
     {
-        readonly IEventBus _eventBus;
-        readonly IDeliveryIntegrationEventService _deliveryIntegrationEventService;
-        readonly ILogger<DeliveryCreatedDomainEventHandler> _logger;
+        private readonly IDeliveryIntegrationEventService _deliveryIntegrationEventService;
+        private readonly IEventBus _eventBus;
+        private readonly ILogger<DeliveryCreatedDomainEventHandler> _logger;
 
-        public DeliveryCreatedDomainEventHandler(IEventBus eventBus, IDeliveryIntegrationEventService deliveryIntegrationEventService, ILogger<DeliveryCreatedDomainEventHandler> logger)
+        public DeliveryCreatedDomainEventHandler(IEventBus eventBus,
+            IDeliveryIntegrationEventService deliveryIntegrationEventService,
+            ILogger<DeliveryCreatedDomainEventHandler> logger)
         {
             _eventBus = eventBus;
             _deliveryIntegrationEventService = deliveryIntegrationEventService;
@@ -29,9 +31,10 @@ namespace Delivery.API.Application.DomainEventHandlers.DeliveryCreatedEvent
             await _deliveryIntegrationEventService.AddAndSaveEventAsync(deliveryCreatedIntegrationEvent);
         }
 
-        DeliveryCreatedIntegrationEvent MapToDeliveryCreatedIntegrationEvent(DeliveryCreatedDomainEvent notification)
+        private DeliveryCreatedIntegrationEvent MapToDeliveryCreatedIntegrationEvent(
+            DeliveryCreatedDomainEvent notification)
         {
-            return new DeliveryCreatedIntegrationEvent()
+            return new DeliveryCreatedIntegrationEvent
             {
                 ClientId = notification.ClientId,
                 CreatedDateTime = notification.Delivery.CreatedDateTime,
@@ -45,9 +48,10 @@ namespace Delivery.API.Application.DomainEventHandlers.DeliveryCreatedEvent
             };
         }
 
-        Models.DeliveryLocation MapDeliveryLocation(DeliveryLocation deliveryLocation)
+        private DeliveryLocation MapDeliveryLocation(
+            Domain.AggregatesModel.DeliveryAggregate.DeliveryLocation deliveryLocation)
         {
-            return new Models.DeliveryLocation()
+            return new DeliveryLocation
             {
                 Address = deliveryLocation.Address,
                 Note = deliveryLocation.Note,
@@ -59,7 +63,7 @@ namespace Delivery.API.Application.DomainEventHandlers.DeliveryCreatedEvent
                 FloorNumber = deliveryLocation.FloorNumber,
                 Latitude = deliveryLocation.Latitude,
                 Longitude = deliveryLocation.Longitude,
-                ContactPerson = new Models.ContactPerson()
+                ContactPerson = new ContactPerson
                 {
                     Name = deliveryLocation.ContactPerson.Name,
                     Phone = deliveryLocation.ContactPerson.Phone

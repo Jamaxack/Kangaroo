@@ -1,3 +1,7 @@
+using System;
+using System.IO;
+using System.Net;
+using System.Reflection;
 using Delivery.API.Infrastructure;
 using Delivery.Infrastructure;
 using Kangaroo.BuildingBlocks.IntegrationEventLogEF;
@@ -6,20 +10,17 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
-using System;
-using System.IO;
-using System.Net;
-using System.Reflection;
 
 namespace Delivery.API
 {
     public class Program
     {
         public static readonly string Namespace = typeof(Program).Namespace;
-        public static readonly string AppName = Namespace.Substring(Namespace.LastIndexOf('.', Namespace.LastIndexOf('.') - 1) + 1);
+
+        public static readonly string AppName =
+            Namespace.Substring(Namespace.LastIndexOf('.', Namespace.LastIndexOf('.') - 1) + 1);
 
         public static int Main(string[] args)
         {
@@ -29,21 +30,17 @@ namespace Delivery.API
                 ConfigureLogging(configuration);
                 Log.Information("Configuring web host ({ApplicationContext})...", AppName);
                 var host = WebHost.CreateDefaultBuilder(args)
-                   .UseStartup<Startup>()
-                   .ConfigureKestrel(options =>
-                   {
-                       var (httpPort, grpcPort) = GetDefinedPorts(configuration);
-                       options.Listen(IPAddress.Any, httpPort, listenOptions =>
-                       {
-                           listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
-                       });
-                       options.Listen(IPAddress.Any, grpcPort, listenOptions =>
-                       {
-                           listenOptions.Protocols = HttpProtocols.Http2;
-                       });
-                   })
-                   .UseSerilog()
-                   .Build();
+                    .UseStartup<Startup>()
+                    .ConfigureKestrel(options =>
+                    {
+                        var (httpPort, grpcPort) = GetDefinedPorts(configuration);
+                        options.Listen(IPAddress.Any, httpPort,
+                            listenOptions => { listenOptions.Protocols = HttpProtocols.Http1AndHttp2; });
+                        options.Listen(IPAddress.Any, grpcPort,
+                            listenOptions => { listenOptions.Protocols = HttpProtocols.Http2; });
+                    })
+                    .UseSerilog()
+                    .Build();
 
                 host
                     .MigrateDbContext<DeliveryContext>((context, services) =>
@@ -70,21 +67,23 @@ namespace Delivery.API
             }
         }
 
-        static IConfigurationRoot GetConfiguration()
-            => new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .AddEnvironmentVariables()
-            .Build();
+        private static IConfigurationRoot GetConfiguration()
+        {
+            return new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", false, true)
+                .AddEnvironmentVariables()
+                .Build();
+        }
 
-        static (int httpPort, int grpcPort) GetDefinedPorts(IConfigurationRoot configuration)
+        private static (int httpPort, int grpcPort) GetDefinedPorts(IConfigurationRoot configuration)
         {
             var grpcPort = configuration.GetValue("GRPC_PORT", 5001);
             var port = configuration.GetValue("PORT", 5000);
             return (port, grpcPort);
         }
 
-        static void ConfigureLogging(IConfigurationRoot configuration)
+        private static void ConfigureLogging(IConfigurationRoot configuration)
         {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             Log.Logger = new LoggerConfiguration()
@@ -99,11 +98,15 @@ namespace Delivery.API
                 .CreateLogger();
         }
 
-        static ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration, string environment)
-            => new ElasticsearchSinkOptions(new Uri(configuration.GetValue("ElasticUri", "http://localhost:9200")))
+        private static ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration,
+            string environment)
+        {
+            return new ElasticsearchSinkOptions(new Uri(configuration.GetValue("ElasticUri", "http://localhost:9200")))
             {
                 AutoRegisterTemplate = true,
-                IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
+                IndexFormat =
+                    $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
             };
+        }
     }
 }

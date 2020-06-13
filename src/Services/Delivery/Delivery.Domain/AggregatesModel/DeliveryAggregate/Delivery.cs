@@ -1,28 +1,12 @@
-﻿using Delivery.Domain.Common;
+﻿using System;
+using Delivery.Domain.Common;
 using Delivery.Domain.Events;
-using System;
 
 namespace Delivery.Domain.AggregatesModel.DeliveryAggregate
 {
     public class Delivery : Entity, IAggregateRoot
     {
-        public long Number { get; private set; }
-        public DateTime CreatedDateTime { get; private set; }
-        public DateTime? FinishedDateTime { get; private set; }
-        public decimal Price { get; private set; }
-        public short Weight { get; private set; }
-        public string Note { get; private set; }
-
-        int _deliveryStatusId;
-        public DeliveryStatus DeliveryStatus { get; private set; }
-        public DeliveryLocation PickUpLocation { get; private set; }
-        public DeliveryLocation DropOffLocation { get; private set; }
-
-        Guid _clientId;
-        public Guid GetClientId => _clientId;
-
-        Guid? _courierId;
-        public Guid? GetCourierId => _courierId;
+        private int _deliveryStatusId;
 
         public Delivery()
         {
@@ -31,7 +15,7 @@ namespace Delivery.Domain.AggregatesModel.DeliveryAggregate
 
         public Delivery(Guid clientId, decimal price, short weight, string note, DateTime createdDateTime) : this()
         {
-            _clientId = clientId;
+            GetClientId = clientId;
             Price = price;
             Weight = weight;
             Note = note;
@@ -39,6 +23,19 @@ namespace Delivery.Domain.AggregatesModel.DeliveryAggregate
 
             AddDomainEvent(new DeliveryCreatedDomainEvent(this, clientId));
         }
+
+        public long Number { get; private set; }
+        public DateTime CreatedDateTime { get; }
+        public DateTime? FinishedDateTime { get; private set; }
+        public decimal Price { get; }
+        public short Weight { get; }
+        public string Note { get; }
+        public DeliveryStatus DeliveryStatus { get; private set; }
+        public DeliveryLocation PickUpLocation { get; private set; }
+        public DeliveryLocation DropOffLocation { get; private set; }
+        public Guid GetClientId { get; }
+
+        public Guid? GetCourierId { get; private set; }
 
         public void SetPickUpLocation(DeliveryLocation pickUpLocation)
         {
@@ -66,7 +63,7 @@ namespace Delivery.Domain.AggregatesModel.DeliveryAggregate
 
         public void AssignCourier(Guid courierId)
         {
-            _courierId = courierId;
+            GetCourierId = courierId;
             _deliveryStatusId = DeliveryStatus.CourierAssigned.Id;
         }
     }

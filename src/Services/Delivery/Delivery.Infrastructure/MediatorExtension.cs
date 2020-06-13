@@ -1,11 +1,11 @@
-﻿using Delivery.Domain.Common;
-using MediatR;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Delivery.Domain.Common;
+using MediatR;
 
 namespace Delivery.Infrastructure
 {
-    static class MediatorExtension
+    internal static class MediatorExtension
     {
         public static async Task DispatchDomainEventsAsync(this IMediator mediator, DeliveryContext context)
         {

@@ -1,22 +1,20 @@
-﻿using Delivery.API.Application.Validations;
-using FluentValidation.TestHelper;
-using GenFu;
-using System;
+﻿using System;
 using Delivery.API.Application.Commands.DataTransferableObjects;
+using Delivery.API.Application.Validations;
+using FluentValidation.TestHelper;
 using Xunit;
 
 namespace Delivery.UnitTests.ValidatorTests
 {
     public class CreateDeliveryCommandValidatorTests
     {
-        readonly CreateDeliveryCommandValidator _validator;
-
         public CreateDeliveryCommandValidatorTests()
         {
             _validator = new CreateDeliveryCommandValidator();
         }
 
-        #region ClientId
+        private readonly CreateDeliveryCommandValidator _validator;
+
         [Fact]
         public void Should_have_error_when_ClientId_is_empty()
         {
@@ -24,13 +22,11 @@ namespace Delivery.UnitTests.ValidatorTests
         }
 
         [Fact]
-        public void Should_not_have_error_when_ClientId_is_specified()
+        public void Should_have_error_when_DropOffLocation_is_null()
         {
-            _validator.ShouldNotHaveValidationErrorFor(x => x.ClientId, Guid.NewGuid());
+            _validator.ShouldHaveValidationErrorFor(x => x.DropOffLocation, null as DeliveryLocationDto);
         }
-        #endregion
 
-        #region PickUpLocation
         [Fact]
         public void Should_have_error_when_PickUpLocation_is_null()
         {
@@ -38,26 +34,23 @@ namespace Delivery.UnitTests.ValidatorTests
         }
 
         [Fact]
-        public void Should_not_have_error_when_PickUpLocation_is_specified()
+        public void Should_not_have_error_when_ClientId_is_specified()
         {
-            var deliveryLocation = A.New<DeliveryLocationDto>();
-            _validator.ShouldNotHaveValidationErrorFor(x => x.PickUpLocation, deliveryLocation);
-        }
-        #endregion
-
-        #region DropOffLocation
-        [Fact]
-        public void Should_have_error_when_DropOffLocation_is_null()
-        {
-            _validator.ShouldHaveValidationErrorFor(x => x.DropOffLocation, null as DeliveryLocationDto);
+            _validator.ShouldNotHaveValidationErrorFor(x => x.ClientId, Guid.NewGuid());
         }
 
         [Fact]
         public void Should_not_have_error_when_DropOffLocation_is_specified()
         {
-            var deliveryLocation = A.New<DeliveryLocationDto>();
+            var deliveryLocation = GenFu.GenFu.New<DeliveryLocationDto>();
             _validator.ShouldNotHaveValidationErrorFor(x => x.DropOffLocation, deliveryLocation);
         }
-        #endregion
+
+        [Fact]
+        public void Should_not_have_error_when_PickUpLocation_is_specified()
+        {
+            var deliveryLocation = GenFu.GenFu.New<DeliveryLocationDto>();
+            _validator.ShouldNotHaveValidationErrorFor(x => x.PickUpLocation, deliveryLocation);
+        }
     }
 }

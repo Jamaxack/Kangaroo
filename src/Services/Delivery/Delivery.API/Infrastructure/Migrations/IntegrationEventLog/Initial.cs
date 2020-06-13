@@ -8,8 +8,8 @@ namespace Delivery.API.Infrastructure.Migrations.IntegrationEventLog
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "IntegrationEventLog",
-                columns: table => new
+                "IntegrationEventLog",
+                table => new
                 {
                     EventId = table.Column<Guid>(nullable: false),
                     EventTypeName = table.Column<string>(nullable: false),
@@ -19,16 +19,13 @@ namespace Delivery.API.Infrastructure.Migrations.IntegrationEventLog
                     Content = table.Column<string>(nullable: false),
                     TransactionId = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IntegrationEventLog", x => x.EventId);
-                });
+                constraints: table => { table.PrimaryKey("PK_IntegrationEventLog", x => x.EventId); });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "IntegrationEventLog");
+                "IntegrationEventLog");
         }
     }
 }

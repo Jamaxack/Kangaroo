@@ -20,7 +20,7 @@ namespace Delivery.API.Application.Commands.DataTransferableObjects
 
         public static DeliveryDto FromDelivery(Domain.AggregatesModel.DeliveryAggregate.Delivery delivery)
         {
-            return new DeliveryDto()
+            return new DeliveryDto
             {
                 Number = delivery.Number,
                 Weight = delivery.Weight,
@@ -32,7 +32,7 @@ namespace Delivery.API.Application.Commands.DataTransferableObjects
                 ClientId = delivery.GetClientId,
                 CourierId = delivery.GetCourierId,
                 DropOffLocation = DeliveryLocationDto.FromLocation(delivery.DropOffLocation),
-                PickUpLocation = DeliveryLocationDto.FromLocation(delivery.PickUpLocation),
+                PickUpLocation = DeliveryLocationDto.FromLocation(delivery.PickUpLocation)
             };
         }
     }

@@ -1,17 +1,17 @@
-﻿using Courier.API.Infrastructure.ActionResults;
+﻿using System.Net;
+using Courier.API.Infrastructure.ActionResults;
 using Courier.API.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Net;
 
 namespace Courier.API.Infrastructure.Filters
 {
     public class HttpGlobalExceptionFilter : IExceptionFilter
     {
-        readonly IHostEnvironment env;
-        readonly ILogger<HttpGlobalExceptionFilter> logger;
+        private readonly IHostEnvironment env;
+        private readonly ILogger<HttpGlobalExceptionFilter> logger;
 
         public HttpGlobalExceptionFilter(IHostEnvironment env, ILogger<HttpGlobalExceptionFilter> logger)
         {
@@ -29,27 +29,25 @@ namespace Courier.API.Infrastructure.Filters
             {
                 var json = new JsonErrorResponse
                 {
-                    Messages = new[] { context.Exception.Message }
+                    Messages = new[] {context.Exception.Message}
                 };
 
                 context.Result = new BadRequestObjectResult(json);
-                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                context.HttpContext.Response.StatusCode = (int) HttpStatusCode.BadRequest;
             }
             else
             {
                 var json = new JsonErrorResponse
                 {
-                    Messages = new[] { "An error occur. Try it again." }
+                    Messages = new[] {"An error occur. Try it again."}
                 };
 
-                if (env.IsDevelopment())
-                {
-                    json.DeveloperMessage = context.Exception;
-                }
+                if (env.IsDevelopment()) json.DeveloperMessage = context.Exception;
 
                 context.Result = new InternalServerErrorObjectResult(json);
-                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                context.HttpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
             }
+
             context.ExceptionHandled = true;
         }
 

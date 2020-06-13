@@ -1,5 +1,5 @@
-﻿using Pricing.API.DataTransferableObjects;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Pricing.API.DataTransferableObjects;
 
 namespace Pricing.API.Infrastucture.Services
 {

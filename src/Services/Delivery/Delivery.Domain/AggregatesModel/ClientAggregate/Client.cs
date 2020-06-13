@@ -1,22 +1,28 @@
-﻿using Delivery.Domain.Common;
-using System;
+﻿using System;
+using Delivery.Domain.Common;
 
 namespace Delivery.Domain.AggregatesModel.ClientAggregate
 {
     public class Client : Entity, IAggregateRoot
     {
-        public string FirstName { get; private set; }
-        public string LastName { get; private set; }
-        public string Phone { get; private set; }
-
-        public Client() { }
+        public Client()
+        {
+        }
 
         public Client(Guid id, string firstName, string lastName, string phone)
         {
             Id = id == Guid.Empty ? throw new ArgumentNullException(nameof(id)) : id;
-            FirstName = string.IsNullOrWhiteSpace(firstName) ? throw new ArgumentNullException(nameof(firstName)) : firstName;
-            LastName = string.IsNullOrWhiteSpace(lastName) ? throw new ArgumentNullException(nameof(lastName)) : lastName;
+            FirstName = string.IsNullOrWhiteSpace(firstName)
+                ? throw new ArgumentNullException(nameof(firstName))
+                : firstName;
+            LastName = string.IsNullOrWhiteSpace(lastName)
+                ? throw new ArgumentNullException(nameof(lastName))
+                : lastName;
             Phone = string.IsNullOrWhiteSpace(phone) ? throw new ArgumentNullException(nameof(phone)) : phone;
         }
+
+        public string FirstName { get; }
+        public string LastName { get; }
+        public string Phone { get; }
     }
 }

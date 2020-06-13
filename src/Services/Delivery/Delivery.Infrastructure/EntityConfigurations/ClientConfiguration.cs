@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Delivery.Infrastructure.EntityConfigurations
 {
-    class ClientConfiguration : IEntityTypeConfiguration<Client>
+    internal class ClientConfiguration : IEntityTypeConfiguration<Client>
     {
         public void Configure(EntityTypeBuilder<Client> clientConfiguration)
         {

@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System.Threading.Tasks;
+using Newtonsoft.Json;
 using StackExchange.Redis;
-using System.Threading.Tasks;
 
 namespace Pricing.API.Infrastucture.Repositories
 {
     public class RedisPricingRepository : IPricingRepository
     {
-        readonly IDatabase _database;
+        private readonly IDatabase _database;
 
         public RedisPricingRepository(ConnectionMultiplexer redis)
         {
@@ -23,6 +23,8 @@ namespace Pricing.API.Infrastucture.Repositories
         }
 
         public Task InsertPricingAsync(string key, Model.Pricing value)
-            => _database.StringSetAsync(key, JsonConvert.SerializeObject(value));
+        {
+            return _database.StringSetAsync(key, JsonConvert.SerializeObject(value));
+        }
     }
 }

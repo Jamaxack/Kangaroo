@@ -1,12 +1,13 @@
-﻿using Delivery.Domain.Exceptions;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Delivery.Domain.Exceptions;
 
 namespace Delivery.Infrastructure.Idempotency
 {
     public class RequestManager : IRequestManager
     {
-        readonly DeliveryContext _context;
+        private readonly DeliveryContext _context;
+
         public RequestManager(DeliveryContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -23,9 +24,9 @@ namespace Delivery.Infrastructure.Idempotency
         {
             var exists = await ExistAsync(id);
 
-            var request = exists ?
-                throw new DeliveryDomainException($"Request with {id} already exists") :
-                new ClientRequest()
+            var request = exists
+                ? throw new DeliveryDomainException($"Request with {id} already exists")
+                : new ClientRequest
                 {
                     Id = id,
                     Name = typeof(T).Name,

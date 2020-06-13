@@ -1,7 +1,7 @@
-﻿using Courier.API.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Courier.API.Model;
 
 namespace Courier.API.Infrastructure.Repositories
 {

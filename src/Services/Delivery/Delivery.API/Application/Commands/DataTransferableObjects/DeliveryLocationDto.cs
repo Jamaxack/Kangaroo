@@ -13,14 +13,14 @@ namespace Delivery.API.Application.Commands.DataTransferableObjects
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public string Note { get; set; } // Navigation instruction, etc. 
-        public ContactPersonDto ContactPerson { get; set; }//Sender or Recipient 
+        public ContactPersonDto ContactPerson { get; set; } //Sender or Recipient 
         public DateTime? ArrivalStartDateTime { get; set; }
         public DateTime? ArrivalFinishDateTime { get; set; }
         public DateTime? CourierArrivedDateTime { get; set; }
 
         public static DeliveryLocationDto FromLocation(DeliveryLocation location)
         {
-            return new DeliveryLocationDto()
+            return new DeliveryLocationDto
             {
                 Address = location.Address,
                 BuildingNumber = location.BuildingNumber,
@@ -40,7 +40,8 @@ namespace Delivery.API.Application.Commands.DataTransferableObjects
         public DeliveryLocation GetDeliveryLocation()
         {
             var contactPerson = new ContactPerson(ContactPerson.Name, ContactPerson.Phone);
-            return new DeliveryLocation(Address, BuildingNumber, EntranceNumber, FloorNumber, ApartmentNumber, Latitude, Longitude, Note, ArrivalStartDateTime, ArrivalFinishDateTime, CourierArrivedDateTime, contactPerson);
+            return new DeliveryLocation(Address, BuildingNumber, EntranceNumber, FloorNumber, ApartmentNumber, Latitude,
+                Longitude, Note, ArrivalStartDateTime, ArrivalFinishDateTime, CourierArrivedDateTime, contactPerson);
         }
     }
 }

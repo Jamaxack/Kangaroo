@@ -8,10 +8,10 @@ namespace Delivery.API.Infrastructure.Migrations.Delivery
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "Delivery");
+                "Delivery");
 
             migrationBuilder.CreateTable(
-                name: "Clients",
+                "Clients",
                 schema: "Delivery",
                 columns: table => new
                 {
@@ -20,26 +20,20 @@ namespace Delivery.API.Infrastructure.Migrations.Delivery
                     LastName = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Clients", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Clients", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "DeliveryStatus",
+                "DeliveryStatus",
                 schema: "Delivery",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false, defaultValue: 1),
                     Name = table.Column<string>(maxLength: 200, nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DeliveryStatus", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_DeliveryStatus", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Requests",
+                "Requests",
                 schema: "Delivery",
                 columns: table => new
                 {
@@ -47,13 +41,10 @@ namespace Delivery.API.Infrastructure.Migrations.Delivery
                     Name = table.Column<string>(nullable: false),
                     Time = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Requests", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Requests", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Deliveries",
+                "Deliveries",
                 schema: "Delivery",
                 columns: table => new
                 {
@@ -98,15 +89,15 @@ namespace Delivery.API.Infrastructure.Migrations.Delivery
                 {
                     table.PrimaryKey("PK_Deliveries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Deliveries_Clients_ClientId",
-                        column: x => x.ClientId,
+                        "FK_Deliveries_Clients_ClientId",
+                        x => x.ClientId,
                         principalSchema: "Delivery",
                         principalTable: "Clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Deliveries_DeliveryStatus_DeliveryStatusId",
-                        column: x => x.DeliveryStatusId,
+                        "FK_Deliveries_DeliveryStatus_DeliveryStatusId",
+                        x => x.DeliveryStatusId,
                         principalSchema: "Delivery",
                         principalTable: "DeliveryStatus",
                         principalColumn: "Id",
@@ -114,13 +105,13 @@ namespace Delivery.API.Infrastructure.Migrations.Delivery
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deliveries_ClientId",
+                "IX_Deliveries_ClientId",
                 schema: "Delivery",
                 table: "Deliveries",
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deliveries_DeliveryStatusId",
+                "IX_Deliveries_DeliveryStatusId",
                 schema: "Delivery",
                 table: "Deliveries",
                 column: "DeliveryStatusId");
@@ -129,20 +120,20 @@ namespace Delivery.API.Infrastructure.Migrations.Delivery
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Deliveries",
-                schema: "Delivery");
+                "Deliveries",
+                "Delivery");
 
             migrationBuilder.DropTable(
-                name: "Requests",
-                schema: "Delivery");
+                "Requests",
+                "Delivery");
 
             migrationBuilder.DropTable(
-                name: "Clients",
-                schema: "Delivery");
+                "Clients",
+                "Delivery");
 
             migrationBuilder.DropTable(
-                name: "DeliveryStatus",
-                schema: "Delivery");
+                "DeliveryStatus",
+                "Delivery");
         }
     }
 }

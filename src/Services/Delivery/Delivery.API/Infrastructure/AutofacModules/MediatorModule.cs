@@ -1,18 +1,19 @@
-﻿using Autofac;
+﻿using System.Reflection;
+using Autofac;
 using Delivery.API.Application.Behaviors;
 using Delivery.Infrastructure.Idempotency;
 using FluentValidation;
 using MediatR;
-using System.Reflection;
+using Module = Autofac.Module;
 
 namespace Delivery.API.Infrastructure.AutofacModules
 {
-    public class MediatorModule : Autofac.Module
+    public class MediatorModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly)
-               .AsImplementedInterfaces();
+                .AsImplementedInterfaces();
 
             builder.RegisterType<RequestManager>().As<IRequestManager>();
 
@@ -32,7 +33,11 @@ namespace Delivery.API.Infrastructure.AutofacModules
             builder.Register<ServiceFactory>(context =>
             {
                 var componentContext = context.Resolve<IComponentContext>();
-                return type => { object obj; return componentContext.TryResolve(type, out obj) ? obj : null; };
+                return type =>
+                {
+                    object obj;
+                    return componentContext.TryResolve(type, out obj) ? obj : null;
+                };
             });
 
             builder.RegisterGeneric(typeof(ValidatorBehavior<,>)).As(typeof(IPipelineBehavior<,>));

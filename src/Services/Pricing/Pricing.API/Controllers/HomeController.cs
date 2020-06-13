@@ -5,7 +5,7 @@ namespace Pricing.API.Controllers
 {
     public class HomeController : ControllerBase
     {
-        readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
         public HomeController(IConfiguration configuration)
         {

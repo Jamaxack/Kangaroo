@@ -1,18 +1,19 @@
-﻿using Dapper;
-using Microsoft.Data.SqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
 using Delivery.API.Application.Queries.ViewModels;
+using Microsoft.Data.SqlClient;
 
 namespace Delivery.API.Application.Queries
 {
     public class DeliveryQueries : IDeliveryQueries
     {
         #region SqlQueries
-        const string SelectDeliverysQuery =
-              @"SELECT Delivery.Id,
+
+        private const string SelectDeliverysQuery =
+            @"SELECT Delivery.Id,
                        Number,
                        CreatedDateTime,
                        FinishedDateTime,
@@ -50,12 +51,16 @@ namespace Delivery.API.Application.Queries
 	                   DeliveryStatus.Name as DeliveryStatus
                   FROM Delivery.Deliveries Delivery
                   LEFT JOIN Delivery.DeliveryStatus DeliveryStatus ON DeliveryStatus.Id = Delivery.DeliveryStatusId";
+
         #endregion
 
-        readonly string _connectionString = string.Empty;
+        private readonly string _connectionString = string.Empty;
+
         public DeliveryQueries(string connectionString)
         {
-            _connectionString = !string.IsNullOrWhiteSpace(connectionString) ? connectionString : throw new ArgumentNullException(nameof(connectionString));
+            _connectionString = !string.IsNullOrWhiteSpace(connectionString)
+                ? connectionString
+                : throw new ArgumentNullException(nameof(connectionString));
         }
 
         public async Task<List<DeliveryViewModel>> GetDeliverysAsync(int pageSize, int pageIndex)
@@ -64,8 +69,9 @@ namespace Delivery.API.Application.Queries
             {
                 connection.Open();
                 var offset = pageSize * pageIndex;
-                var pagedQuery = $"{SelectDeliverysQuery} {@"Order BY Delivery.Number OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY"}";
-                var queryResult = await connection.QueryAsync(pagedQuery, param: new { offset, pageSize });
+                var pagedQuery =
+                    $"{SelectDeliverysQuery} {@"Order BY Delivery.Number OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY"}";
+                var queryResult = await connection.QueryAsync(pagedQuery, new {offset, pageSize});
 
                 var deliveries = new List<DeliveryViewModel>();
                 foreach (var delivery in queryResult)
@@ -80,7 +86,8 @@ namespace Delivery.API.Application.Queries
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                var queryResult = await connection.QueryAsync($"{SelectDeliverysQuery} WHERE Delivery.ClientId=@id", new { id });
+                var queryResult =
+                    await connection.QueryAsync($"{SelectDeliverysQuery} WHERE Delivery.ClientId=@id", new {id});
 
                 if (queryResult.Count() == 0)
                     throw new KeyNotFoundException();
@@ -98,7 +105,8 @@ namespace Delivery.API.Application.Queries
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                var queryResult = await connection.QueryAsync($"{SelectDeliverysQuery} WHERE Delivery.CourierId=@id", new { id });
+                var queryResult =
+                    await connection.QueryAsync($"{SelectDeliverysQuery} WHERE Delivery.CourierId=@id", new {id});
 
                 if (queryResult.Count() == 0)
                     throw new KeyNotFoundException();
@@ -117,7 +125,7 @@ namespace Delivery.API.Application.Queries
             {
                 connection.Open();
                 var queryString = $"{SelectDeliverysQuery} WHERE Delivery.Id = @DeliveryId;";
-                var deliveryDynamic = await connection.QueryFirstOrDefaultAsync(queryString, new { deliveryId });
+                var deliveryDynamic = await connection.QueryFirstOrDefaultAsync(queryString, new {deliveryId});
 
                 if (deliveryDynamic == null)
                     throw new KeyNotFoundException();
@@ -126,9 +134,9 @@ namespace Delivery.API.Application.Queries
             }
         }
 
-        DeliveryViewModel MapToDeliveryViewModel(dynamic queryResult)
+        private DeliveryViewModel MapToDeliveryViewModel(dynamic queryResult)
         {
-            var pickUpContactPerson = new ContactPersonViewModel()
+            var pickUpContactPerson = new ContactPersonViewModel
             {
                 Name = queryResult.PickUpLocation_ContactPerson_Name,
                 Phone = queryResult.PickUpLocation_ContactPerson_Phone
@@ -150,7 +158,7 @@ namespace Delivery.API.Application.Queries
                 CourierArrivedDateTime = queryResult.PickUpLocation_CourierArrivedDateTime
             };
 
-            var dropOffContactPerson = new ContactPersonViewModel()
+            var dropOffContactPerson = new ContactPersonViewModel
             {
                 Name = queryResult.DropOffLocation_ContactPerson_Name,
                 Phone = queryResult.DropOffLocation_ContactPerson_Phone
@@ -185,7 +193,7 @@ namespace Delivery.API.Application.Queries
                 DropOffLocation = dropOffDeliveryLocation,
                 DeliveryStatus = queryResult.DeliveryStatus,
                 ClientId = queryResult.ClientId,
-                CourierId = queryResult.CourierId,
+                CourierId = queryResult.CourierId
             };
 
             return delivery;

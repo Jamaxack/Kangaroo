@@ -1,6 +1,6 @@
-﻿using Kangaroo.BuildingBlocks.EventBus.Events;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Kangaroo.BuildingBlocks.EventBus.Events;
 
 namespace Delivery.API.Application.IntegrationEvents
 {

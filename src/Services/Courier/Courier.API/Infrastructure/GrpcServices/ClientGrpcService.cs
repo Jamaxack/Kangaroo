@@ -1,23 +1,24 @@
-﻿using Courier.API.Configurations;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Courier.API.Configurations;
 using Courier.API.Model;
 using Grpc.Net.Client;
 using GrpcClient;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Courier.API.Infrastructure.GrpcServices
 {
     public class ClientGrpcService : IClientGrpcService
     {
-        readonly HttpClient _httpClient;
-        readonly ILogger<ClientGrpcService> _logger;
-        readonly UrlsConfiguration _urls;
+        private readonly HttpClient _httpClient;
+        private readonly ILogger<ClientGrpcService> _logger;
+        private readonly UrlsConfiguration _urls;
 
-        public ClientGrpcService(HttpClient httpClient, IOptions<UrlsConfiguration> config, ILogger<ClientGrpcService> logger)
+        public ClientGrpcService(HttpClient httpClient, IOptions<UrlsConfiguration> config,
+            ILogger<ClientGrpcService> logger)
         {
             _httpClient = httpClient;
             _urls = config.Value;
@@ -33,7 +34,7 @@ namespace Courier.API.Infrastructure.GrpcServices
             var client = new ClientGrpc.ClientGrpcClient(channel);
 
             _logger.LogDebug("Grpc client created, request = {@id}", clientId);
-            var response = await client.GetClientByIdAsync(new ClientRequest { ClientId = clientId });
+            var response = await client.GetClientByIdAsync(new ClientRequest {ClientId = clientId});
             _logger.LogDebug("Grpc response {@response}", response);
 
             var delivery = MapToDelivery(response);
@@ -43,12 +44,14 @@ namespace Courier.API.Infrastructure.GrpcServices
             return delivery;
         }
 
-        Client MapToDelivery(ClientResponse response)
-            => new Client
+        private Client MapToDelivery(ClientResponse response)
+        {
+            return new Client
             {
                 Id = Guid.Parse(response.ClientId),
                 Phone = response.Phone,
                 FullName = response.FullName
             };
+        }
     }
 }

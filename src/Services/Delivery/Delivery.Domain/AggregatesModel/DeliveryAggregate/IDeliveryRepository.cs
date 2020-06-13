@@ -1,6 +1,6 @@
-﻿using Delivery.Domain.Common;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Delivery.Domain.Common;
 
 namespace Delivery.Domain.AggregatesModel.DeliveryAggregate
 {

@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Pricing.API.DataTransferableObjects;
-using Pricing.API.Infrastucture.Services;
-using System;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Pricing.API.DataTransferableObjects;
+using Pricing.API.Infrastucture.Services;
 
 namespace Pricing.API.Controllers
 {
@@ -11,7 +11,7 @@ namespace Pricing.API.Controllers
     [ApiController]
     public class PricingController : ControllerBase
     {
-        readonly IPricingService _pricingService;
+        private readonly IPricingService _pricingService;
 
         public PricingController(IPricingService pricingService)
         {
@@ -19,8 +19,10 @@ namespace Pricing.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(PriceDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(PriceDto), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> CalculatePriceAsync(CalculatePriceDto calculatePriceDto)
-            => Ok(await _pricingService.CalculatePriceAsync(calculatePriceDto));
+        {
+            return Ok(await _pricingService.CalculatePriceAsync(calculatePriceDto));
+        }
     }
 }
