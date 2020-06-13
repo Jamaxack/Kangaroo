@@ -24,10 +24,10 @@ namespace Pricing.API.Infrastucture.Services
             _configuration = configuration;
         }
 
-        public async Task<PriceDto> CalculatePriceAsync(CalculatePriceDto calculatePrice)
+        public async Task<PriceDto> CalculatePriceAsync(CalculatePriceDto calculatePriceDto)
         {
-            var pickUpAddress = calculatePrice.PickUpLocation.Address;
-            var dropOffAddress = calculatePrice.DropOffLocation.Address;
+            var pickUpAddress = calculatePriceDto.PickUpLocation.Address;
+            var dropOffAddress = calculatePriceDto.DropOffLocation.Address;
             var key = $"{pickUpAddress}|{dropOffAddress}";
             var pricing = await _pricingRepository.GetPricingAsync(key);
 
@@ -51,7 +51,7 @@ namespace Pricing.API.Infrastucture.Services
 
                     var distanceKilometers = element.Distance.Value / 1000; //to kilometers
                     var durationMinutes = element.Duration.Value / 60; //to minutes
-                    var calculatedPrice = distanceKilometers + (durationMinutes / 10) + (calculatePrice.Weight / 10); // simple price calculation formula
+                    var calculatedPrice = distanceKilometers + (durationMinutes / 10) + (calculatePriceDto.Weight / 10); // simple price calculation formula
 
                     pricing = new Model.Pricing { Price = calculatedPrice, Distance = distanceKilometers, Duration = durationMinutes };
                     await _pricingRepository.InsertPricingAsync(key, pricing);
@@ -60,7 +60,7 @@ namespace Pricing.API.Infrastucture.Services
                     throw new PricingDomainException(await response.Content.ReadAsStringAsync());
             }
 
-            return MapToPriceDTO(pricing);
+            return MapToPriceDto(pricing);
         }
 
         Task<HttpResponseMessage> MakeRequest(string pickUpAddress, string dropOffAddress)
@@ -76,7 +76,7 @@ namespace Pricing.API.Infrastucture.Services
             return client.SendAsync(request);
         }
 
-        PriceDto MapToPriceDTO(Model.Pricing pricing)
+        PriceDto MapToPriceDto(Model.Pricing pricing)
             => new PriceDto
             {
                 Price = pricing.Price,

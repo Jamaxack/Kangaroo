@@ -20,7 +20,7 @@ namespace Pricing.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(PriceDto), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CalculatePriceAsync(CalculatePriceDto calculatePriceDTO)
-            => Ok(await _pricingService.CalculatePriceAsync(calculatePriceDTO));
+        public async Task<IActionResult> CalculatePriceAsync(CalculatePriceDto calculatePriceDto)
+            => Ok(await _pricingService.CalculatePriceAsync(calculatePriceDto));
     }
 }
