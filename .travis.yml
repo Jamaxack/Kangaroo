@@ -1,6 +1,10 @@
 sudo: required
 services:
   - docker
+  - rabbitmq
+  - mongodb
+  - redis-server
+  - elasticsearch
 env:
   global:
     - CLOUDSDK_CORE_DISABLE_PROMPTS=1
@@ -14,14 +18,20 @@ before_install:
   - gcloud config set compute/zone us-central1-c
   - gcloud container clusters get-credentials kangaroocluster
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker build --target testrunner -t jamaxack/deliveryapitest -f src/Services/Delivery/Delivery.API/Dockerfile .
-  - docker build --target testrunner -t jamaxack/courierapitest -f src/Services/Courier/Courier.API/Dockerfile .
-  - docker build --target testrunner -t jamaxack/pricingapitest -f src/Services/Pricing/Pricing.API/Dockerfile .
+  - docker build --target unittest -t jamaxack/deliveryapiunittest -f src/Services/Delivery/Delivery.API/Dockerfile .
+  - docker build --target unittest -t jamaxack/courierapiunittest -f src/Services/Courier/Courier.API/Dockerfile .
+  - docker build --target unittest -t jamaxack/pricingapiunittest -f src/Services/Pricing/Pricing.API/Dockerfile .
+  - docker build --target functionaltest -t jamaxack/courierapifunctionaltest -f src/Services/Courier/Courier.API/Dockerfile .
+
+#ElasticSearch takes few seconds to start, to make sure it is available when the build script runs
+before_script:
+  - sleep 10
 
 script:
-  - docker run jamaxack/deliveryapitest
-  - docker run jamaxack/courierapitest
-  - docker run jamaxack/pricingapitest
+  - docker run jamaxack/deliveryapiunittest
+  - docker run jamaxack/courierapiunittest
+  - docker run jamaxack/pricingapiunittest
+  - docker run jamaxack/courierapifunctionaltest
 
 deploy:
   provider: script
