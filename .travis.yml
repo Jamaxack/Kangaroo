@@ -32,7 +32,6 @@ before_install:
   - docker build --target unittest -t jamaxack/deliveryapiunittest -f src/Services/Delivery/Delivery.API/Dockerfile .
   - docker build --target unittest -t jamaxack/courierapiunittest -f src/Services/Courier/Courier.API/Dockerfile .
   - docker build --target unittest -t jamaxack/pricingapiunittest -f src/Services/Pricing/Pricing.API/Dockerfile .
-  - docker build --target functionaltest -t jamaxack/courierapifunctionaltest -f src/Services/Courier/Courier.API/Dockerfile .
 
 addons:
   apt:
@@ -46,7 +45,7 @@ script:
   - docker run jamaxack/deliveryapiunittest
   - docker run jamaxack/courierapiunittest
   - docker run jamaxack/pricingapiunittest
-  - docker run jamaxack/courierapifunctionaltest --network="host"
+  - docker-compose -f docker-compose.test.yml up
 
 deploy:
   provider: script

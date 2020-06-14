@@ -1,0 +1,62 @@
+version: "3.4"
+
+services:
+  nosqldata:
+    image: mongo
+    ports:
+      - "27017:27017" # Important: In a production environment remove external port
+    volumes:
+      - kangaroo-nosqldata:/data/db
+    networks:
+      - backend
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "15672:15672" # Important: In a production environment remove external port
+      - "5672:5672" # Important: In a production environment remove external port
+    networks:
+      - backend
+  elasticsearch:
+    image: elasticsearch:7.7.1
+    volumes:
+      - kangaroo-elasticsearchdata:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200" # Important: In a production environment remove external port
+    environment:
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    networks:
+      - backend
+  courier-api:
+    image: jamaxack/courierapifunctionaltest
+    build:
+      context: .
+      dockerfile: src/Services/Courier/Courier.API/Dockerfile
+      target: functionaltest
+    restart: on-failure
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - urls__delivery=http://delivery-api
+      - urls__grpcDelivery=http://delivery-api:81
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ConnectionString=mongodb://nosqldata
+      - Database=CouriersDb
+      - EventBusConnection=rabbitmq
+      - PATH_BASE=/courier
+      - ElasticUri=http://elasticsearch:9200
+    networks:
+      - backend
+    depends_on:
+      - nosqldata
+      - rabbitmq
+
+networks:
+  backend:
+
+volumes:
+  kangaroo-nosqldata:
+    external: false
+  kangaroo-elasticsearchdata:
+    external: false
