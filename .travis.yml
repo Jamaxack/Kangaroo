@@ -23,9 +23,9 @@ before_install:
   - docker build --target unittest -t jamaxack/pricingapiunittest -f src/Services/Pricing/Pricing.API/Dockerfile .
   - docker build --target functionaltest -t jamaxack/courierapifunctionaltest -f src/Services/Courier/Courier.API/Dockerfile .
 
-#ElasticSearch takes few seconds to start, to make sure it is available when the build script runs
+#ElasticSearch and MongoDB takes few seconds to start, to make sure it is available when the build script runs
 before_script:
-  - sleep 10
+  - sleep 30
 
 script:
   - docker run jamaxack/deliveryapiunittest
