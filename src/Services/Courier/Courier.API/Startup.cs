@@ -97,7 +97,8 @@ namespace Courier.API
                     c.OAuthAppName("Couriers Swagger UI");
                 });
 
-            CourierContextSeed.SeedAsync(app, loggerFactory).Wait();
+            //TODO: Configure travic ci to use mongo and uncomment line below
+            //CourierContextSeed.SeedAsync(app, loggerFactory).Wait();
             ConfigureEventBus(app);
         }
 
