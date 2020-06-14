@@ -1,9 +1,10 @@
-sudo: required
+language: csharp
+os:
+  - linux
 services:
   - mongodb
   - docker
   - rabbitmq
-  - redis-server
   - elasticsearch
 env:
   global:
