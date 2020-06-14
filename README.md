@@ -3,7 +3,13 @@
 
 GitHub Actions:
 
-![](https://github.com/Jamaxack/Kangaroo/workflows/.NET%20Core/badge.svg)
+![Kangaroo.sln build](https://github.com/Jamaxack/Kangaroo/workflows/Kangaroo.sln%20build/badge.svg?branch=master)
+
+![courier-api](https://github.com/Jamaxack/Kangaroo/workflows/courier-api/badge.svg?branch=master)
+
+![delivery-api](https://github.com/Jamaxack/Kangaroo/workflows/delivery-api/badge.svg?branch=master)
+
+![pricing-api](https://github.com/Jamaxack/Kangaroo/workflows/pricing-api/badge.svg?branch=master)
 
 Travis CI: 
 
