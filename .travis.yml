@@ -18,6 +18,8 @@ before_install:
   - sleep 15 #mongo may not be responded directly. See http://docs.travis-ci.com/user/database-setup/#MongoDB
   - mongo --version
   - sudo systemctl start mongod
+  - sleep 15 #mongo may not be responded directly. See http://docs.travis-ci.com/user/database-setup/#MongoDB
+  - sudo systemctl status mongod
   - openssl aes-256-cbc -K $encrypted_0f361fdb1767_key -iv $encrypted_0f361fdb1767_iv -in google-service-account.json.enc -out google-service-account.json -d
   - curl https://sdk.cloud.google.com | bash > /dev/null;
   - source $HOME/google-cloud-sdk/path.bash.inc
