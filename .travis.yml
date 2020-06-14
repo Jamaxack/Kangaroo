@@ -1,6 +1,7 @@
 language: csharp
 os:
   - linux
+dist: xenial
 services:
   - mongodb
   - docker
@@ -10,6 +11,12 @@ env:
   global:
     - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
+  - wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+  - echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+  - sudo apt-get update
+  - sudo apt-get install -y mongodb-org
+  - sleep 15 #mongo may not be responded directly. See http://docs.travis-ci.com/user/database-setup/#MongoDB
+  - mongo --version
   - openssl aes-256-cbc -K $encrypted_0f361fdb1767_key -iv $encrypted_0f361fdb1767_iv -in google-service-account.json.enc -out google-service-account.json -d
   - curl https://sdk.cloud.google.com | bash > /dev/null;
   - source $HOME/google-cloud-sdk/path.bash.inc
@@ -26,7 +33,7 @@ before_install:
 
 #ElasticSearch and MongoDB takes few seconds to start, to make sure it is available when the build script runs
 before_script:
-  - sleep 60
+  - sleep 15
 
 script:
   - docker run jamaxack/deliveryapiunittest
