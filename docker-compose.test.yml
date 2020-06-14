@@ -29,7 +29,7 @@ services:
       - discovery.type=single-node
     networks:
       - backend
-  courier-api:
+  courier-api-test:
     image: jamaxack/courierapifunctionaltest
     build:
       context: .
