@@ -87,7 +87,7 @@ namespace Courier.API
                     if (!string.IsNullOrWhiteSpace(pathBase))
                         c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
                         {
-                            swaggerDoc.Servers = new List<OpenApiServer> {new OpenApiServer {Url = $"{pathBase}"}};
+                            swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{pathBase}" } };
                         });
                 })
                 .UseSwaggerUI(c =>
@@ -97,8 +97,7 @@ namespace Courier.API
                     c.OAuthAppName("Couriers Swagger UI");
                 });
 
-            //TODO: Configure travic ci to use mongo and uncomment line below
-            //CourierContextSeed.SeedAsync(app, loggerFactory).Wait();
+            CourierContextSeed.SeedAsync(app, loggerFactory).Wait();
             ConfigureEventBus(app);
         }
 
