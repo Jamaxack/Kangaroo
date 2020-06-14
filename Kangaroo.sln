@@ -61,6 +61,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.hosting.yml = docker-compose.hosting.yml
 		docker-compose.yml = docker-compose.yml
 		google-service-account.json.enc = google-service-account.json.enc
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{66652870-4308-4807-B25C-A4F4361FC5D6}"
@@ -103,6 +104,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\courier-api.yml = .github\workflows\courier-api.yml
 		.github\workflows\delivery-api.yml = .github\workflows\delivery-api.yml
+		.github\workflows\kangaroo-solution.yml = .github\workflows\kangaroo-solution.yml
 		.github\workflows\pricing-api.yml = .github\workflows\pricing-api.yml
 	EndProjectSection
 EndProject
