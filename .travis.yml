@@ -25,7 +25,7 @@ before_install:
 
 #ElasticSearch and MongoDB takes few seconds to start, to make sure it is available when the build script runs
 before_script:
-  - sleep 30
+  - sleep 60
 
 script:
   - docker run jamaxack/deliveryapiunittest
