@@ -46,7 +46,7 @@ script:
   - docker run jamaxack/deliveryapiunittest
   - docker run jamaxack/courierapiunittest
   - docker run jamaxack/pricingapiunittest
-  - docker run jamaxack/courierapifunctionaltest
+  - docker run jamaxack/courierapifunctionaltest --network="host"
 
 deploy:
   provider: script
