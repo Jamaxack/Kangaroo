@@ -1,8 +1,8 @@
 sudo: required
 services:
+  - mongodb
   - docker
   - rabbitmq
-  - mongodb
   - redis-server
   - elasticsearch
 env:
