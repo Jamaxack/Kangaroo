@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -21,5 +19,5 @@ jobs:
       run: dotnet restore Kangaroo.sln
     - name: Build
       run: dotnet build Kangaroo.sln --configuration Release --no-restore
-    - name: Test
-      run: dotnet test Kangaroo.sln --no-restore --verbosity normal
+    - name: Courier UnitTests
+      run: dotnet test src/Services/Courier/Courier.UnitTests/Courier.UnitTests.csproj --no-restore --verbosity normal

@@ -95,7 +95,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pricing.UnitTests", "src\Se
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{F8D954A3-369D-44DD-A3B8-E4FC239FEFFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kangaroo.Common", "src\Common\Kangaroo.Common\Kangaroo.Common.csproj", "{D1D9ACFB-57A5-46C9-95A2-62A1515ACF9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kangaroo.Common", "src\Common\Kangaroo.Common\Kangaroo.Common.csproj", "{D1D9ACFB-57A5-46C9-95A2-62A1515ACF9E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{8845A0FC-C471-48F5-908C-ED63A889C020}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{2327C2C4-8268-45A6-A7B4-10B6652B8549}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\devops.yml = .github\workflows\devops.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -204,6 +211,7 @@ Global
 		{2A945412-D172-4FA5-BBF9-960F3B35F708} = {DCE5BECB-EE7C-4026-A7BE-474B0E051B5E}
 		{F8D954A3-369D-44DD-A3B8-E4FC239FEFFF} = {EABD112F-1A4D-4CBC-BDE9-9B2F509819C6}
 		{D1D9ACFB-57A5-46C9-95A2-62A1515ACF9E} = {F8D954A3-369D-44DD-A3B8-E4FC239FEFFF}
+		{2327C2C4-8268-45A6-A7B4-10B6652B8549} = {8845A0FC-C471-48F5-908C-ED63A889C020}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {162D44E4-5354-48E3-85D9-62CB2985F33B}
