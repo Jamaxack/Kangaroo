@@ -101,7 +101,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{8845
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{2327C2C4-8268-45A6-A7B4-10B6652B8549}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\devops.yml = .github\workflows\devops.yml
+		.github\workflows\courier-api.yml = .github\workflows\courier-api.yml
+		.github\workflows\delivery-api.yml = .github\workflows\delivery-api.yml
+		.github\workflows\pricing-api.yml = .github\workflows\pricing-api.yml
 	EndProjectSection
 EndProject
 Global

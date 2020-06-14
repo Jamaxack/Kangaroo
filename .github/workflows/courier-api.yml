@@ -1,4 +1,4 @@
-name: .NET Core
+name: courier-api
 
 on:
   push:
@@ -16,8 +16,8 @@ jobs:
       with:
         dotnet-version: 3.1.101
     - name: Install dependencies
-      run: dotnet restore Kangaroo.sln
+      run: dotnet restore src/Services/Courier/Courier.UnitTests/Courier.UnitTests.csproj
     - name: Build
-      run: dotnet build Kangaroo.sln --configuration Release --no-restore
-    - name: Courier UnitTests
+      run: dotnet build src/Services/Courier/Courier.UnitTests/Courier.UnitTests.csproj --configuration Release --no-restore
+    - name: Test
       run: dotnet test src/Services/Courier/Courier.UnitTests/Courier.UnitTests.csproj --no-restore --verbosity normal
