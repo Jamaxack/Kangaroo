@@ -21,14 +21,6 @@ before_install:
   - docker build --target unittest -t jamaxack/courierapiunittest -f src/Services/Courier/Courier.API/Dockerfile .
   - docker build --target unittest -t jamaxack/pricingapiunittest -f src/Services/Pricing/Pricing.API/Dockerfile .
 
-addons:
-  apt:
-    update: true
-
-#ElasticSearch and MongoDB takes few seconds to start, to make sure it is available when the build script runs
-before_script:
-  - sleep 15
-
 script:
   - docker run jamaxack/deliveryapiunittest
   - docker run jamaxack/courierapiunittest

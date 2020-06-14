@@ -35,7 +35,6 @@ services:
       context: .
       dockerfile: src/Services/Courier/Courier.API/Dockerfile
       target: functionaltest
-    restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - urls__delivery=http://delivery-api
