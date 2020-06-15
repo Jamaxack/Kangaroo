@@ -1,6 +1,7 @@
 ﻿using System;
 using Delivery.Domain.Common;
 using Delivery.Domain.Events;
+using Delivery.Domain.Exceptions;
 
 namespace Delivery.Domain.AggregatesModel.DeliveryAggregate
 {
@@ -15,6 +16,9 @@ namespace Delivery.Domain.AggregatesModel.DeliveryAggregate
 
         public Delivery(Guid clientId, decimal price, short weight, string note, DateTime createdDateTime) : this()
         {
+            if (weight <= 0)
+                throw new DeliveryDomainException("Invalid Weight");
+
             GetClientId = clientId;
             Price = price;
             Weight = weight;
