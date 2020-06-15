@@ -2,6 +2,7 @@
 using Delivery.API.Application.Commands.DataTransferableObjects;
 using Delivery.API.Application.Commands.DeliveryAggregate;
 using Delivery.Infrastructure.Idempotency;
+using FluentAssertions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -44,7 +45,7 @@ namespace Delivery.UnitTests.ApplicationTests
             var result = await handler.Handle(fakeDeliveryCommand, cancellationToken);
 
             // Assert
-            Assert.True(result);
+            result.Should().BeTrue();
             _mediator.Verify(x => x.Send(It.IsAny<IRequest<bool>>(), default), Times.Once());
         }
 
@@ -64,7 +65,7 @@ namespace Delivery.UnitTests.ApplicationTests
             var result = await handler.Handle(fakeDeliveryCommand, cancellationToken);
 
             // Assert
-            Assert.False(result);
+            result.Should().BeFalse();
             _mediator.Verify(x => x.Send(It.IsAny<IRequest<bool>>(), default), Times.Never());
         }
 
