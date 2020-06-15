@@ -56,9 +56,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{40C3A17A-858F-405E-A3FA-31DA873F755B}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
+		.gitignore = .gitignore
 		.travis.yml = .travis.yml
 		deploy.sh = deploy.sh
 		docker-compose.hosting.yml = docker-compose.hosting.yml
+		docker-compose.test.yml = docker-compose.test.yml
 		docker-compose.yml = docker-compose.yml
 		google-service-account.json.enc = google-service-account.json.enc
 		README.md = README.md
