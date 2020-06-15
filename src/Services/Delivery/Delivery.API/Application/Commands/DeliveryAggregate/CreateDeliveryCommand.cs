@@ -4,6 +4,7 @@ using MediatR;
 
 namespace Delivery.API.Application.Commands.DeliveryAggregate
 {
+    // TODO: In DDD and CQRC command should be immutable
     public class CreateDeliveryCommand : IRequest<bool>
     {
         public Guid ClientId { get; set; }
