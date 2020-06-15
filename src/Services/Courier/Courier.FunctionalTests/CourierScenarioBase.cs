@@ -9,7 +9,9 @@ namespace Courier.FunctionalTests
 {
     public class CourierScenarioBase
     {
-        public TestServer CreateTestServer()
+        protected const string BaseApiUri = "api/v1/couriers";
+
+        protected TestServer CreateTestServer()
         {
             var path = Assembly.GetAssembly(typeof(CourierScenarioBase)).Location;
 
@@ -23,10 +25,5 @@ namespace Courier.FunctionalTests
 
             return new TestServer(hostBuilder);
         }
-
-        public static class Get
-        {
-            public static string Couriers = "api/v1/couriers"; 
-        } 
     }
 }
