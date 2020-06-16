@@ -3,6 +3,16 @@
 
 Kangaroo is containerized microservices application based on .NET Core. The project demonstrates how to develop small microservices for larger applications using containers, orchestration, service discovery, gateway, and best practices. You are always welcome to improve code quality and contribute it, if you have any questions or issues don't hesitate to ask in our [gitter](https://gitter.im/KangarooApp/community) chat.
 
+## Motivation
+
+- Developing independently deployable and scalable micro-services
+- Developing cross-platform beautiful mobile apps using React native
+- Configuring CI/CD pipelines using Travis CI, Github Actions, automated deployments using Google Kubernetes Engine, Docker
+- Using modern technologies such as gRPC, RabbitMQ, Service meshes
+- Writing clean, maintainable and fully testable code, Unit Testing, Integration Testing and Mocking practices
+- Using SOLID Design Principles
+- Using Design Patterns and Best practices
+
 GitHub Actions:
 
 ![Kangaroo.sln build](https://github.com/Jamaxack/Kangaroo/workflows/Kangaroo.sln%20build/badge.svg?branch=master)
