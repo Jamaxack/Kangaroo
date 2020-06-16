@@ -14,3 +14,6 @@ GitHub Actions:
 Travis CI: 
 
 [![Build Status](https://travis-ci.org/Jamaxack/Kangaroo.svg?branch=master)](https://travis-ci.org/Jamaxack/Kangaroo)
+
+
+<img src="art/KangarooArchitecture.png"/>
