@@ -1,6 +1,8 @@
 # Kangaroo
 [![Gitter](https://badges.gitter.im/KangarooApp/community.svg)](https://gitter.im/KangarooApp/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
+Kangaroo is containerized microservices application based on .NET Core. The project demonstrates how to develop small microservices for larger applications using containers, orchestration, service discovery, gateway, and best practices. You are always welcome to improve code quality and contribute it, if you have any questions or issues don't hesitate to ask in our [gitter](https://gitter.im/KangarooApp/community) chat.
+
 GitHub Actions:
 
 ![Kangaroo.sln build](https://github.com/Jamaxack/Kangaroo/workflows/Kangaroo.sln%20build/badge.svg?branch=master)
