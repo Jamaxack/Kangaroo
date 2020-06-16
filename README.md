@@ -11,7 +11,7 @@ Kangaroo is containerized microservices application based on .NET Core. The proj
 - Using modern technologies such as gRPC, RabbitMQ, Service meshes
 - Writing clean, maintainable and fully testable code, Unit Testing, Integration Testing and Mocking practices
 - Using SOLID Design Principles
-- Using Design Patterns and Best practices
+- Using Design Patterns and Best practices such as DDD and CQRS
 
 GitHub Actions:
 
