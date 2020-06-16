@@ -7,7 +7,7 @@ Kangaroo is containerized microservices application based on .NET Core. The proj
 
 - Developing independently deployable and scalable micro-services
 - Developing cross-platform beautiful mobile apps using React native
-- Configuring CI/CD pipelines using Travis CI, Github Actions, automated deployments using Google Kubernetes Engine, Docker
+- Configuring CI/CD pipelines using Travis CI, Github Actions, automated deployments using Google Kubernetes Engine, Docker Containers
 - Using modern technologies such as gRPC, RabbitMQ, Service meshes
 - Writing clean, maintainable and fully testable code, Unit Testing, Integration Testing and Mocking practices
 - Using SOLID Design Principles
