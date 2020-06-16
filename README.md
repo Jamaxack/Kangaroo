@@ -13,6 +13,12 @@ Kangaroo is containerized microservices application based on .NET Core. The proj
 - Using SOLID Design Principles
 - Using Design Patterns and Best practices such as DDD and CQRS
 
+## Architecture overview
+
+The architecture proposes a microservice oriented architecture implementation with multiple autonomous microservices (each one owning its own data/db) and implementing different approaches within each microservice (simple CRUD vs. DDD/CQRS patterns) using REST/HTTP as the communication protocol between the client apps, and supports asynchronous communication for data updates propagation across multiple services based on gRPC, Integration Events and an Event Bus(RabbitMQ)
+
+<img src="art/KangarooArchitecture.png"/>
+
 GitHub Actions:
 
 ![Kangaroo.sln build](https://github.com/Jamaxack/Kangaroo/workflows/Kangaroo.sln%20build/badge.svg?branch=master)
@@ -26,12 +32,6 @@ GitHub Actions:
 Travis CI: 
 
 [![Build Status](https://travis-ci.org/Jamaxack/Kangaroo.svg?branch=master)](https://travis-ci.org/Jamaxack/Kangaroo)
-
-
-<img src="art/KangarooArchitecture.png"/>
-
-
-
 
 ## Contributing
 
