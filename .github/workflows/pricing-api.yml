@@ -1,4 +1,4 @@
-name: pricing-api
+name: Pricing.API
 
 on:
   push:
