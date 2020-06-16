@@ -1,4 +1,4 @@
-name: delivery-api
+name: Delivery.API
 
 on:
   push:
