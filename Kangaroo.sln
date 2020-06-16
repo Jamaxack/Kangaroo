@@ -110,6 +110,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\pricing-api.yml = .github\workflows\pricing-api.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "art", "art", "{DCF04CBD-1765-451F-A23B-FCC918121C9E}"
+	ProjectSection(SolutionItems) = preProject
+		art\KangarooArchitecture.png = art\KangarooArchitecture.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
