@@ -35,7 +35,7 @@ The architecture proposes a microservice oriented architecture implementation wi
     <tr>
         <td align="center">1.</td>
         <td>Delivery API (DDD, CQRS, EF Core, Dapper, SQL Server)</td>
-        <td></td>
+        <td>Deals with Delivery book/orders and their statuses</td>
         <td>
             <a href="https://github.com/Jamaxack/Kangaroo/actions?query=workflow%3ADelivery.API">
                 <img src="https://github.com/Jamaxack/Kangaroo/workflows/delivery-api/badge.svg?branch=master"> 
@@ -50,7 +50,7 @@ The architecture proposes a microservice oriented architecture implementation wi
     <tr>
         <td align="center">2.</td>
         <td>Courier API (CRUD, Repository, MongoDB)</td>
-        <td></td>
+        <td>Manages Couriers and their deliveries with real time tracking and delivery status updates</td>
         <td>
             <a href="https://github.com/Jamaxack/Kangaroo/actions?query=workflow%3ACourier.API">
                 <img src="https://github.com/Jamaxack/Kangaroo/workflows/courier-api/badge.svg?branch=master">
@@ -65,7 +65,7 @@ The architecture proposes a microservice oriented architecture implementation wi
     <tr>
         <td align="center">3.</td>
         <td>Pricing API (Redis Cache, Google Maps API)</td>
-        <td></td>
+        <td>Calculates delivery price based on distance, delivery duration and goods weight. Uses Google Maps API</td>
         <td>
             <a href="https://github.com/Jamaxack/Kangaroo/actions?query=workflow%3APricing.API">
                 <img src="https://github.com/Jamaxack/Kangaroo/workflows/pricing-api/badge.svg?branch=master">
@@ -89,7 +89,7 @@ The architecture proposes a microservice oriented architecture implementation wi
     <tr>
         <td align="center">5.</td>
         <td>Payment API(soon) (DDD, CQRS, Postresql)</td>
-        <td></td>
+        <td>Responsible for financial and payments</td>
         <td>
            (soon)
         </td>
