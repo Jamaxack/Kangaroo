@@ -41,7 +41,11 @@ The architecture proposes a microservice oriented architecture implementation wi
                 <img src="https://github.com/Jamaxack/Kangaroo/workflows/delivery-api/badge.svg?branch=master"> 
             </a>
         </td>
-        <td></td>
+        <td>
+           <a href="https://petstore.swagger.io/?url=https://raw.githubusercontent.com/Jamaxack/Kangaroo/master/src/Services/Delivery/Delivery.API/Swagger/v1/Swagger.json">
+              View
+           </a>
+       </td>
     </tr>
     <tr>
         <td align="center">2.</td>
@@ -52,7 +56,11 @@ The architecture proposes a microservice oriented architecture implementation wi
                 <img src="https://github.com/Jamaxack/Kangaroo/workflows/courier-api/badge.svg?branch=master">
             </a>
         </td>
-        <td></td>
+        <td>
+            <a href="https://petstore.swagger.io/?url=https://raw.githubusercontent.com/Jamaxack/Kangaroo/master/src/Services/Courier/Courier.API/Swagger/v1/Swagger.json">
+               View
+            </a>
+       </td>
     </tr>
     <tr>
         <td align="center">3.</td>
@@ -63,7 +71,11 @@ The architecture proposes a microservice oriented architecture implementation wi
                 <img src="https://github.com/Jamaxack/Kangaroo/workflows/pricing-api/badge.svg?branch=master">
             </a>
         </td>
-        <td></td>
+        <td>
+            <a href="https://petstore.swagger.io/?url=https://raw.githubusercontent.com/Jamaxack/Kangaroo/master/src/Services/Pricing/Pricing.API/Swagger/v1/Swagger.json">
+               View
+            </a>
+       </td>
     </tr>
     <tr>
         <td align="center">4.</td>
