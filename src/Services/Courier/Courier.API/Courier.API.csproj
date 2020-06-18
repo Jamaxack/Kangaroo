@@ -30,4 +30,7 @@
   <ItemGroup>
     <Protobuf Include="Protos\client.proto" GrpcServices="Client" />
   </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="dotnet tool run swagger tofile --output Swagger/Swagger.json $(OutputPath)Courier.API.dll v1" />
+  </Target>
 </Project>
