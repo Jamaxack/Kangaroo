@@ -19,7 +19,7 @@
         <PackageReference Include="Serilog.Enrichers.Environment" Version="2.1.3" />
         <PackageReference Include="Serilog.Sinks.Debug" Version="1.0.1" />
         <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="8.1.0" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
