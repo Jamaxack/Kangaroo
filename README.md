@@ -99,7 +99,6 @@ The architecture proposes a microservice oriented architecture implementation wi
 </table>
 
 ## How to start the solution?
-----------------
 
 `cd` to cloned repository and execute:
 
