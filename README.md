@@ -97,7 +97,20 @@ The architecture proposes a microservice oriented architecture implementation wi
     </tr>
   </tbody>  
 </table>
- 
+
+## How to start the solution?
+----------------
+
+`cd` to cloned repository and execute:
+
+```
+docker-compose up
+```
+Available services:
+-  <a href="http://localhost:3050/delivery/">Delivery service</a>
+-  <a href="http://localhost:3050/courier/">Courier service</a>
+-  <a href="http://localhost:3050/pricing/">Pricing service</a>
+-  <a href="http://localhost:3050/kibana/">Kibana dashboard</a>
 
 ## Contributing
 
