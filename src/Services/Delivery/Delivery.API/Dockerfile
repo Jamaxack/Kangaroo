@@ -33,10 +33,10 @@ RUN dotnet restore "Kangaroo.sln"
 COPY . .
 
 WORKDIR "/source/src/Services/Delivery/Delivery.API"
-RUN dotnet build "Delivery.API.csproj" -c Release -o /app/build
+RUN dotnet build "Delivery.API.csproj" -c Release
 
 FROM build AS publish
-RUN dotnet publish "Delivery.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "Delivery.API.csproj" -c Release -o /app/publish --no-build
 
 # this layer is used for running unit tests in Continuous Integration
 FROM build AS unittest
